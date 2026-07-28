@@ -1,0 +1,70 @@
+
+========================================
+LOCAL DATA VERIFICATION: shard1-0 / SHARD1PDB
+========================================
+
+Session altered.
+
+=== CURRENT CONTAINER ===
+
+CON_NAME
+------------------------------
+SHARD1PDB
+=== LOCAL ROW COUNTS ===
+
+OBJECT_NAME	     LOCAL_ROWS
+-------------------- ----------
+CUSTOMERS		      6
+ACCOUNTS		      6
+LEDGER_ENTRIES		      6
+
+3 rows selected.
+
+=== LOCAL CUSTOMER FAMILIES AND PARTITIONS ===
+
+  CUSTOMER_ID FULL_NAME 	     CUSTOMER_PARTITION       ACCOUNT_PARTITION        LEDGER_PARTITION 	COLOCATED
+------------- ---------------------- ------------------------ ------------------------ ------------------------ ----------
+       418003 Test Customer 03	     CUSTOMERS_P2	      CUSTOMERS_P2	       CUSTOMERS_P2		YES
+       418004 Test Customer 04	     CUSTOMERS_P1	      CUSTOMERS_P1	       CUSTOMERS_P1		YES
+       418005 Test Customer 05	     CUSTOMERS_P1	      CUSTOMERS_P1	       CUSTOMERS_P1		YES
+       418009 Test Customer 09	     CUSTOMERS_P6	      CUSTOMERS_P6	       CUSTOMERS_P6		YES
+       418010 Test Customer 10	     CUSTOMERS_P1	      CUSTOMERS_P1	       CUSTOMERS_P1		YES
+       418011 Test Customer 11	     CUSTOMERS_P2	      CUSTOMERS_P2	       CUSTOMERS_P2		YES
+
+6 rows selected.
+
+
+========================================
+LOCAL DATA VERIFICATION: shard2-0 / SHARD2PDB
+========================================
+
+Session altered.
+
+=== CURRENT CONTAINER ===
+
+CON_NAME
+------------------------------
+SHARD2PDB
+=== LOCAL ROW COUNTS ===
+
+OBJECT_NAME	     LOCAL_ROWS
+-------------------- ----------
+CUSTOMERS		      6
+ACCOUNTS		      6
+LEDGER_ENTRIES		      6
+
+3 rows selected.
+
+=== LOCAL CUSTOMER FAMILIES AND PARTITIONS ===
+
+  CUSTOMER_ID FULL_NAME 	     CUSTOMER_PARTITION       ACCOUNT_PARTITION        LEDGER_PARTITION 	COLOCATED
+------------- ---------------------- ------------------------ ------------------------ ------------------------ ----------
+       418001 Test Customer 01	     CUSTOMERS_P12	      CUSTOMERS_P12	       CUSTOMERS_P12		YES
+       418002 Test Customer 02	     CUSTOMERS_P7	      CUSTOMERS_P7	       CUSTOMERS_P7		YES
+       418006 Test Customer 06	     CUSTOMERS_P11	      CUSTOMERS_P11	       CUSTOMERS_P11		YES
+       418007 Test Customer 07	     CUSTOMERS_P7	      CUSTOMERS_P7	       CUSTOMERS_P7		YES
+       418008 Test Customer 08	     CUSTOMERS_P11	      CUSTOMERS_P11	       CUSTOMERS_P11		YES
+       418012 Test Customer 12	     CUSTOMERS_P12	      CUSTOMERS_P12	       CUSTOMERS_P12		YES
+
+6 rows selected.
+
