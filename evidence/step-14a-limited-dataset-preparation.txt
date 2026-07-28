@@ -1,0 +1,37 @@
+=== LIMITED DATASET PREPARATION ===
+UTC_TIME=2026-07-28T22:58:27Z
+
+=== STABLE SHARD HEALTH GATE ===
+ATTEMPT=1 CONSECUTIVE_HEALTHY=0
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"ONLINE_SHARD","shard2":"ONLINE_SHARD"}
+ATTEMPT=2 CONSECUTIVE_HEALTHY=1
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"ONLINE_SHARD","shard2":"ONLINE_SHARD"}
+ATTEMPT=3 CONSECUTIVE_HEALTHY=2
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"ONLINE_SHARD","shard2":"ONLINE_SHARD"}
+STABLE_SHARD_HEALTH=PASS
+
+=== STAGE PREPARATION SCRIPT ===
+LOCAL_SCRIPT_SHA256=7c801dc24508df2bf34d06746dd622b2eddbfc9a96ea2a3ccd7134178580edad
+REMOTE_SCRIPT_SHA256=7c801dc24508df2bf34d06746dd622b2eddbfc9a96ea2a3ccd7134178580edad
+SCRIPT_STAGING=PASS
+
+=== GENERATE ROUTED 5/10/20 DATASETS ===
+=== SELECT CUSTOMER IDS ===
+customer_candidate_progress=20
+=== SELECT ACCOUNT IDS ===
+account_scan=20 shard1=14 shard2=6
+account_scan=40 shard1=20 shard2=17
+SCENARIO=5 CUSTOMERS=5 ACCOUNTS=10 LEDGER_ENTRIES=50 STATUS=PASS
+SCENARIO=10 CUSTOMERS=10 ACCOUNTS=20 LEDGER_ENTRIES=100 STATUS=PASS
+SCENARIO=20 CUSTOMERS=20 ACCOUNTS=40 LEDGER_ENTRIES=200 STATUS=PASS
+OUTPUT_ROOT=/tmp/comp418-limited-data
+LIMITED_DATASET_PREPARATION=PASS
+
+=== COPY GENERATED DATA TO REPOSITORY ===
+
+=== VERIFY LOCAL DATASETS ===
+size=5 customers=5 accounts=10 ledger_entries=50
+size=10 customers=10 accounts=20 ledger_entries=100
+size=20 customers=20 accounts=40 ledger_entries=200
+CRLF_CHECK=PASS
+LIMITED_DATASET_PREPARATION=PASS

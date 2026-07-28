@@ -1,0 +1,6 @@
+customer_id,full_name,email,customer_state
+700000001,Limited Customer 001,limited.customer001@example.test,ACTIVE
+700000002,Limited Customer 002,limited.customer002@example.test,ACTIVE
+700000003,Limited Customer 003,limited.customer003@example.test,ACTIVE
+700000005,Limited Customer 004,limited.customer004@example.test,ACTIVE
+700000007,Limited Customer 005,limited.customer005@example.test,ACTIVE

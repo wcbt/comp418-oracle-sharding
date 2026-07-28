@@ -1,0 +1,18 @@
+{
+  "scenario_size": 5,
+  "customers": 5,
+  "accounts": 10,
+  "ledger_entries": 50,
+  "bank_cust_customer_distribution": {
+    "shard1": 3,
+    "shard2": 2
+  },
+  "bank_acct_customer_distribution": {
+    "shard1": 3,
+    "shard2": 2
+  },
+  "bank_acct_account_distribution": {
+    "shard1": 5,
+    "shard2": 5
+  }
+}

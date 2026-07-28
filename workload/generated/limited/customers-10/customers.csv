@@ -1,0 +1,11 @@
+customer_id,full_name,email,customer_state
+700000001,Limited Customer 001,limited.customer001@example.test,ACTIVE
+700000002,Limited Customer 002,limited.customer002@example.test,ACTIVE
+700000003,Limited Customer 003,limited.customer003@example.test,ACTIVE
+700000005,Limited Customer 004,limited.customer004@example.test,ACTIVE
+700000007,Limited Customer 005,limited.customer005@example.test,ACTIVE
+700000004,Limited Customer 006,limited.customer006@example.test,ACTIVE
+700000006,Limited Customer 007,limited.customer007@example.test,ACTIVE
+700000008,Limited Customer 008,limited.customer008@example.test,ACTIVE
+700000009,Limited Customer 009,limited.customer009@example.test,ACTIVE
+700000010,Limited Customer 010,limited.customer010@example.test,ACTIVE

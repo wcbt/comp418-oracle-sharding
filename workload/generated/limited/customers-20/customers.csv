@@ -1,0 +1,21 @@
+customer_id,full_name,email,customer_state
+700000001,Limited Customer 001,limited.customer001@example.test,ACTIVE
+700000002,Limited Customer 002,limited.customer002@example.test,ACTIVE
+700000003,Limited Customer 003,limited.customer003@example.test,ACTIVE
+700000005,Limited Customer 004,limited.customer004@example.test,ACTIVE
+700000007,Limited Customer 005,limited.customer005@example.test,ACTIVE
+700000004,Limited Customer 006,limited.customer006@example.test,ACTIVE
+700000006,Limited Customer 007,limited.customer007@example.test,ACTIVE
+700000008,Limited Customer 008,limited.customer008@example.test,ACTIVE
+700000009,Limited Customer 009,limited.customer009@example.test,ACTIVE
+700000010,Limited Customer 010,limited.customer010@example.test,ACTIVE
+700000011,Limited Customer 011,limited.customer011@example.test,ACTIVE
+700000012,Limited Customer 012,limited.customer012@example.test,ACTIVE
+700000013,Limited Customer 013,limited.customer013@example.test,ACTIVE
+700000014,Limited Customer 014,limited.customer014@example.test,ACTIVE
+700000015,Limited Customer 015,limited.customer015@example.test,ACTIVE
+700000016,Limited Customer 016,limited.customer016@example.test,ACTIVE
+700000017,Limited Customer 017,limited.customer017@example.test,ACTIVE
+700000018,Limited Customer 018,limited.customer018@example.test,ACTIVE
+700000019,Limited Customer 019,limited.customer019@example.test,ACTIVE
+700000022,Limited Customer 020,limited.customer020@example.test,ACTIVE

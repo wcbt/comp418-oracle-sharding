@@ -1,0 +1,56 @@
+[
+  {
+    "scenario_size": 5,
+    "customers": 5,
+    "accounts": 10,
+    "ledger_entries": 50,
+    "bank_cust_customer_distribution": {
+      "shard1": 3,
+      "shard2": 2
+    },
+    "bank_acct_customer_distribution": {
+      "shard1": 3,
+      "shard2": 2
+    },
+    "bank_acct_account_distribution": {
+      "shard1": 5,
+      "shard2": 5
+    }
+  },
+  {
+    "scenario_size": 10,
+    "customers": 10,
+    "accounts": 20,
+    "ledger_entries": 100,
+    "bank_cust_customer_distribution": {
+      "shard1": 5,
+      "shard2": 5
+    },
+    "bank_acct_customer_distribution": {
+      "shard1": 5,
+      "shard2": 5
+    },
+    "bank_acct_account_distribution": {
+      "shard1": 10,
+      "shard2": 10
+    }
+  },
+  {
+    "scenario_size": 20,
+    "customers": 20,
+    "accounts": 40,
+    "ledger_entries": 200,
+    "bank_cust_customer_distribution": {
+      "shard1": 10,
+      "shard2": 10
+    },
+    "bank_acct_customer_distribution": {
+      "shard1": 10,
+      "shard2": 10
+    },
+    "bank_acct_account_distribution": {
+      "shard1": 20,
+      "shard2": 20
+    }
+  }
+]
