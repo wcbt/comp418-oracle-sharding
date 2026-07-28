@@ -1,0 +1,22 @@
+{
+  "seed": 418,
+  "customers": 10000,
+  "accounts": 20000,
+  "ledger_entries": 100000,
+  "accounts_per_customer": 2,
+  "ledger_entries_per_account": 5,
+  "files": {
+    "customers.csv": {
+      "bytes": 790043,
+      "sha256": "f3b5076ff85312cdf676242b334a18a1c9e68f00ac79a04946ab127d1687890d"
+    },
+    "accounts.csv": {
+      "bytes": 1009293,
+      "sha256": "20beaf0f6a1ff0ff85da281ed3184a2780459359ce4aec730a6391ab2865198d"
+    },
+    "ledger_entries.csv": {
+      "bytes": 6157983,
+      "sha256": "049b1b13fedc87e7e18b8baba0c2479d0837e5e51b418e789d0cb1b29da16665"
+    }
+  }
+}
