@@ -1,0 +1,75 @@
+=== PATCHED CUSTOMER-ID PARTITION REGENERATION ===
+UTC_TIME=2026-07-28T22:22:03Z
+
+=== VERIFY PATCHED SCRIPT ===
+LOCAL_SCRIPT_SHA256=40fdfc8322237df6615d42bd8922fb648d3f780fb5269ff96acf9a2111faf747
+REMOTE_SCRIPT_SHA256=40fdfc8322237df6615d42bd8922fb648d3f780fb5269ff96acf9a2111faf747
+PATCHED_SCRIPT_VERIFICATION=PASS
+
+=== STABLE SHARD HEALTH GATE ===
+ATTEMPT=1 CONSECUTIVE_HEALTHY=0
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"ONLINE_SHARD","shard2":"SHARD_ONLINE_ERROR_IN_GSM"}
+ATTEMPT=2 CONSECUTIVE_HEALTHY=0
+comp418-sharding   PROVISIONING         {"shard1":"ONLINE_SHARD","shard2":"SHARD_ONLINE_ERROR_IN_GSM"}
+ATTEMPT=3 CONSECUTIVE_HEALTHY=0
+comp418-sharding   PROVISIONING         {"shard1":"ONLINE_SHARD","shard2":"SHARD_ONLINE_ERROR_IN_GSM"}
+ATTEMPT=4 CONSECUTIVE_HEALTHY=0
+comp418-sharding   PROVISIONING         {"shard1":"ONLINE_SHARD","shard2":"SHARD_ONLINE_ERROR_IN_GSM"}
+ATTEMPT=5 CONSECUTIVE_HEALTHY=0
+comp418-sharding   PROVISIONING         {"shard1":"ONLINE_SHARD","shard2":"SHARD_ONLINE_ERROR_IN_GSM"}
+ATTEMPT=6 CONSECUTIVE_HEALTHY=0
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"ONLINE_SHARD","shard2":"SHARD_ONLINE_ERROR_IN_GSM"}
+ATTEMPT=7 CONSECUTIVE_HEALTHY=0
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"ONLINE_SHARD","shard2":"ONLINE_SHARD"}
+ATTEMPT=8 CONSECUTIVE_HEALTHY=1
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"SHARD_ONLINE_ERROR_IN_GSM","shard2":"ONLINE_SHARD"}
+ATTEMPT=9 CONSECUTIVE_HEALTHY=0
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"SHARD_ONLINE_ERROR_IN_GSM","shard2":"ONLINE_SHARD"}
+ATTEMPT=10 CONSECUTIVE_HEALTHY=0
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"ONLINE_SHARD","shard2":"ONLINE_SHARD"}
+ATTEMPT=11 CONSECUTIVE_HEALTHY=1
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"ONLINE_SHARD","shard2":"ONLINE_SHARD"}
+ATTEMPT=12 CONSECUTIVE_HEALTHY=2
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"ONLINE_SHARD","shard2":"ONLINE_SHARD"}
+ATTEMPT=13 CONSECUTIVE_HEALTHY=3
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"ONLINE_SHARD","shard2":"ONLINE_SHARD"}
+ATTEMPT=14 CONSECUTIVE_HEALTHY=4
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"ONLINE_SHARD","shard2":"ONLINE_SHARD"}
+ATTEMPT=15 CONSECUTIVE_HEALTHY=5
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"ONLINE_SHARD","shard2":"ONLINE_SHARD"}
+STABLE_SHARD_HEALTH=PASS
+
+=== VERIFY SOURCE STAGING ===
+FOUND=/tmp/comp418-benchmark-10k/customers.csv
+FOUND=/tmp/comp418-benchmark-10k/accounts.csv
+FOUND=/tmp/comp418-benchmark-10k/ledger_entries.csv
+FOUND=/tmp/comp418-benchmark-10k/customers.ctl
+FOUND=/tmp/comp418-benchmark-10k/accounts.ctl
+FOUND=/tmp/comp418-benchmark-10k/ledger_entries.ctl
+FOUND=/tmp/comp418-benchmark-10k/partition_customer_id_data.py
+CUSTOMERS_SOURCE_ROWS=10000
+ACCOUNTS_SOURCE_ROWS=20000
+LEDGER_SOURCE_ROWS=100000
+SOURCE_STAGING=PASS
+
+=== RUN PATCHED PARTITIONER ===
+=== CUSTOMER-ID DATA PARTITIONING ===
+python_version=3.13.13
+oracledb_version=3.4.1
+database_user=BANK_CUST
+input_directory=/tmp/comp418-benchmark-10k
+output_directory=/tmp/comp418-benchmark-10k/partitioned/bank_cust
+unique_customer_ids=10000
+
+=== BUILDING CUSTOMER-TO-SHARD MAP ===
+routing_progress=1000/10000
+routing_progress=2000/10000
+routing_progress=3000/10000
+routing_progress=4000/10000
+routing_progress=5000/10000
+routing_progress=6000/10000
+routing_progress=7000/10000
+routing_progress=8000/10000
+routing_progress=9000/10000
+routing_progress=10000/10000
+command terminated with exit code 139
