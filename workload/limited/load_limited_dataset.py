@@ -79,7 +79,10 @@ def cleanup_benchmark_range() -> None:
                     DELETE FROM customers
                     WHERE customer_id BETWEEN :customer_min AND :customer_max
                     """,
-                    binds,
+                    {
+                        "customer_min": CUSTOMER_MIN,
+                        "customer_max": CUSTOMER_MAX,
+                    },
                 )
                 customers_deleted = cursor.rowcount
 
@@ -310,7 +313,10 @@ def query_shard_counts(shard: str, dsn: str) -> dict[str, int]:
                     HAVING COUNT(*) <> 5
                 )
                 """,
-                binds,
+                {
+                    "account_min": ACCOUNT_MIN,
+                    "account_max": ACCOUNT_MAX,
+                },
             )
             invalid_ledger_groups = int(cursor.fetchone()[0])
 

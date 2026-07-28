@@ -1,0 +1,50 @@
+=== LIMITED DATASET LOAD ===
+UTC_TIME=2026-07-28T23:04:09Z
+DB_USER=BANK_CUST
+SCENARIO_SIZE=5
+
+FOUND=workload/generated/limited/customers-5/customers.csv
+FOUND=workload/generated/limited/customers-5/accounts.csv
+FOUND=workload/generated/limited/customers-5/ledger_entries.csv
+FOUND=workload/generated/limited/customers-5/manifest.json
+
+=== STABLE SHARD HEALTH GATE ===
+ATTEMPT=1 CONSECUTIVE_HEALTHY=0
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"ONLINE_SHARD","shard2":"ONLINE_SHARD"}
+ATTEMPT=2 CONSECUTIVE_HEALTHY=1
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"ONLINE_SHARD","shard2":"ONLINE_SHARD"}
+ATTEMPT=3 CONSECUTIVE_HEALTHY=2
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"ONLINE_SHARD","shard2":"ONLINE_SHARD"}
+STABLE_SHARD_HEALTH=PASS
+
+=== STAGE LOADER AND DATA ===
+REMOTE_STAGING=PASS
+
+=== CLEAN, LOAD, AND VERIFY TARGET SCHEMA ===
+DB_USER=BANK_CUST SCENARIO_SIZE=5
+=== CLEANING LIMITED BENCHMARK RANGE ===
+Traceback (most recent call last):
+  File "/tmp/comp418-limited-tools/load_limited_dataset.py", line 430, in <module>
+    exit_code = main()
+  File "/tmp/comp418-limited-tools/load_limited_dataset.py", line 357, in main
+    cleanup_benchmark_range()
+    ~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/tmp/comp418-limited-tools/load_limited_dataset.py", line 77, in cleanup_benchmark_range
+    cursor.execute(
+    ~~~~~~~~~~~~~~^
+        """
+        ^^^
+    ...<3 lines>...
+        binds,
+        ^^^^^^
+    )
+    ^
+  File "/tmp/3334588147/python/dist/oracle.python/generic/python/lib/python3.13/site-packages/oracledb/cursor.py", line 844, in execute
+  File "src/oracledb/impl/thick/cursor.pyx", line 306, in oracledb.thick_impl.ThickCursorImpl.execute
+  File "src/oracledb/impl/base/cursor.pyx", line 356, in oracledb.base_impl.BaseCursorImpl._perform_binds
+  File "src/oracledb/impl/thick/var.pyx", line 67, in oracledb.thick_impl.ThickVarImpl._bind
+  File "src/oracledb/impl/thick/utils.pyx", line 484, in oracledb.thick_impl._raise_from_odpi
+  File "src/oracledb/impl/thick/utils.pyx", line 474, in oracledb.thick_impl._raise_from_info
+oracledb.exceptions.DatabaseError: ORA-01036: unrecognized bind variable account_min passed to the bind call
+Help: https://docs.oracle.com/error-help/db/ora-01036/
+command terminated with exit code 1
