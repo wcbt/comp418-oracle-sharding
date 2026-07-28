@@ -1,0 +1,55 @@
+=== COMPLETE PYTHON ENVIRONMENT BOOTSTRAP ===
+UTC_TIME=2026-07-28T20:57:38Z
+
+VENV_PYTHON=/home/anton/projects/comp418-oracle-sharding/.venv-oracledb/bin/python
+Python 3.14.4
+Requirement already satisfied: pip in ./.venv-oracledb/lib/python3.14/site-packages (25.1.1)
+Collecting pip
+  Downloading pip-26.1.2-py3-none-any.whl.metadata (4.6 kB)
+Collecting setuptools
+  Downloading setuptools-83.0.0-py3-none-any.whl.metadata (6.6 kB)
+Collecting wheel
+  Downloading wheel-0.47.0-py3-none-any.whl.metadata (2.3 kB)
+Collecting packaging>=24.0 (from wheel)
+  Downloading packaging-26.2-py3-none-any.whl.metadata (3.5 kB)
+Downloading pip-26.1.2-py3-none-any.whl (1.8 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.8/1.8 MB 13.3 MB/s eta 0:00:00
+Downloading setuptools-83.0.0-py3-none-any.whl (1.0 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.0/1.0 MB 30.2 MB/s eta 0:00:00
+Downloading wheel-0.47.0-py3-none-any.whl (32 kB)
+Downloading packaging-26.2-py3-none-any.whl (100 kB)
+Installing collected packages: setuptools, pip, packaging, wheel
+  Attempting uninstall: pip
+    Found existing installation: pip 25.1.1
+    Uninstalling pip-25.1.1:
+      Successfully uninstalled pip-25.1.1
+
+Successfully installed packaging-26.2 pip-26.1.2 setuptools-83.0.0 wheel-0.47.0
+Collecting oracledb==3.4.1 (from -r workload/requirements-routing.txt (line 1))
+  Downloading oracledb-3.4.1-cp314-cp314-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (7.7 kB)
+Collecting cryptography>=3.2.1 (from oracledb==3.4.1->-r workload/requirements-routing.txt (line 1))
+  Downloading cryptography-49.0.0-cp311-abi3-manylinux_2_34_x86_64.whl.metadata (4.3 kB)
+Collecting typing_extensions>=4.14.0 (from oracledb==3.4.1->-r workload/requirements-routing.txt (line 1))
+  Downloading typing_extensions-4.16.0-py3-none-any.whl.metadata (3.3 kB)
+Collecting cffi>=2.0.0 (from cryptography>=3.2.1->oracledb==3.4.1->-r workload/requirements-routing.txt (line 1))
+  Downloading cffi-2.1.0-cp314-cp314-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (2.5 kB)
+Collecting pycparser (from cffi>=2.0.0->cryptography>=3.2.1->oracledb==3.4.1->-r workload/requirements-routing.txt (line 1))
+  Downloading pycparser-3.0-py3-none-any.whl.metadata (8.2 kB)
+Downloading oracledb-3.4.1-cp314-cp314-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (2.5 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2.5/2.5 MB 17.9 MB/s  0:00:00
+Downloading cryptography-49.0.0-cp311-abi3-manylinux_2_34_x86_64.whl (4.7 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 4.7/4.7 MB 28.0 MB/s  0:00:00
+Downloading cffi-2.1.0-cp314-cp314-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (221 kB)
+Downloading typing_extensions-4.16.0-py3-none-any.whl (45 kB)
+Downloading pycparser-3.0-py3-none-any.whl (48 kB)
+Installing collected packages: typing_extensions, pycparser, cffi, cryptography, oracledb
+
+Successfully installed cffi-2.1.0 cryptography-49.0.0 oracledb-3.4.1 pycparser-3.0 typing_extensions-4.16.0
+
+=== VERIFY PYTHON-ORACLEDB ===
+PYTHON_EXECUTABLE=/home/anton/projects/comp418-oracle-sharding/.venv-oracledb/bin/python
+PYTHON_VERSION=3.14.4
+PYTHON_ORACLEDB_VERSION=3.4.1
+ORACLEDB_IMPORT=PASS
+
+=== LOCATE ORACLE CLIENT ===

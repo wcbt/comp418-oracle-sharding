@@ -1,0 +1,10 @@
+=== HOST-SIDE CUSTOMER-ID PARTITIONING ===
+UTC_TIME=2026-07-28T20:43:46Z
+
+=== SELECT HOST PYTHON ===
+PYTHON_BIN=/usr/bin/python3
+Python 3.14.4
+PYTHON_VERSION=3.14.4
+Traceback (most recent call last):
+  File "<stdin>", line 8, in <module>
+ModuleNotFoundError: No module named 'oracledb'

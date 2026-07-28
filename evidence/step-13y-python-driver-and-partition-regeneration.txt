@@ -1,0 +1,20 @@
+=== RESTORE PYTHON ORACLE DRIVER AND PARTITION DATA ===
+UTC_TIME=2026-07-28T20:37:06Z
+
+=== VERIFY EXISTING STAGING ===
+FOUND=/tmp/comp418-benchmark-10k/customers.csv
+FOUND=/tmp/comp418-benchmark-10k/accounts.csv
+FOUND=/tmp/comp418-benchmark-10k/ledger_entries.csv
+FOUND=/tmp/comp418-benchmark-10k/customers.ctl
+FOUND=/tmp/comp418-benchmark-10k/accounts.ctl
+FOUND=/tmp/comp418-benchmark-10k/ledger_entries.ctl
+FOUND=/tmp/comp418-benchmark-10k/partition_customer_id_data.py
+CATALOG_SOURCE_STAGING=PASS
+
+=== INSTALL PYTHON-ORACLEDB ===
+PYTHON=/usr/bin/python3
+Python 3.6.8
+Collecting oracledb==3.4.1
+  Could not find a version that satisfies the requirement oracledb==3.4.1 (from versions: 1.0.0, 1.0.1, 1.0.2, 1.0.3, 1.1.0, 1.1.1, 1.2.0, 1.2.1, 1.2.2, 1.3.0, 1.3.1, 1.3.2, 1.4.0, 1.4.1, 1.4.2)
+No matching distribution found for oracledb==3.4.1
+command terminated with exit code 1

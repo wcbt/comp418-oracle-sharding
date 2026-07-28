@@ -1,0 +1,34 @@
+=== REGENERATE CUSTOMER-ID PARTITIONS ===
+UTC_TIME=2026-07-28T20:35:31Z
+
+=== SHARDING HEALTH GATE ===
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"ONLINE_SHARD","shard2":"ONLINE_SHARD"}
+SHARDING_HEALTH=PASS
+
+=== PREPARE LOCAL STAGING ===
+total 7.7M
+-rw-r--r-- 1 anton anton 986K Jul 28 15:35 accounts.csv
+-rw-r--r-- 1 anton anton  388 Jul 28 15:35 accounts.ctl
+-rw-r--r-- 1 anton anton 772K Jul 28 15:35 customers.csv
+-rw-r--r-- 1 anton anton  321 Jul 28 15:35 customers.ctl
+-rw-r--r-- 1 anton anton 5.9M Jul 28 15:35 ledger_entries.csv
+-rw-r--r-- 1 anton anton  754 Jul 28 15:35 ledger_entries.ctl
+-rwxr-xr-x 1 anton anton  11K Jul 28 15:35 partition_customer_id_data.py
+
+=== SOURCE ROW COUNTS ===
+CUSTOMERS_SOURCE_ROWS=10000
+ACCOUNTS_SOURCE_ROWS=20000
+LEDGER_ENTRIES_SOURCE_ROWS=100000
+SOURCE_COUNTS=PASS
+
+=== RECREATE CATALOG STAGING DIRECTORY ===
+CATALOG_SOURCE_STAGING=PASS
+
+=== CATALOG ORACLE CLIENT CHECK ===
+ORACLE_HOME=/opt/oracle/product/26ai/dbhomeFree
+/usr/bin/python3
+/opt/oracle/product/26ai/dbhomeFree/bin/sqlldr
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+ModuleNotFoundError: No module named 'oracledb'
+command terminated with exit code 1

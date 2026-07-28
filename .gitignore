@@ -26,3 +26,4 @@ vendor/oracle-database-operator/
 __pycache__/
 *.py[cod]
 *.bak
+.venv-oracledb/
