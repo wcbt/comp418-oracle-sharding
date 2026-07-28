@@ -1,0 +1,963 @@
+.
+├── README.md
+├── docs
+│   └── research-outline.docx
+├── k8s
+│   └── oracle-gdd-two-shards.yaml
+├── notes
+│   └── environment.md
+├── results
+│   ├── account-id
+│   └── customer-id
+├── scripts
+├── sql
+│   ├── data
+│   ├── schema
+│   └── tests
+├── structure.txt
+├── vendor
+│   └── oracle-database-operator
+│       ├── CONTRIBUTING.md
+│       ├── DBOperator.svg
+│       ├── Dockerfile
+│       ├── LICENSE.txt
+│       ├── Makefile
+│       ├── PREREQUISITES.md
+│       ├── PROJECT
+│       ├── README.md
+│       ├── SECURITY.md
+│       ├── THIRD_PARTY_LICENSES.txt
+│       ├── THIRD_PARTY_LICENSES_DOCKER.txt
+│       ├── apis
+│       │   ├── database
+│       │   │   ├── v1alpha1
+│       │   │   │   ├── adbfamily_common_spec.go
+│       │   │   │   ├── autonomouscontainerdatabase_types.go
+│       │   │   │   ├── autonomouscontainerdatabase_webhook.go
+│       │   │   │   ├── autonomouscontainerdatabase_webhook_test.go
+│       │   │   │   ├── autonomousdatabase_conversion.go
+│       │   │   │   ├── autonomousdatabase_types.go
+│       │   │   │   ├── autonomousdatabase_webhook.go
+│       │   │   │   ├── autonomousdatabase_webhook_test.go
+│       │   │   │   ├── autonomousdatabasebackup_types.go
+│       │   │   │   ├── autonomousdatabasebackup_webhook.go
+│       │   │   │   ├── autonomousdatabasebackup_webhook_test.go
+│       │   │   │   ├── autonomousdatabaserestore_types.go
+│       │   │   │   ├── autonomousdatabaserestore_webhook.go
+│       │   │   │   ├── autonomousdatabaserestore_webhook_test.go
+│       │   │   │   ├── dataguardbroker_conversion.go
+│       │   │   │   ├── dataguardbroker_types.go
+│       │   │   │   ├── dataguardbroker_webhook.go
+│       │   │   │   ├── dbcssystem_conversion.go
+│       │   │   │   ├── dbcssystem_kms_types.go
+│       │   │   │   ├── dbcssystem_pdbconfig_types.go
+│       │   │   │   ├── dbcssystem_types.go
+│       │   │   │   ├── dbcssystem_webhook.go
+│       │   │   │   ├── groupversion_info.go
+│       │   │   │   ├── oraclerestdataservice_conversion.go
+│       │   │   │   ├── oraclerestdataservice_types.go
+│       │   │   │   ├── oraclerestdataservice_webhook.go
+│       │   │   │   ├── shardingdatabase_conversion.go
+│       │   │   │   ├── shardingdatabase_types.go
+│       │   │   │   ├── shardingdatabase_webhook.go
+│       │   │   │   ├── singleinstancedatabase_conversion.go
+│       │   │   │   ├── singleinstancedatabase_types.go
+│       │   │   │   ├── singleinstancedatabase_webhook.go
+│       │   │   │   ├── webhook_suite_test.go
+│       │   │   │   └── zz_generated.deepcopy.go
+│       │   │   └── v4
+│       │   │       ├── adbfamily_common_spec.go
+│       │   │       ├── adbfamily_utils.go
+│       │   │       ├── asm_types.go
+│       │   │       ├── autonomouscontainerdatabase_types.go
+│       │   │       ├── autonomouscontainerdatabase_webhook.go
+│       │   │       ├── autonomousdatabase_types.go
+│       │   │       ├── autonomousdatabase_webhook.go
+│       │   │       ├── autonomousdatabasebackup_types.go
+│       │   │       ├── autonomousdatabasebackup_webhook.go
+│       │   │       ├── autonomousdatabaserestore_types.go
+│       │   │       ├── autonomousdatabaserestore_webhook.go
+│       │   │       ├── dataguardbroker_conversion.go
+│       │   │       ├── dataguardbroker_types.go
+│       │   │       ├── dataguardbroker_webhook.go
+│       │   │       ├── dbcssystem_conversion.go
+│       │   │       ├── dbcssystem_kms_types.go
+│       │   │       ├── dbcssystem_pdbconfig_types.go
+│       │   │       ├── dbcssystem_types.go
+│       │   │       ├── dbcssystem_webhook.go
+│       │   │       ├── groupversion_info.go
+│       │   │       ├── lrest_types.go
+│       │   │       ├── lrest_webhook.go
+│       │   │       ├── lrpdb_types.go
+│       │   │       ├── lrpdb_webhook.go
+│       │   │       ├── oraclerestart_types.go
+│       │   │       ├── oraclerestart_webhook.go
+│       │   │       ├── oraclerestdataservice_conversion.go
+│       │   │       ├── oraclerestdataservice_types.go
+│       │   │       ├── oraclerestdataservice_webhook.go
+│       │   │       ├── ordssrvs_types.go
+│       │   │       ├── racdatabase_types.go
+│       │   │       ├── racdatabase_webhook.go
+│       │   │       ├── shardingdatabase_conversion.go
+│       │   │       ├── shardingdatabase_types.go
+│       │   │       ├── shardingdatabase_webhook.go
+│       │   │       ├── singleinstancedatabase_conversion.go
+│       │   │       ├── singleinstancedatabase_types.go
+│       │   │       ├── singleinstancedatabase_webhook.go
+│       │   │       └── zz_generated.deepcopy.go
+│       │   ├── observability
+│       │   │   ├── v1
+│       │   │   │   ├── databaseobserver_types.go
+│       │   │   │   ├── databaseobserver_webhook.go
+│       │   │   │   ├── groupversion_info.go
+│       │   │   │   └── zz_generated.deepcopy.go
+│       │   │   ├── v1alpha1
+│       │   │   │   ├── databaseobserver_types.go
+│       │   │   │   ├── databaseobserver_webhook.go
+│       │   │   │   ├── groupversion_info.go
+│       │   │   │   └── zz_generated.deepcopy.go
+│       │   │   └── v4
+│       │   │       ├── databaseobserver_types.go
+│       │   │       ├── databaseobserver_webhook.go
+│       │   │       ├── groupversion_info.go
+│       │   │       └── zz_generated.deepcopy.go
+│       │   └── privateai
+│       │       └── v4
+│       │           ├── groupversion_info.go
+│       │           ├── privateai_types.go
+│       │           ├── privateai_webhook.go
+│       │           ├── webhook_suite_test.go
+│       │           └── zz_generated.deepcopy.go
+│       ├── bundle
+│       │   ├── manifests
+│       │   │   ├── database.oracle.com_autonomouscontainerdatabases.yaml
+│       │   │   ├── database.oracle.com_autonomousdatabasebackups.yaml
+│       │   │   ├── database.oracle.com_autonomousdatabaserestores.yaml
+│       │   │   ├── database.oracle.com_autonomousdatabases.yaml
+│       │   │   ├── database.oracle.com_cdbs.yaml
+│       │   │   ├── database.oracle.com_dataguardbrokers.yaml
+│       │   │   ├── database.oracle.com_dbcssystems.yaml
+│       │   │   ├── database.oracle.com_lrests.yaml
+│       │   │   ├── database.oracle.com_lrpdbs.yaml
+│       │   │   ├── database.oracle.com_oraclerestdataservices.yaml
+│       │   │   ├── database.oracle.com_ordssrvs.yaml
+│       │   │   ├── database.oracle.com_pdbs.yaml
+│       │   │   ├── database.oracle.com_shardingdatabases.yaml
+│       │   │   ├── database.oracle.com_singleinstancedatabases.yaml
+│       │   │   ├── observability.oracle.com_databaseobservers.yaml
+│       │   │   ├── oracle-database-operator-controller-manager-metrics-service_v1_service.yaml
+│       │   │   ├── oracle-database-operator-metrics-reader_rbac.authorization.k8s.io_v1_clusterrole.yaml
+│       │   │   ├── oracle-database-operator-webhook-service_v1_service.yaml
+│       │   │   └── oracle-database-operator.clusterserviceversion.yaml
+│       │   └── metadata
+│       │       └── annotations.yaml
+│       ├── bundle.Dockerfile
+│       ├── commons
+│       │   ├── adb_family
+│       │   │   └── utils.go
+│       │   ├── annotations
+│       │   │   └── annotations.go
+│       │   ├── database
+│       │   │   ├── constants.go
+│       │   │   ├── podbuilder.go
+│       │   │   ├── svcbuilder.go
+│       │   │   └── utils.go
+│       │   ├── dbcssystem
+│       │   │   ├── dbcs_reconciler.go
+│       │   │   └── dcommon.go
+│       │   ├── finalizer
+│       │   │   └── finalizer.go
+│       │   ├── k8s
+│       │   │   ├── create.go
+│       │   │   ├── fetch.go
+│       │   │   ├── finalizer.go
+│       │   │   └── utils.go
+│       │   ├── multitenant
+│       │   │   └── lrest
+│       │   │       └── common.go
+│       │   ├── observability
+│       │   │   ├── constants.go
+│       │   │   └── utils.go
+│       │   ├── oci
+│       │   │   ├── containerdatabase.go
+│       │   │   ├── database.go
+│       │   │   ├── provider.go
+│       │   │   ├── vault.go
+│       │   │   ├── wallet.go
+│       │   │   └── workrequest.go
+│       │   ├── oraclerestart
+│       │   │   ├── exec.go
+│       │   │   ├── oraclerestartcommon.go
+│       │   │   ├── oraclerestartconstants.go
+│       │   │   ├── oraclerestartprov.go
+│       │   │   ├── oraclerestartstatus.go
+│       │   │   └── utils
+│       │   │       └── utils.go
+│       │   ├── privateai
+│       │   │   ├── acommon.go
+│       │   │   ├── aibuilder.go
+│       │   │   └── exec.go
+│       │   ├── rac
+│       │   │   ├── exec.go
+│       │   │   ├── raccommon.go
+│       │   │   ├── racconstants.go
+│       │   │   ├── racprov.go
+│       │   │   ├── racprovcluster.go
+│       │   │   ├── racstatus.go
+│       │   │   └── utils
+│       │   │       └── utils.go
+│       │   └── sharding
+│       │       ├── catalog.go
+│       │       ├── exec.go
+│       │       ├── gsm.go
+│       │       ├── provstatus.go
+│       │       ├── scommon.go
+│       │       └── shard.go
+│       ├── config
+│       │   ├── certmanager
+│       │   │   ├── certificate-metrics.yaml
+│       │   │   ├── certificate-webhook.yaml
+│       │   │   ├── certificate.yaml
+│       │   │   ├── issuer.yaml
+│       │   │   ├── kustomization.yaml
+│       │   │   └── kustomizeconfig.yaml
+│       │   ├── crd
+│       │   │   ├── bases
+│       │   │   │   ├── database.oracle.com_DbcsSystem.yaml
+│       │   │   │   ├── database.oracle.com_autonomouscontainerdatabases.yaml
+│       │   │   │   ├── database.oracle.com_autonomousdatabasebackups.yaml
+│       │   │   │   ├── database.oracle.com_autonomousdatabaserestores.yaml
+│       │   │   │   ├── database.oracle.com_autonomousdatabases.yaml
+│       │   │   │   ├── database.oracle.com_dataguardbrokers.yaml
+│       │   │   │   ├── database.oracle.com_dbcssystems.yaml
+│       │   │   │   ├── database.oracle.com_lrests.yaml
+│       │   │   │   ├── database.oracle.com_lrpdbs.yaml
+│       │   │   │   ├── database.oracle.com_oraclerestartnews.yaml
+│       │   │   │   ├── database.oracle.com_oraclerestarts.yaml
+│       │   │   │   ├── database.oracle.com_oraclerestartservices.yaml
+│       │   │   │   ├── database.oracle.com_oraclerestdataservices.yaml
+│       │   │   │   ├── database.oracle.com_ordssrvs.yaml
+│       │   │   │   ├── database.oracle.com_racdatabases.yaml
+│       │   │   │   ├── database.oracle.com_shardingdatabases.yaml
+│       │   │   │   ├── database.oracle.com_singleinstancedatabases.yaml
+│       │   │   │   ├── observability.oracle.com_databaseobservers.yaml
+│       │   │   │   └── privateai.oracle.com_privateais.yaml
+│       │   │   ├── kustomization.yaml
+│       │   │   ├── kustomizeconfig.yaml
+│       │   │   └── patches
+│       │   │       ├── cainjection_in_autonomouscontainerdatabases.yaml
+│       │   │       ├── cainjection_in_autonomousdatabasebackups.yaml
+│       │   │       ├── cainjection_in_autonomousdatabaserestores.yaml
+│       │   │       ├── cainjection_in_autonomousdatabases.yaml
+│       │   │       ├── cainjection_in_cdbs.yaml
+│       │   │       ├── cainjection_in_database_dataguardbrokers.yaml
+│       │   │       ├── cainjection_in_database_lrests.yaml
+│       │   │       ├── cainjection_in_database_lrpdbs.yaml
+│       │   │       ├── cainjection_in_database_oraclerestdataservices.yaml
+│       │   │       ├── cainjection_in_database_ordssrvs.yaml
+│       │   │       ├── cainjection_in_database_racdatabases.yaml
+│       │   │       ├── cainjection_in_database_singleinstancedatabases.yaml
+│       │   │       ├── cainjection_in_dataguardbrokers.yaml
+│       │   │       ├── cainjection_in_dbcssystems.yaml
+│       │   │       ├── cainjection_in_observability_databaseobservers.yaml
+│       │   │       ├── cainjection_in_oraclerestdataservices.yaml
+│       │   │       ├── cainjection_in_pdbs.yaml
+│       │   │       ├── cainjection_in_shardingdatabases.yaml
+│       │   │       ├── cainjection_in_singleinstancedatabases.yaml
+│       │   │       ├── cainjenction_in_databaseobservers.yaml
+│       │   │       ├── webhook_in_autonomouscontainerdatabases.yaml
+│       │   │       ├── webhook_in_autonomousdatabasebackups.yaml
+│       │   │       ├── webhook_in_autonomousdatabaserestores.yaml
+│       │   │       ├── webhook_in_autonomousdatabases.yaml
+│       │   │       ├── webhook_in_cdbs.yaml
+│       │   │       ├── webhook_in_databaseobservers.yaml
+│       │   │       ├── webhook_in_dataguardbrokers.yaml
+│       │   │       ├── webhook_in_dbcssystems.yaml
+│       │   │       ├── webhook_in_lrests.yaml
+│       │   │       ├── webhook_in_lrpdbs.yaml
+│       │   │       ├── webhook_in_oraclerestdataservices.yaml
+│       │   │       ├── webhook_in_ordssrvs.yaml
+│       │   │       ├── webhook_in_pdbs.yaml
+│       │   │       ├── webhook_in_racdatabases.yaml
+│       │   │       ├── webhook_in_shardingdatabases.yaml
+│       │   │       └── webhook_in_singleinstancedatabases.yaml
+│       │   ├── default
+│       │   │   ├── kustomization.yaml
+│       │   │   ├── manager_auth_proxy_patch.yaml
+│       │   │   ├── manager_webhook_patch.yaml
+│       │   │   └── webhookcainjection_patch.yaml
+│       │   ├── manager
+│       │   │   ├── kustomization.yaml
+│       │   │   └── manager.yaml
+│       │   ├── manifests
+│       │   │   ├── bases
+│       │   │   │   └── oracle-database-operator.clusterserviceversion.yaml
+│       │   │   └── kustomization.yaml
+│       │   ├── network-policy
+│       │   │   └── allow-webhook-traffic.yaml
+│       │   ├── observability.oracle.com_databaseobservers.yaml
+│       │   ├── rbac
+│       │   │   ├── auth_proxy_client_clusterrole.yaml
+│       │   │   ├── auth_proxy_role.yaml
+│       │   │   ├── auth_proxy_role_binding.yaml
+│       │   │   ├── auth_proxy_service.yaml
+│       │   │   ├── autonomouscontainerdatabase_editor_role.yaml
+│       │   │   ├── autonomouscontainerdatabase_viewer_role.yaml
+│       │   │   ├── autonomousdatabase_editor_role.yaml
+│       │   │   ├── autonomousdatabase_viewer_role.yaml
+│       │   │   ├── autonomousdatabasebackup_editor_role.yaml
+│       │   │   ├── autonomousdatabasebackup_viewer_role.yaml
+│       │   │   ├── autonomousdatabaserestore_editor_role.yaml
+│       │   │   ├── autonomousdatabaserestore_viewer_role.yaml
+│       │   │   ├── database_oraclerestart_admin_role.yaml
+│       │   │   ├── database_oraclerestart_editor_role.yaml
+│       │   │   ├── database_oraclerestart_viewer_role.yaml
+│       │   │   ├── databaseobserver_editor_role.yaml
+│       │   │   ├── databaseobserver_viewer_role.yaml
+│       │   │   ├── dataguardbroker_editor_role.yaml
+│       │   │   ├── dataguardbroker_viewer_role.yaml
+│       │   │   ├── dbcssystem_editor_role.yaml
+│       │   │   ├── dbcssystem_viewer_role.yaml
+│       │   │   ├── kustomization.yaml
+│       │   │   ├── leader_election_role.yaml
+│       │   │   ├── leader_election_role_binding.yaml
+│       │   │   ├── lrest_editor_role.yaml
+│       │   │   ├── lrest_viewer_role.yaml
+│       │   │   ├── lrpdb_editor_role.yaml
+│       │   │   ├── lrpdb_viewer_role.yaml
+│       │   │   ├── oraclerestdataservice_editor_role.yaml
+│       │   │   ├── oraclerestdataservice_viewer_role.yaml
+│       │   │   ├── ordssrvs_editor_role.yaml
+│       │   │   ├── ordssrvs_viewer_role.yaml
+│       │   │   ├── privateai_privateai_admin_role.yaml
+│       │   │   ├── privateai_privateai_editor_role.yaml
+│       │   │   ├── privateai_privateai_viewer_role.yaml
+│       │   │   ├── provshard_editor_role.yaml
+│       │   │   ├── provshard_viewer_role.yaml
+│       │   │   ├── racdatabase_editor_role.yaml
+│       │   │   ├── racdatabase_viewer_role.yaml
+│       │   │   ├── role.yaml
+│       │   │   ├── role_binding.yaml
+│       │   │   ├── shardingdatabase_editor_role.yaml
+│       │   │   ├── shardingdatabase_viewer_role.yaml
+│       │   │   ├── singleinstancedatabase_editor_role.yaml
+│       │   │   └── singleinstancedatabase_viewer_role.yaml
+│       │   ├── samples
+│       │   │   ├── acd
+│       │   │   │   ├── autonomouscontainerdatabase_bind.yaml
+│       │   │   │   ├── autonomouscontainerdatabase_change_displayname.yaml
+│       │   │   │   ├── autonomouscontainerdatabase_create.yaml
+│       │   │   │   ├── autonomouscontainerdatabase_delete_resource.yaml
+│       │   │   │   └── autonomouscontainerdatabase_restart_terminate.yaml
+│       │   │   ├── adb
+│       │   │   │   ├── autonomousdatabase_backup.yaml
+│       │   │   │   ├── autonomousdatabase_bind.yaml
+│       │   │   │   ├── autonomousdatabase_clone.yaml
+│       │   │   │   ├── autonomousdatabase_create.yaml
+│       │   │   │   ├── autonomousdatabase_delete_resource.yaml
+│       │   │   │   ├── autonomousdatabase_download_wallet.yaml
+│       │   │   │   ├── autonomousdatabase_manual_failover.yaml
+│       │   │   │   ├── autonomousdatabase_rename.yaml
+│       │   │   │   ├── autonomousdatabase_restore.yaml
+│       │   │   │   ├── autonomousdatabase_scale.yaml
+│       │   │   │   ├── autonomousdatabase_stop_start_terminate.yaml
+│       │   │   │   ├── autonomousdatabase_switchover.yaml
+│       │   │   │   ├── autonomousdatabase_update_admin_password.yaml
+│       │   │   │   ├── autonomousdatabase_update_mtls.yaml
+│       │   │   │   └── autonomousdatabase_update_network_access.yaml
+│       │   │   ├── database_v4_oraclerestart.yaml
+│       │   │   ├── database_v4_racdatabase.yaml
+│       │   │   ├── dbcs
+│       │   │   │   └── database_v1alpha1_dbcssystem.yaml
+│       │   │   ├── kustomization.yaml
+│       │   │   ├── observability
+│       │   │   │   ├── databaseobserver.yaml
+│       │   │   │   ├── sample-dashboard.json
+│       │   │   │   ├── sample_config.toml
+│       │   │   │   ├── v1
+│       │   │   │   │   ├── databaseobserver.yaml
+│       │   │   │   │   ├── databaseobserver_customization_fields.yaml
+│       │   │   │   │   └── databaseobserver_logs_promtail.yaml
+│       │   │   │   ├── v1alpha1
+│       │   │   │   │   ├── databaseobserver.yaml
+│       │   │   │   │   ├── databaseobserver_custom_config.yaml
+│       │   │   │   │   ├── databaseobserver_logs_promtail.yaml
+│       │   │   │   │   ├── databaseobserver_minimal.yaml
+│       │   │   │   │   └── databaseobserver_vault_oci.yaml
+│       │   │   │   └── v4
+│       │   │   │       ├── databaseobserver.yaml
+│       │   │   │       ├── databaseobserver_custom_config.yaml
+│       │   │   │       ├── databaseobserver_exporter_config_file.yaml
+│       │   │   │       ├── databaseobserver_logs_promtail.yaml
+│       │   │   │       ├── databaseobserver_minimal.yaml
+│       │   │   │       ├── databaseobserver_vault_azure.yaml
+│       │   │   │       └── databaseobserver_vault_oci.yaml
+│       │   │   ├── privateai_v4_privateai.yaml
+│       │   │   ├── sharding
+│       │   │   │   ├── sharding_v1alpha1_provshard.yaml
+│       │   │   │   ├── sharding_v1alpha1_provshard_clonespec.yaml
+│       │   │   │   ├── sharding_v1alpha1_provshard_clonespec1.yaml
+│       │   │   │   ├── sharding_v1alpha1_provshard_orig.yaml
+│       │   │   │   └── shardingdatabase.yaml
+│       │   │   └── sidb
+│       │   │       ├── dataguardbroker.yaml
+│       │   │       ├── openshift_rbac.yaml
+│       │   │       ├── oraclerestdataservice.yaml
+│       │   │       ├── oraclerestdataservice_create.yaml
+│       │   │       ├── oraclerestdataservice_secrets.yaml
+│       │   │       ├── singleinstancedatabase.yaml
+│       │   │       ├── singleinstancedatabase_clone.yaml
+│       │   │       ├── singleinstancedatabase_create.yaml
+│       │   │       ├── singleinstancedatabase_express.yaml
+│       │   │       ├── singleinstancedatabase_free-lite.yaml
+│       │   │       ├── singleinstancedatabase_free-truecache.yaml
+│       │   │       ├── singleinstancedatabase_free.yaml
+│       │   │       ├── singleinstancedatabase_patch.yaml
+│       │   │       ├── singleinstancedatabase_prebuiltdb.yaml
+│       │   │       ├── singleinstancedatabase_secrets.yaml
+│       │   │       ├── singleinstancedatabase_standby.yaml
+│       │   │       └── singleinstancedatabase_tcps.yaml
+│       │   ├── scorecard
+│       │   │   ├── bases
+│       │   │   │   └── config.yaml
+│       │   │   ├── kustomization.yaml
+│       │   │   └── patches
+│       │   │       ├── basic.config.yaml
+│       │   │       └── olm.config.yaml
+│       │   └── webhook
+│       │       ├── kustomization.yaml
+│       │       ├── kustomizeconfig.yaml
+│       │       ├── manifests.yaml
+│       │       └── service.yaml
+│       ├── controllers
+│       │   ├── database
+│       │   │   ├── autonomouscontainerdatabase_controller.go
+│       │   │   ├── autonomousdatabase_controller.go
+│       │   │   ├── autonomousdatabasebackup_controller.go
+│       │   │   ├── autonomousdatabaserestore_controller.go
+│       │   │   ├── dbcssystem_controller.go
+│       │   │   ├── lrest_controller.go
+│       │   │   ├── lrpdb_controller.go
+│       │   │   ├── oraclerestart_controller.go
+│       │   │   ├── oraclerestdataservice_controller.go
+│       │   │   ├── ordssrvs_controller.go
+│       │   │   ├── ordssrvs_ordsconfig.go
+│       │   │   ├── racdatabase_controller.go
+│       │   │   ├── shardingdatabase_controller.go
+│       │   │   ├── singleinstancedatabase_controller.go
+│       │   │   └── suite_test.go
+│       │   ├── dataguard
+│       │   │   ├── datagauard_errors.go
+│       │   │   ├── dataguard_utils.go
+│       │   │   └── dataguardbroker_controller.go
+│       │   ├── observability
+│       │   │   ├── databaseobserver_controller.go
+│       │   │   ├── databaseobserver_resource.go
+│       │   │   └── suite_test.go
+│       │   └── privateai
+│       │       ├── privateai_controller.go
+│       │       ├── privateai_controller_test.go
+│       │       └── suite_test.go
+│       ├── docs
+│       │   ├── adb
+│       │   │   ├── ACD.md
+│       │   │   ├── ADB_LONG_TERM_BACKUP.md
+│       │   │   ├── ADB_PREREQUISITES.md
+│       │   │   ├── ADB_RESTORE.md
+│       │   │   ├── NETWORK_ACCESS_OPTIONS.md
+│       │   │   └── README.md
+│       │   ├── config
+│       │   │   └── samples
+│       │   │       └── orestart
+│       │   │           ├── custom-kubeletconfig.yaml
+│       │   │           └── custom-scc.yaml
+│       │   ├── dbcs
+│       │   │   ├── README.md
+│       │   │   ├── provisioning
+│       │   │   │   ├── backup_database_sample_output.log
+│       │   │   │   ├── backup_of_database.md
+│       │   │   │   ├── backup_of_database.yaml
+│       │   │   │   ├── bind_to_existing_dbcs_system.md
+│       │   │   │   ├── bind_to_existing_dbcs_system.yaml
+│       │   │   │   ├── bind_to_existing_dbcs_system_sample_output.log
+│       │   │   │   ├── clone_dbcs_system.yaml
+│       │   │   │   ├── clone_dbcs_system_from_backup.yaml
+│       │   │   │   ├── clone_dbcs_system_from_backup_sample_output.log
+│       │   │   │   ├── clone_dbcs_system_from_database.yaml
+│       │   │   │   ├── clone_dbcs_system_from_database_sample_output.log
+│       │   │   │   ├── clone_dbcs_system_sample_output.log
+│       │   │   │   ├── clone_from_backup_dbcs.md
+│       │   │   │   ├── clone_from_database.md
+│       │   │   │   ├── clone_from_existing_dbcs.md
+│       │   │   │   ├── create_dbcs_with_kms.md
+│       │   │   │   ├── create_dbcs_with_pdb.md
+│       │   │   │   ├── create_kms.md
+│       │   │   │   ├── create_pdb.md
+│       │   │   │   ├── create_pdb_to_existing_dbcs_system.md
+│       │   │   │   ├── createkms_in_existing_dbcs_system_sample_output.log
+│       │   │   │   ├── createpdb_in_existing_dbcs_system_list.yaml
+│       │   │   │   ├── createpdb_in_existing_dbcs_system_list_sample_output.log
+│       │   │   │   ├── database_connection.md
+│       │   │   │   ├── dataguard_in_database.yaml
+│       │   │   │   ├── dataguard_in_database_sample_output.log
+│       │   │   │   ├── dataguard_to_database.md
+│       │   │   │   ├── dbcs_controller_parameters.md
+│       │   │   │   ├── dbcs_service_migrate_to_kms.log
+│       │   │   │   ├── dbcs_service_migrate_to_kms.yaml
+│       │   │   │   ├── dbcs_service_with_2_node_rac.md
+│       │   │   │   ├── dbcs_service_with_2_node_rac.yaml
+│       │   │   │   ├── dbcs_service_with_2_node_rac_sample_output.log
+│       │   │   │   ├── dbcs_service_with_all_parameters_asm.md
+│       │   │   │   ├── dbcs_service_with_all_parameters_asm.yaml
+│       │   │   │   ├── dbcs_service_with_all_parameters_asm_sample_output.log
+│       │   │   │   ├── dbcs_service_with_all_parameters_lvm.md
+│       │   │   │   ├── dbcs_service_with_all_parameters_lvm.yaml
+│       │   │   │   ├── dbcs_service_with_all_parameters_lvm_sample_output.log
+│       │   │   │   ├── dbcs_service_with_kms.yaml
+│       │   │   │   ├── dbcs_service_with_kms_sample_output.log
+│       │   │   │   ├── dbcs_service_with_minimal_parameters.md
+│       │   │   │   ├── dbcs_service_with_minimal_parameters.yaml
+│       │   │   │   ├── dbcs_service_with_minimal_parameters_sample_output.log
+│       │   │   │   ├── dbcs_service_with_pdb.yaml
+│       │   │   │   ├── dbcs_service_with_pdb_sample_output.log
+│       │   │   │   ├── delete_pdb.md
+│       │   │   │   ├── deletepdb_in_existing_dbcs_system_list.yaml
+│       │   │   │   ├── deletepdb_in_existing_dbcs_system_list_sample_output.log
+│       │   │   │   ├── disable_dataguard_in_database.yaml
+│       │   │   │   ├── disable_dataguard_in_database_sample_output.log
+│       │   │   │   ├── disable_dataguard_to_database.md
+│       │   │   │   ├── disabled_dataguard_to_database.md
+│       │   │   │   ├── known_issues.md
+│       │   │   │   ├── migrate_to_kms.md
+│       │   │   │   ├── patch_dbcs_system.yaml
+│       │   │   │   ├── patch_dbcs_system_sample_output.log
+│       │   │   │   ├── patching_database.md
+│       │   │   │   ├── restore_database_sample_output.log
+│       │   │   │   ├── restore_of_database.md
+│       │   │   │   ├── restore_of_database.yaml
+│       │   │   │   ├── scale_down_dbcs_system_shape.md
+│       │   │   │   ├── scale_down_dbcs_system_shape.yaml
+│       │   │   │   ├── scale_down_dbcs_system_shape_sample_output.log
+│       │   │   │   ├── scale_up_dbcs_system_shape.md
+│       │   │   │   ├── scale_up_dbcs_system_shape.yaml
+│       │   │   │   ├── scale_up_dbcs_system_shape_sample_output.log
+│       │   │   │   ├── scale_up_storage.md
+│       │   │   │   ├── scale_up_storage.yaml
+│       │   │   │   ├── scale_up_storage_sample_output.log
+│       │   │   │   ├── terminate_dbcs_system.md
+│       │   │   │   ├── terminate_dbcs_system.yaml
+│       │   │   │   ├── terminate_dbcs_system_sample_output.log
+│       │   │   │   ├── update_license.md
+│       │   │   │   ├── update_license.yaml
+│       │   │   │   ├── update_license_sample_output.log
+│       │   │   │   ├── upgrade_dbcs_system.yaml
+│       │   │   │   ├── upgrade_dbcs_system_sample_output.log
+│       │   │   │   └── upgrading_database.md
+│       │   │   └── usecase01
+│       │   │       └── README.md
+│       │   ├── installation
+│       │   │   └── OPERATOR_INSTALLATION_README.md
+│       │   ├── multitenant
+│       │   │   ├── README.md
+│       │   │   ├── images
+│       │   │   │   ├── Generalschema2.jpg
+│       │   │   │   ├── KubectlGetSchema.jpg
+│       │   │   │   ├── KubectlGetSchema2.jpg
+│       │   │   │   ├── old_testcase_wf.jpg
+│       │   │   │   ├── plsqlmap.jpg
+│       │   │   │   ├── plsqlmap.png
+│       │   │   │   └── usecaseschema.jpg
+│       │   │   └── usecase
+│       │   │       ├── README.md
+│       │   │       ├── altersystem_pdb1_resource.yaml
+│       │   │       ├── cdbnamespace_binding.yaml
+│       │   │       ├── clone_pdb1_resource.yaml
+│       │   │       ├── clone_pdb2_resource.yaml
+│       │   │       ├── close_pdb1_resource.yaml
+│       │   │       ├── close_pdb2_resource.yaml
+│       │   │       ├── close_pdb3_resource.yaml
+│       │   │       ├── config_map_pdb.yaml
+│       │   │       ├── config_map_plsql.yaml
+│       │   │       ├── create_lrest_pod.yaml
+│       │   │       ├── create_pdb1_resource.yaml
+│       │   │       ├── create_pdb2_resource.yaml
+│       │   │       ├── delete_pdb1_resource.yaml
+│       │   │       ├── delete_pdb2_resource.yaml
+│       │   │       ├── delete_pdb3_resource.yaml
+│       │   │       ├── makefile
+│       │   │       ├── map_pdb1_resource.yaml
+│       │   │       ├── map_pdb2_resource.yaml
+│       │   │       ├── map_pdb3_resource.yaml
+│       │   │       ├── node_rbac.yaml
+│       │   │       ├── open_pdb1_resource.yaml
+│       │   │       ├── open_pdb2_resource.yaml
+│       │   │       ├── open_pdb3_resource.yaml
+│       │   │       ├── parameters.txt
+│       │   │       ├── pdbnamespace_binding.yaml
+│       │   │       ├── plug_pdb1_resource.yaml
+│       │   │       ├── security_context.yaml
+│       │   │       └── unplug_pdb1_resource.yaml
+│       │   ├── observability
+│       │   │   └── README.md
+│       │   ├── oraclerestart
+│       │   │   ├── README.md
+│       │   │   └── provisioning
+│       │   │       ├── add_asm_disk_to_an_existing_restart_database.md
+│       │   │       ├── asm_addition_autoupdate_false.txt
+│       │   │       ├── asm_addition_autoupdate_true.txt
+│       │   │       ├── asm_disk_deletion.txt
+│       │   │       ├── asm_disk_deletion1.txt
+│       │   │       ├── change_memory_cpu_for_oracle_restart_db.md
+│       │   │       ├── change_sw_storage_size_for_oracle_restart_db.md
+│       │   │       ├── cleanup.md
+│       │   │       ├── create_kubernetes_secret_for_db_user.md
+│       │   │       ├── create_kubernetes_secret_for_ssh_setup.md
+│       │   │       ├── database_connection.md
+│       │   │       ├── debugging.md
+│       │   │       ├── delete_asm_disks_from_an_existing_restart_database.md
+│       │   │       ├── known_issues.md
+│       │   │       ├── nfs_pv_stage_vol.yaml
+│       │   │       ├── oraclerestart_prov.yaml
+│       │   │       ├── oraclerestart_prov_contexts.yaml
+│       │   │       ├── oraclerestart_prov_hugepages.yaml
+│       │   │       ├── oraclerestart_prov_loadbalancer.yaml
+│       │   │       ├── oraclerestart_prov_multiple_diskgroups.txt
+│       │   │       ├── oraclerestart_prov_multiple_diskgroups.yaml
+│       │   │       ├── oraclerestart_prov_multiple_diskgroups_with_redundancy.txt
+│       │   │       ├── oraclerestart_prov_multiple_diskgroups_with_redundancy.yaml
+│       │   │       ├── oraclerestart_prov_multiple_diskgroups_with_redundancy_with_separate_storage_class.md
+│       │   │       ├── oraclerestart_prov_multiple_diskgroups_with_redundancy_with_separate_storage_class.txt
+│       │   │       ├── oraclerestart_prov_multiple_diskgroups_with_redundancy_with_separate_storage_class.yaml
+│       │   │       ├── oraclerestart_prov_nodeports.yaml
+│       │   │       ├── oraclerestart_prov_nodeports_mcpu_change.txt
+│       │   │       ├── oraclerestart_prov_nodeports_mcpu_change.yaml
+│       │   │       ├── oraclerestart_prov_rupatch.yaml
+│       │   │       ├── oraclerestart_prov_rupatch_oneoff_storageclass.yaml
+│       │   │       ├── oraclerestart_prov_rupatch_pvc.yaml
+│       │   │       ├── oraclerestart_prov_storage_class.yaml
+│       │   │       ├── oraclerestart_prov_storage_class_after_sw_home_resize.yaml
+│       │   │       ├── oraclerestart_prov_storage_class_before_sw_home_resize.yaml
+│       │   │       ├── orestart_db_rupatch_oneoffs_object.txt
+│       │   │       ├── orestart_hugepages_object.txt
+│       │   │       ├── orestart_loadbalancer_object.txt
+│       │   │       ├── orestart_nodeport_object.txt
+│       │   │       ├── orestart_object.txt
+│       │   │       ├── orestart_prov_asm_disk_addition.yaml
+│       │   │       ├── orestart_prov_asm_disk_addition_autoupdate_false.yaml
+│       │   │       ├── orestart_prov_asm_disk_deletion.yaml
+│       │   │       ├── orestart_rupatch_object.txt
+│       │   │       ├── orestart_rupatch_pvc_object.txt
+│       │   │       ├── orestart_storage_class_object.txt
+│       │   │       ├── orestart_storage_class_object_after_sw_home_resize.txt
+│       │   │       ├── orestart_storage_class_object_before_sw_home_resize.txt
+│       │   │       ├── prerequisites_oracle_restart_db.md
+│       │   │       ├── provisioning_oracle_restart_db.md
+│       │   │       ├── provisioning_oracle_restart_db_loadbalancer.md
+│       │   │       ├── provisioning_oracle_restart_db_nodeport.md
+│       │   │       ├── provisioning_oracle_restart_db_rupatch.md
+│       │   │       ├── provisioning_oracle_restart_db_rupatch_oneoffs.md
+│       │   │       ├── provisioning_oracle_restart_db_securitycontexts.md
+│       │   │       ├── provisioning_oracle_restart_hugepages.md
+│       │   │       ├── provisioning_oracle_restart_multiple_diskgroups.md
+│       │   │       ├── provisioning_oracle_restart_multiple_diskgroups_with_redundancy.md
+│       │   │       ├── provisioning_oracle_restart_rupatch_pvc.md
+│       │   │       └── provisioning_oracle_restart_storage_class.md
+│       │   ├── ordsservices
+│       │   │   ├── README.md
+│       │   │   ├── TROUBLESHOOTING.md
+│       │   │   ├── api.md
+│       │   │   ├── autoupgrade.md
+│       │   │   ├── examples
+│       │   │   │   ├── adb.md
+│       │   │   │   ├── adb_oraoper.md
+│       │   │   │   ├── cc_zip_wallets.md
+│       │   │   │   ├── central_configuration.md
+│       │   │   │   ├── existing_db.md
+│       │   │   │   ├── mongo_api.md
+│       │   │   │   ├── multi_pool.md
+│       │   │   │   ├── ordsnamespace-role-binding.yaml
+│       │   │   │   ├── ordssrvs-sa-scc.yaml
+│       │   │   │   ├── ordssrvs-sa.yaml
+│       │   │   │   ├── ordssrvs.yaml
+│       │   │   │   ├── sidb_container.md
+│       │   │   │   └── tnsnames.md
+│       │   │   └── usecase01
+│       │   │       ├── create_mong_schema.sql
+│       │   │       ├── help
+│       │   │       ├── makefile
+│       │   │       └── tnsadmin
+│       │   │           ├── tnsnames.ora
+│       │   │           └── tnsnames.ora.offline
+│       │   ├── privateai
+│       │   │   ├── README.md
+│       │   │   ├── access_privateai.md
+│       │   │   ├── change_privateai_container_image.md
+│       │   │   ├── change_privateai_publiclb_mem_cpu_limit.md
+│       │   │   ├── configmap_multi_model_filesystem.md
+│       │   │   ├── configmap_multi_model_https.md
+│       │   │   ├── configmap_single_model_https.md
+│       │   │   ├── create_oci_fss_based_pvc.md
+│       │   │   ├── debug_privateai.md
+│       │   │   ├── deploy_privateai_internallb.md
+│       │   │   ├── deploy_privateai_multi_model_filesystem_internallb.md
+│       │   │   ├── deploy_privateai_multi_model_https_internallb.md
+│       │   │   ├── deploy_privateai_multi_model_https_internallb_add_model.md
+│       │   │   ├── deploy_privateai_multi_model_https_internallb_remove_model.md
+│       │   │   ├── deploy_privateai_publiclb.md
+│       │   │   ├── deploy_privateai_publiclb_mem_cpu_limit.md
+│       │   │   ├── deploy_privateai_publiclb_multi_replica.md
+│       │   │   ├── deploy_privateai_publiclb_without_configmap.md
+│       │   │   ├── deploy_privateai_publiclb_worker_node.md
+│       │   │   ├── provisioning
+│       │   │   │   ├── StorageClass.yaml
+│       │   │   │   ├── multi_model_filesystem_config.json
+│       │   │   │   ├── multi_model_https_config.json
+│       │   │   │   ├── oke-pv.yaml
+│       │   │   │   ├── oke-pvc.yaml
+│       │   │   │   ├── pai_sample_internallb.yaml
+│       │   │   │   ├── pai_sample_multi_model_filesystem_internallb.yaml
+│       │   │   │   ├── pai_sample_multi_model_https_internallb.yaml
+│       │   │   │   ├── pai_sample_publiclb.yaml
+│       │   │   │   ├── pai_sample_publiclb_mem_cpu_limit.yaml
+│       │   │   │   ├── pai_sample_publiclb_mem_cpu_limit_changed.yaml
+│       │   │   │   ├── pai_sample_publiclb_multi_replica.yaml
+│       │   │   │   ├── pai_sample_publiclb_new_container_image.yaml
+│       │   │   │   ├── pai_sample_publiclb_no_configmap.yaml
+│       │   │   │   ├── pai_sample_publiclb_old_container_image.yaml
+│       │   │   │   ├── pai_sample_publiclb_select_worker_node.yaml
+│       │   │   │   ├── pai_sample_scale_in.yaml
+│       │   │   │   ├── pai_sample_scale_out.yaml
+│       │   │   │   ├── pai_secret.sh
+│       │   │   │   ├── pai_secret_update_files.sh
+│       │   │   │   ├── privateai-ssl-pwd
+│       │   │   │   ├── single_model_https_config.json
+│       │   │   │   └── update_pai_secret_command.sh
+│       │   │   ├── scale_in_privateai.md
+│       │   │   └── scale_out_privateai.md
+│       │   ├── rac
+│       │   │   ├── README.md
+│       │   │   ├── provisioning
+│       │   │   │   ├── ENVVARIABLES.md
+│       │   │   │   ├── QUICKSTART.md
+│       │   │   │   ├── add_asm_disk_to_an_existing_rac_database.md
+│       │   │   │   ├── create_kubernetes_secret_for_db_user.md
+│       │   │   │   ├── create_kubernetes_secret_for_ssh_setup.md
+│       │   │   │   ├── database_connection.md
+│       │   │   │   ├── debugging.md
+│       │   │   │   ├── delete_asm_disks_from_an_existing_rac_database.md
+│       │   │   │   ├── known_issues.md
+│       │   │   │   ├── logs
+│       │   │   │   │   ├── rac_prov_asm_disk_addition
+│       │   │   │   │   │   ├── asm_disk_addition_autoupdate_false.txt
+│       │   │   │   │   │   ├── asm_disk_addition_autoupdate_true.txt
+│       │   │   │   │   │   ├── operator_logs_autoupdate_false.txt
+│       │   │   │   │   │   └── operator_logs_autoupdate_true.txt
+│       │   │   │   │   ├── rac_prov_asm_disk_deletion
+│       │   │   │   │   │   ├── asm_disk_deletion_disk_in_use.txt
+│       │   │   │   │   │   ├── asm_disk_deletion_disk_not_in_use.txt
+│       │   │   │   │   │   ├── operator_logs_disk_in_use.txt
+│       │   │   │   │   │   └── operator_logs_disk_not_in_use.txt
+│       │   │   │   │   ├── racdb_prov
+│       │   │   │   │   │   ├── operator_logs.txt
+│       │   │   │   │   │   └── racdbprov-sample_details.txt
+│       │   │   │   │   ├── racdb_prov_contxts
+│       │   │   │   │   │   ├── operator_logs.txt
+│       │   │   │   │   │   └── racdbprov-sample_details.txt
+│       │   │   │   │   ├── racdb_prov_diff_dg
+│       │   │   │   │   │   ├── operator_logs.txt
+│       │   │   │   │   │   └── racdbprov-sample_details.txt
+│       │   │   │   │   ├── racdb_prov_diff_dg_diff_redundancy
+│       │   │   │   │   │   ├── operator_logs.txt
+│       │   │   │   │   │   └── racdbprov-sample_details.txt
+│       │   │   │   │   ├── racdb_prov_hugepages
+│       │   │   │   │   │   ├── operator_logs.txt
+│       │   │   │   │   │   └── racdbprov-sample_details.txt
+│       │   │   │   │   ├── racdb_prov_memory_cpu
+│       │   │   │   │   │   ├── operator_logs.txt
+│       │   │   │   │   │   └── racdbprov-sample_details.txt
+│       │   │   │   │   ├── racdb_prov_np
+│       │   │   │   │   │   ├── operator_logs.txt
+│       │   │   │   │   │   └── racdbprov-sample_details.txt
+│       │   │   │   │   ├── racdb_prov_rupatch
+│       │   │   │   │   │   ├── operator_logs.txt
+│       │   │   │   │   │   └── racdbprov-sample_details.txt
+│       │   │   │   │   ├── racdb_prov_rupatch_oneoffs
+│       │   │   │   │   │   ├── operator_logs.txt
+│       │   │   │   │   │   └── racdbprov-sample_details.txt
+│       │   │   │   │   ├── racdb_prov_scale_in
+│       │   │   │   │   │   ├── racdbprov-sample_details_scale_in.txt
+│       │   │   │   │   │   └── scale_in_operator_logs.txt
+│       │   │   │   │   ├── racdb_prov_scale_out
+│       │   │   │   │   │   ├── operator_logs_scale_out.txt
+│       │   │   │   │   │   └── racdbprov-sample_details_scale_out.txt
+│       │   │   │   │   └── racdb_prov_using_rspfile
+│       │   │   │   │       ├── operator_logs.txt
+│       │   │   │   │       └── racdbprov-sample_details.txt
+│       │   │   │   ├── multus-rac-conf.yaml
+│       │   │   │   ├── prerequisites_oracle_rac_db.md
+│       │   │   │   ├── provisioning_oracle_rac_database_different_redundancy.md
+│       │   │   │   ├── provisioning_oracle_rac_database_using_diff_dg.md
+│       │   │   │   ├── provisioning_oracle_rac_db.md
+│       │   │   │   ├── provisioning_oracle_rac_db_contexts.md
+│       │   │   │   ├── provisioning_oracle_rac_db_hugepages.md
+│       │   │   │   ├── provisioning_oracle_rac_db_rupatch.md
+│       │   │   │   ├── provisioning_oracle_rac_db_rupatch_oneoff.md
+│       │   │   │   ├── provisioning_oracle_rac_db_using_response_file.md
+│       │   │   │   ├── provisioning_oracle_rac_db_with_node_port.md
+│       │   │   │   ├── provisioning_with_control_on_resources.md
+│       │   │   │   ├── rac_prov_asm_disk_addition_autoupdate_false.yaml
+│       │   │   │   ├── rac_prov_asm_disk_addition_autoupdate_true.yaml
+│       │   │   │   ├── rac_prov_asm_disk_deletion.yaml
+│       │   │   │   ├── racdb_prov.yaml
+│       │   │   │   ├── racdb_prov_3_node.yaml
+│       │   │   │   ├── racdb_prov_contxts.yaml
+│       │   │   │   ├── racdb_prov_diff_dg_for_db_and_crs.yaml
+│       │   │   │   ├── racdb_prov_diff_dg_for_db_and_crs_with_diff_redundancy.yaml
+│       │   │   │   ├── racdb_prov_hugepages.yaml
+│       │   │   │   ├── racdb_prov_memory_cpu.yaml
+│       │   │   │   ├── racdb_prov_np.yaml
+│       │   │   │   ├── racdb_prov_quickstart.yaml
+│       │   │   │   ├── racdb_prov_rupatch.yaml
+│       │   │   │   ├── racdb_prov_rupatch_and_oneoff.yaml
+│       │   │   │   ├── racdb_prov_scale_in.yaml
+│       │   │   │   ├── racdb_prov_scale_out.yaml
+│       │   │   │   ├── racdb_prov_using_rspfile.yaml
+│       │   │   │   ├── responsefile
+│       │   │   │   │   ├── dbca.rsp
+│       │   │   │   │   └── gi.rsp
+│       │   │   │   ├── scale_in_delete_an_existing_rac_database_instance.md
+│       │   │   │   └── scale_out_an_existing_rac_database.md
+│       │   │   └── rbac
+│       │   │       ├── multus-rbac.yaml
+│       │   │       └── pv-rbac.yaml
+│       │   ├── sharding
+│       │   │   ├── README.md
+│       │   │   └── provisioning
+│       │   │       ├── container_reg_secret.md
+│       │   │       ├── create_kubernetes_secret_for_db_user.md
+│       │   │       ├── database_connection.md
+│       │   │       ├── debugging
+│       │   │       │   ├── sharding_provisioning_with_db_events.md
+│       │   │       │   └── sharding_provisioning_with_db_events.yaml
+│       │   │       ├── debugging.md
+│       │   │       ├── free
+│       │   │       │   ├── sharding_provisioning_with_free_images.md
+│       │   │       │   └── sharding_provisioning_with_free_images.yaml
+│       │   │       ├── oraclesi.yaml
+│       │   │       ├── oraclesi_pvc_commented.yaml
+│       │   │       ├── provisioning_persistent_volume_having_db_gold_image.md
+│       │   │       ├── snr_system_sharding
+│       │   │       │   ├── snr_ssharding_provisioning_by_cloning_db_from_gold_image_across_ads.md
+│       │   │       │   ├── snr_ssharding_provisioning_by_cloning_db_gold_image_in_same_ad.md
+│       │   │       │   ├── snr_ssharding_provisioning_with_chunks_specified.md
+│       │   │       │   ├── snr_ssharding_provisioning_with_control_on_resources.md
+│       │   │       │   ├── snr_ssharding_provisioning_with_notification_using_oci_notification.md
+│       │   │       │   ├── snr_ssharding_provisioning_without_db_gold_image.md
+│       │   │       │   ├── snr_ssharding_scale_in_delete_an_existing_shard.md
+│       │   │       │   ├── snr_ssharding_scale_out_add_shards.md
+│       │   │       │   ├── snr_ssharding_shard_prov.yaml
+│       │   │       │   ├── snr_ssharding_shard_prov_add_shard.yaml
+│       │   │       │   ├── snr_ssharding_shard_prov_chunks.yaml
+│       │   │       │   ├── snr_ssharding_shard_prov_clone.yaml
+│       │   │       │   ├── snr_ssharding_shard_prov_clone_across_ads.yaml
+│       │   │       │   ├── snr_ssharding_shard_prov_delshard.yaml
+│       │   │       │   ├── snr_ssharding_shard_prov_extshard.yaml
+│       │   │       │   ├── snr_ssharding_shard_prov_memory_cpu.yaml
+│       │   │       │   └── snr_ssharding_shard_prov_send_notification.yaml
+│       │   │       ├── system_sharding
+│       │   │       │   ├── ssharding_provisioning_by_cloning_db_from_gold_image_across_ads.md
+│       │   │       │   ├── ssharding_provisioning_by_cloning_db_gold_image_in_same_ad.md
+│       │   │       │   ├── ssharding_provisioning_with_chunks_specified.md
+│       │   │       │   ├── ssharding_provisioning_with_control_on_resources.md
+│       │   │       │   ├── ssharding_provisioning_with_notification_using_oci_notification.md
+│       │   │       │   ├── ssharding_provisioning_without_db_gold_image.md
+│       │   │       │   ├── ssharding_scale_in_delete_an_existing_shard.md
+│       │   │       │   ├── ssharding_scale_out_add_shards.md
+│       │   │       │   ├── ssharding_shard_prov.yaml
+│       │   │       │   ├── ssharding_shard_prov_chunks.yaml
+│       │   │       │   ├── ssharding_shard_prov_clone.yaml
+│       │   │       │   ├── ssharding_shard_prov_clone_across_ads.yaml
+│       │   │       │   ├── ssharding_shard_prov_delshard.yaml
+│       │   │       │   ├── ssharding_shard_prov_extshard.yaml
+│       │   │       │   ├── ssharding_shard_prov_memory_cpu.yaml
+│       │   │       │   └── ssharding_shard_prov_send_notification.yaml
+│       │   │       └── user-defined-sharding
+│       │   │           ├── udsharding_provisioning_by_cloning_db_from_gold_image_across_ads.md
+│       │   │           ├── udsharding_provisioning_by_cloning_db_gold_image_in_same_ad.md
+│       │   │           ├── udsharding_provisioning_with_control_on_resources.md
+│       │   │           ├── udsharding_provisioning_with_notification_using_oci_notification.md
+│       │   │           ├── udsharding_provisioning_without_db_gold_image.md
+│       │   │           ├── udsharding_scale_in_delete_an_existing_shard.md
+│       │   │           ├── udsharding_scale_out_add_shards.md
+│       │   │           ├── udsharding_shard_prov.yaml
+│       │   │           ├── udsharding_shard_prov_clone.yaml
+│       │   │           ├── udsharding_shard_prov_clone_across_ads.yaml
+│       │   │           ├── udsharding_shard_prov_delshard.yaml
+│       │   │           ├── udsharding_shard_prov_extshard.yaml
+│       │   │           ├── udsharding_shard_prov_memory_cpu.yaml
+│       │   │           └── udsharding_shard_prov_send_notification.yaml
+│       │   └── sidb
+│       │       ├── PREREQUISITES.md
+│       │       └── README.md
+│       ├── go.mod
+│       ├── go.sum
+│       ├── hack
+│       │   └── boilerplate.go.txt
+│       ├── image.png
+│       ├── images
+│       │   ├── adb
+│       │   │   ├── acd-id-1.png
+│       │   │   ├── acd-id-2.png
+│       │   │   ├── adb-id-1.png
+│       │   │   ├── adb-id-2.png
+│       │   │   ├── aei-id-1.png
+│       │   │   ├── aei-id-2.png
+│       │   │   ├── compartment-1.png
+│       │   │   ├── compartment-2.png
+│       │   │   ├── instance-principal-1.png
+│       │   │   ├── instance-principal-2.png
+│       │   │   ├── instance-principal-3.png
+│       │   │   ├── instance-principal-4.png
+│       │   │   └── instance-principal-5.png
+│       │   └── sidb
+│       │       ├── application-express-admin-home.png
+│       │       └── database-actions-home.png
+│       ├── issues.svg
+│       ├── lastcommit.svg
+│       ├── main.go
+│       ├── oracle-database-operator.yaml
+│       ├── oracledatabaseforcontainersandkubernetes.svg
+│       ├── oracledatabaseoperator.svg
+│       ├── ordssrvs
+│       │   ├── RSADecryptOAEP.java
+│       │   ├── ords_init.sh
+│       │   └── ords_start.sh
+│       ├── pullrequest.svg
+│       ├── rbac
+│       │   ├── cluster-role-binding.yaml
+│       │   ├── default-ns-role-binding.yaml
+│       │   ├── node-rbac.yaml
+│       │   ├── persistent-volume-rbac.yaml
+│       │   └── storage-class-rbac.yaml
+│       ├── set_ocicredentials.sh
+│       └── test
+│           └── e2e
+│               ├── autonomouscontainerdatabase_test.go
+│               ├── autonomousdatabase_controller_bind_test.go
+│               ├── autonomousdatabase_controller_create_test.go
+│               ├── backup.sql
+│               ├── behavior
+│               │   └── shared_behaviors.go
+│               ├── resource
+│               │   └── test_config.yaml
+│               ├── suite_test.go
+│               ├── util
+│               │   ├── oci_acd_request.go
+│               │   ├── oci_config_util.go
+│               │   ├── oci_db_request.go
+│               │   ├── oci_work_request.go
+│               │   └── util.go
+│               └── verify_connection.sql
+└── workload
+
+134 directories, 827 files
