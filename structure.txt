@@ -2,17 +2,47 @@
 ├── README.md
 ├── docs
 │   └── research-outline.docx
+├── evidence
+│   ├── step-10-customer-id-summary.md
+│   ├── step-10e-local-distribution.txt
+│   ├── step-11c-account-id-schema-verification.txt
+│   ├── step-11e-account-id-distribution.txt
+│   ├── step-12-design-comparison.md
+│   ├── step-12b-customer-id-comparison-locality.txt
+│   ├── step-13f-python-direct-routing.txt
+│   ├── step-13g-routed-dml-rollback-bank-cust.txt
+│   ├── step-13h-customer-id-data-partitioning.txt
+│   ├── step-13h-customer-id-partition-summary.json
+│   └── step-13i-customer-id-direct-load.txt
 ├── k8s
 │   └── oracle-gdd-two-shards.yaml
 ├── notes
 │   └── environment.md
 ├── results
 │   ├── account-id
+│   ├── baseline
+│   │   └── deployment-validation.txt
+│   ├── benchmark-load
+│   │   ├── 20260728T060543Z-bank_cust
+│   │   │   ├── customers-result.txt
+│   │   │   ├── customers-sqlldr-output.txt
+│   │   │   └── pre-load-counts.txt
+│   │   └── 20260728T064510Z-bank-cust-direct
+│   │       ├── pre-load-counts.txt
+│   │       ├── shard1-customers-output.txt
+│   │       └── shard1-customers-result.txt
 │   └── customer-id
 ├── scripts
 ├── sql
 │   ├── data
 │   ├── schema
+│   │   ├── account-id
+│   │   │   ├── 02-create-schema.sql
+│   │   │   └── 03-seed-data.sql
+│   │   └── customer-id
+│   │       ├── 02-create-schema.sql
+│   │       ├── 03-seed-data.sql
+│   │       └── 04-comparison-data.sql
 │   └── tests
 ├── structure.txt
 ├── vendor
@@ -959,5 +989,26 @@
 │               │   └── util.go
 │               └── verify_connection.sql
 └── workload
+    ├── __pycache__
+    │   ├── partition_customer_id_data.cpython-314.pyc
+    │   ├── test_direct_routing.cpython-314.pyc
+    │   └── test_routed_dml.cpython-314.pyc
+    ├── benchmark_data.py
+    ├── generated
+    │   └── benchmark-10k
+    │       ├── accounts.csv
+    │       ├── customers.csv
+    │       ├── ledger_entries.csv
+    │       └── summary.json
+    ├── load_benchmark.sh
+    ├── load_benchmark.sh.bak
+    ├── load_partitioned_customer_id.sh
+    ├── partition_customer_id_data.py
+    ├── sqlldr
+    │   ├── accounts.ctl
+    │   ├── customers.ctl
+    │   └── ledger_entries.ctl
+    ├── test_direct_routing.py
+    └── test_routed_dml.py
 
-134 directories, 827 files
+145 directories, 867 files

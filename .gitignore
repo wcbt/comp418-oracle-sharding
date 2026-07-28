@@ -23,3 +23,6 @@ Thumbs.db
 
 # Oracle operator source
 vendor/oracle-database-operator/
+__pycache__/
+*.py[cod]
+*.bak

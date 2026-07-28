@@ -1,0 +1,6 @@
+shard1|customers|0
+shard1|accounts|0
+shard1|ledger_entries|0
+shard2|customers|0
+shard2|accounts|0
+shard2|ledger_entries|0

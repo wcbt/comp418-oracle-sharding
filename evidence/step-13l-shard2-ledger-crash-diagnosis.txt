@@ -1,0 +1,25 @@
+=== SHARD2 LEDGER FAILURE DIAGNOSIS ===
+UTC_TIME=2026-07-28T19:15:33Z
+
+=== POD STATUS ===
+E0728 14:15:33.835950   11568 memcache.go:265] "Unhandled Error" err="couldn't get current server API group list: Get \"https://127.0.0.1:17591/api?timeout=32s\": dial tcp 127.0.0.1:17591: connect: connection refused"
+E0728 14:15:33.836115   11568 memcache.go:265] "Unhandled Error" err="couldn't get current server API group list: Get \"https://127.0.0.1:17591/api?timeout=32s\": dial tcp 127.0.0.1:17591: connect: connection refused"
+E0728 14:15:33.837619   11568 memcache.go:265] "Unhandled Error" err="couldn't get current server API group list: Get \"https://127.0.0.1:17591/api?timeout=32s\": dial tcp 127.0.0.1:17591: connect: connection refused"
+E0728 14:15:33.837756   11568 memcache.go:265] "Unhandled Error" err="couldn't get current server API group list: Get \"https://127.0.0.1:17591/api?timeout=32s\": dial tcp 127.0.0.1:17591: connect: connection refused"
+E0728 14:15:33.839014   11568 memcache.go:265] "Unhandled Error" err="couldn't get current server API group list: Get \"https://127.0.0.1:17591/api?timeout=32s\": dial tcp 127.0.0.1:17591: connect: connection refused"
+The connection to the server 127.0.0.1:17591 was refused - did you specify the right host or port?
+
+=== SHARD2 CONNECTION AND ROW COUNTS ===
+E0728 14:15:34.000457   11577 memcache.go:265] "Unhandled Error" err="couldn't get current server API group list: Get \"https://127.0.0.1:17591/api?timeout=32s\": dial tcp 127.0.0.1:17591: connect: connection refused"
+E0728 14:15:34.000647   11577 memcache.go:265] "Unhandled Error" err="couldn't get current server API group list: Get \"https://127.0.0.1:17591/api?timeout=32s\": dial tcp 127.0.0.1:17591: connect: connection refused"
+E0728 14:15:34.002139   11577 memcache.go:265] "Unhandled Error" err="couldn't get current server API group list: Get \"https://127.0.0.1:17591/api?timeout=32s\": dial tcp 127.0.0.1:17591: connect: connection refused"
+E0728 14:15:34.002297   11577 memcache.go:265] "Unhandled Error" err="couldn't get current server API group list: Get \"https://127.0.0.1:17591/api?timeout=32s\": dial tcp 127.0.0.1:17591: connect: connection refused"
+The connection to the server 127.0.0.1:17591 was refused - did you specify the right host or port?
+SHARD2_SQLPLUS_RC=1
+
+=== SHARD2 ALERT LOG ===
+E0728 14:15:34.089737   11587 memcache.go:265] "Unhandled Error" err="couldn't get current server API group list: Get \"https://127.0.0.1:17591/api?timeout=32s\": dial tcp 127.0.0.1:17591: connect: connection refused"
+E0728 14:15:34.089885   11587 memcache.go:265] "Unhandled Error" err="couldn't get current server API group list: Get \"https://127.0.0.1:17591/api?timeout=32s\": dial tcp 127.0.0.1:17591: connect: connection refused"
+E0728 14:15:34.091283   11587 memcache.go:265] "Unhandled Error" err="couldn't get current server API group list: Get \"https://127.0.0.1:17591/api?timeout=32s\": dial tcp 127.0.0.1:17591: connect: connection refused"
+E0728 14:15:34.091425   11587 memcache.go:265] "Unhandled Error" err="couldn't get current server API group list: Get \"https://127.0.0.1:17591/api?timeout=32s\": dial tcp 127.0.0.1:17591: connect: connection refused"
+The connection to the server 127.0.0.1:17591 was refused - did you specify the right host or port?

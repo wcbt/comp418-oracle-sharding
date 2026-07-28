@@ -1,0 +1,10 @@
+SQL*Loader-500: Unable to open file (/tmp/comp418-benchmark-10k/customers.ctl)
+SQL*Loader-553: file not found
+SQL*Loader-509: System error: No such file or directory
+
+SQL*Loader: Release 23.26.2.0.0 - Production on Tue Jul 28 20:12:28 2026
+Version 23.26.2.0.0
+
+Copyright (c) 1982, 2026, Oracle and/or its affiliates.  All rights reserved.
+
+command terminated with exit code 1

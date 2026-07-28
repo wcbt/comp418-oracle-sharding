@@ -1,0 +1,19 @@
+=== CUSTOMER-ID DATA PARTITIONING ===
+python_version=3.13.13
+oracledb_version=3.4.1
+database_user=BANK_CUST
+input_directory=/tmp/comp418-benchmark-10k
+output_directory=/tmp/comp418-benchmark-10k/partitioned/bank_cust
+unique_customer_ids=10000
+
+=== BUILDING CUSTOMER-TO-SHARD MAP ===
+routing_progress=1000/10000
+routing_progress=2000/10000
+routing_progress=3000/10000
+routing_progress=4000/10000
+routing_progress=5000/10000
+routing_progress=6000/10000
+routing_progress=7000/10000
+routing_progress=8000/10000
+routing_progress=9000/10000
+routing_progress=10000/10000

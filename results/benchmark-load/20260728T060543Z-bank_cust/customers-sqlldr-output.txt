@@ -1,0 +1,12 @@
+SQL*Loader-128: unable to begin a session
+ORA-01017: invalid credential or not authorized; logon denied
+Help: https://docs.oracle.com/error-help/db/ora-01017/
+
+Load completed - logical record count 0.
+
+SQL*Loader: Release 23.26.2.0.0 - Production on Tue Jul 28 06:05:44 2026
+Version 23.26.2.0.0
+
+Copyright (c) 1982, 2026, Oracle and/or its affiliates.  All rights reserved.
+
+command terminated with exit code 1

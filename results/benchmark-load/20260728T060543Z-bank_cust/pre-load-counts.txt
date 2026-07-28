@@ -1,0 +1,9 @@
+
+OBJECT_NAME	     BENCHMARK_ROWS
+-------------------- --------------
+CUSTOMERS			  0
+ACCOUNTS			  0
+LEDGER_ENTRIES			  0
+
+3 rows selected.
+

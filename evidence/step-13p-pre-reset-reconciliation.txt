@@ -1,0 +1,86 @@
+=== PRE-RESET RECONCILIATION ===
+UTC_TIME=2026-07-28T19:23:56Z
+
+=== INITIAL POD STATUS ===
+NAME        READY   PHASE     RESTARTS   STARTED
+catalog-0   true    Running   1          2026-07-28T19:18:23Z
+gsm1-0      true    Running   2          2026-07-28T19:21:49Z
+gsm2-0      true    Running   2          2026-07-28T19:22:27Z
+shard1-0    true    Running   1          2026-07-28T19:18:21Z
+shard2-0    true    Running   1          2026-07-28T19:18:23Z
+
+=== INITIAL SHARDING STATE ===
+NAME               GSM STATE   SERVICES   SHARDS
+comp418-sharding   AVAILABLE              {"shard1":"ONLINE_SHARD","shard2":"SHARD_ADDITION"}
+
+=== WAIT 90 SECONDS FOR STABILITY ===
+
+=== FINAL POD STATUS ===
+NAME        READY   PHASE     RESTARTS   STARTED
+catalog-0   true    Running   1          2026-07-28T19:18:23Z
+gsm1-0      true    Running   2          2026-07-28T19:21:49Z
+gsm2-0      true    Running   2          2026-07-28T19:22:27Z
+shard1-0    true    Running   1          2026-07-28T19:18:21Z
+shard2-0    true    Running   1          2026-07-28T19:18:23Z
+
+=== FINAL SHARDING STATE ===
+NAME               GSM STATE   SERVICES   SHARDS
+comp418-sharding   AVAILABLE              {"shard1":"ONLINE_SHARD","shard2":"SHARD_ADDITION"}
+
+=== SHARD1 BANK_CUST COUNTS ===
+USER=BANK_CUST
+CONTAINER=SHARD1PDB
+CUSTOMERS=5026
+ACCOUNTS=10046
+LEDGER_ENTRIES=50190
+SHARD1_SQLPLUS_RC=0
+
+=== SHARD2 BANK_CUST COUNTS ===
+USER=BANK_CUST
+CONTAINER=SHARD2PDB
+CUSTOMERS=4992
+ACCOUNTS=9978
+LEDGER_ENTRIES=14
+SHARD2_SQLPLUS_RC=0
+
+=== CURRENT DATABASE EVENTS ===
+7m8s        Normal    Pulling          pod/shard1-0                        Pulling image "container-registry.oracle.com/database/free:latest"
+7m8s        Normal    Pulling          pod/catalog-0                       Pulling image "container-registry.oracle.com/database/free:latest"
+7m8s        Normal    SandboxChanged   pod/gsm1-0                          Pod sandbox changed, it will be killed and re-created.
+7m8s        Normal    SandboxChanged   pod/catalog-0                       Pod sandbox changed, it will be killed and re-created.
+7m8s        Normal    SandboxChanged   pod/shard2-0                        Pod sandbox changed, it will be killed and re-created.
+7m6s        Normal    Started          pod/shard1-0                        Started container shard1
+7m6s        Normal    Created          pod/shard1-0                        Created container: shard1
+7m6s        Normal    Pulled           pod/shard1-0                        Successfully pulled image "container-registry.oracle.com/database/free:latest" in 653ms (2.083s including waiting). Image size: 3637337787 bytes.
+7m4s        Normal    Pulled           pod/shard2-0                        Successfully pulled image "container-registry.oracle.com/database/free:latest" in 595ms (3.261s including waiting). Image size: 3637337787 bytes.
+7m4s        Normal    Created          pod/shard2-0                        Created container: shard2
+7m4s        Normal    Started          pod/shard2-0                        Started container shard2
+7m4s        Normal    Pulled           pod/catalog-0                       Successfully pulled image "container-registry.oracle.com/database/free:latest" in 732ms (3.933s including waiting). Image size: 3637337787 bytes.
+7m4s        Normal    Created          pod/catalog-0                       Created container: catalog
+7m4s        Normal    Started          pod/catalog-0                       Started container catalog
+6m30s       Normal    State Change     shardingdatabase/comp418-sharding   The shard [shard1] state changed from ONLINE_SHARD to SHARD_ADDITION in Gsm
+4m10s       Warning   State Change     shardingdatabase/comp418-sharding   The shard [shard1] state changed from SHARD_ADDITION to SHARD_ONLINE_ERROR_IN_GSM in Gsm
+4m10s       Warning   State Change     shardingdatabase/comp418-sharding   The shard [shard2] state changed from ONLINE_SHARD to SHARD_ONLINE_ERROR_IN_GSM in Gsm
+4m8s        Warning   Unhealthy        pod/gsm1-0                          Liveness probe failed:
+4m8s        Normal    Killing          pod/gsm1-0                          Container gsm1 failed liveness probe, will be restarted
+3m54s       Normal    State Change     shardingdatabase/comp418-sharding   The shard [shard2] state changed from AVAILABLE to PROVISIONING
+3m38s       Normal    Pulled           pod/gsm1-0                          Container image "container-registry.oracle.com/database/gsm:23.26.1.0" already present on machine
+3m38s       Normal    Created          pod/gsm1-0                          Created container: gsm1
+3m38s       Normal    Started          pod/gsm1-0                          Started container gsm1
+3m34s       Normal    State Change     shardingdatabase/comp418-sharding   The catalog [catalog] state changed from AVAILABLE to PROVISIONING
+3m34s       Normal    State Change     shardingdatabase/comp418-sharding   The catalog [catalog] state changed from PROVISIONING to AVAILABLE
+3m30s       Warning   Unhealthy        pod/gsm2-0                          Liveness probe failed:
+3m30s       Normal    Killing          pod/gsm2-0                          Container gsm2 failed liveness probe, will be restarted
+3m3s        Normal    State Change     shardingdatabase/comp418-sharding   The shard [shard2] state changed from PROVISIONING to AVAILABLE
+3m          Normal    Started          pod/gsm2-0                          Started container gsm2
+3m          Normal    Created          pod/gsm2-0                          Created container: gsm2
+3m          Normal    Pulled           pod/gsm2-0                          Container image "container-registry.oracle.com/database/gsm:23.26.1.0" already present on machine
+2m43s       Warning   State Change     shardingdatabase/comp418-sharding   The shard [shard2] state changed from SHARD_ADDITION to SHARD_ADDITION_ERROR_IN_GSM in Gsm
+2m32s       Normal    State Change     shardingdatabase/comp418-sharding   The gsm [gsm1] state changed from PROVISIONING to AVAILABLE
+2m13s       Normal    State Change     shardingdatabase/comp418-sharding   The shard [shard1] state changed from AVAILABLE to PROVISIONING
+2m11s       Normal    State Change     shardingdatabase/comp418-sharding   The shard [shard1] state changed from PROVISIONING to AVAILABLE
+2m11s       Normal    State Change     shardingdatabase/comp418-sharding   The gsm [gsm2] state changed from AVAILABLE to PROVISIONING
+2m5s        Normal    State Change     shardingdatabase/comp418-sharding   (combined from similar events): The gsm [gsm2] state changed from PROVISIONING to AVAILABLE
+116s        Normal    State Change     shardingdatabase/comp418-sharding   (combined from similar events): The shard [shard2] state changed from ONLINE_SHARD to SHARD_ADDITION in Gsm
+116s        Normal    State Change     shardingdatabase/comp418-sharding   The shard [shard2] state changed from ONLINE_SHARD to SHARD_ADDITION in Gsm
+69s         Warning   Unhealthy        pod/gsm1-0                          Liveness probe failed: Traceback (most recent call last):...

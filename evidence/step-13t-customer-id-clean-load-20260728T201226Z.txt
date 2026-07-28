@@ -1,0 +1,68 @@
+=== CUSTOMER-ID CLEAN LOAD ===
+UTC_TIME=2026-07-28T20:12:26Z
+RUN_ID=20260728T201226Z
+
+=== SHARDING HEALTH GATE ===
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"ONLINE_SHARD","shard2":"ONLINE_SHARD"}
+SHARDING_HEALTH=PASS
+
+=== RUNNING CUSTOMER-ID LOADER ===
+========================================
+CUSTOMER-ID DIRECT SHARD LOAD
+Run ID: 20260728T201226Z
+Logs:   results/benchmark-load/20260728T201226Z-bank-cust-direct
+========================================
+
+=== PRE-LOAD COUNTS ===
+shard1|customers|0
+shard1|accounts|0
+shard1|ledger_entries|0
+shard2|customers|0
+shard2|accounts|0
+shard2|ledger_entries|0
+
+========================================
+LOADING shard1: BANK_CUST.customers
+========================================
+SQL*Loader-500: Unable to open file (/tmp/comp418-benchmark-10k/customers.ctl)
+SQL*Loader-553: file not found
+SQL*Loader-509: System error: No such file or directory
+
+SQL*Loader: Release 23.26.2.0.0 - Production on Tue Jul 28 20:12:28 2026
+Version 23.26.2.0.0
+
+Copyright (c) 1982, 2026, Oracle and/or its affiliates.  All rights reserved.
+
+command terminated with exit code 1
+
+shard1.customers exit code: 1
+shard1.customers elapsed seconds: 0
+Load failed; stopping before dependent data.
+
+CUSTOMER_ID_LOADER_RC=1
+
+=== POST-LOAD PHYSICAL COUNTS ===
+--- SHARD1 ---
+USER=BANK_CUST
+CONTAINER=SHARD1PDB
+CUSTOMERS=0
+ACCOUNTS=0
+LEDGER_ENTRIES=0
+SHARD1_VERIFY_RC=0
+
+--- SHARD2 ---
+USER=BANK_CUST
+CONTAINER=SHARD2PDB
+CUSTOMERS=0
+ACCOUNTS=0
+LEDGER_ENTRIES=0
+SHARD2_VERIFY_RC=0
+
+=== AGGREGATE COUNTS ===
+TOTAL_CUSTOMERS=0
+TOTAL_ACCOUNTS=0
+TOTAL_LEDGER_ENTRIES=0
+
+=== FINAL RESULT ===
+POST_LOAD_VERIFICATION=FAIL
+CUSTOMER_ID_DIRECT_LOAD=FAIL

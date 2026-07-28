@@ -1,0 +1,4 @@
+shard=shard1
+table=accounts
+exit_code=0
+elapsed_seconds=0

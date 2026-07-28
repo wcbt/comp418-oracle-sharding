@@ -1,0 +1,121 @@
+=== ORACLE POD RECOVERY ===
+UTC_TIME=2026-07-28T19:19:57Z
+
+=== STATEFULSETS ===
+NAME      READY   AGE   CONTAINERS   IMAGES
+catalog   1/1     17h   catalog      container-registry.oracle.com/database/free:latest
+gsm1      1/1     17h   gsm1         container-registry.oracle.com/database/gsm:23.26.1.0
+gsm2      1/1     17h   gsm2         container-registry.oracle.com/database/gsm:23.26.1.0
+shard1    1/1     17h   shard1       container-registry.oracle.com/database/free:latest
+shard2    1/1     17h   shard2       container-registry.oracle.com/database/free:latest
+
+=== PERSISTENT VOLUME CLAIMS ===
+NAME                             STATUS   VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS   VOLUMEATTRIBUTESCLASS   AGE   VOLUMEMODE
+catalog-oradata-vol4-catalog-0   Bound    pvc-3bba2787-fef3-432e-9294-17079b754eba   50Gi       RWO            standard       <unset>                 17h   Filesystem
+gsm1-oradata-vol4-gsm1-0         Bound    pvc-5044578c-c952-485e-a231-b6d109eb263a   50Gi       RWO            standard       <unset>                 17h   Filesystem
+gsm2-oradata-vol4-gsm2-0         Bound    pvc-2c3348f6-1753-40fd-a4cf-1083162e09c6   50Gi       RWO            standard       <unset>                 17h   Filesystem
+shard1-oradata-vol4-shard1-0     Bound    pvc-ead981d1-97ba-4b55-a8af-38e1e96469da   50Gi       RWO            standard       <unset>                 17h   Filesystem
+shard2-oradata-vol4-shard2-0     Bound    pvc-3f4d2d37-ec57-4cc1-b28a-3955763969f5   50Gi       RWO            standard       <unset>                 17h   Filesystem
+
+=== CURRENT POD OWNERS AND PHASES ===
+--- catalog-0 ---
+OWNER_KIND=StatefulSet
+OWNER_NAME=catalog
+PHASE=Running
+NODE=comp418
+--- shard1-0 ---
+OWNER_KIND=StatefulSet
+OWNER_NAME=shard1
+PHASE=Running
+NODE=comp418
+--- shard2-0 ---
+OWNER_KIND=StatefulSet
+OWNER_NAME=shard2
+PHASE=Running
+NODE=comp418
+
+=== DELETE ONLY STALE POD OBJECTS ===
+Skipping catalog-0: phase=Running owner=StatefulSet
+Skipping shard1-0: phase=Running owner=StatefulSet
+Skipping shard2-0: phase=Running owner=StatefulSet
+
+=== WATCH RECREATION FOR THREE MINUTES ===
+
+--- attempt 1/18 ---
+NAME        READY   STATUS    RESTARTS       AGE   IP            NODE      NOMINATED NODE   READINESS GATES
+catalog-0   1/1     Running   1 (103s ago)   17h   10.244.0.12   comp418   <none>           <none>
+gsm1-0      1/1     Running   1 (104s ago)   17h   10.244.0.11   comp418   <none>           <none>
+gsm2-0      1/1     Running   1 (103s ago)   17h   10.244.0.13   comp418   <none>           <none>
+shard1-0    1/1     Running   1 (104s ago)   17h   10.244.0.7    comp418   <none>           <none>
+shard2-0    1/1     Running   1 (104s ago)   17h   10.244.0.10   comp418   <none>           <none>
+READY_DATABASE_PODS=3/3
+DATABASE_POD_RECOVERY=PASS
+
+=== FINAL POD STATUS ===
+NAME        READY   STATUS    RESTARTS       AGE   IP            NODE      NOMINATED NODE   READINESS GATES
+catalog-0   1/1     Running   1 (104s ago)   17h   10.244.0.12   comp418   <none>           <none>
+gsm1-0      1/1     Running   1 (105s ago)   17h   10.244.0.11   comp418   <none>           <none>
+gsm2-0      1/1     Running   1 (104s ago)   17h   10.244.0.13   comp418   <none>           <none>
+shard1-0    1/1     Running   1 (105s ago)   17h   10.244.0.7    comp418   <none>           <none>
+shard2-0    1/1     Running   1 (105s ago)   17h   10.244.0.10   comp418   <none>           <none>
+
+=== RECENT EVENTS ===
+LAST SEEN   TYPE      REASON           OBJECT                              MESSAGE
+12h         Normal    State Change     shardingdatabase/comp418-sharding   The shard [shard1] state changed from SHARD_ADDITION to ONLINE_SHARD in Gsm
+12h         Warning   State Change     shardingdatabase/comp418-sharding   The shard [shard2] state changed from SHARD_ADDITION to SHARD_ADDITION_ERROR_IN_GSM in Gsm
+12h         Warning   State Change     shardingdatabase/comp418-sharding   The shard [shard2] state changed from SHARD_ADDITION to SHARD_ONLINE_ERROR_IN_GSM in Gsm
+11h         Normal    State Change     shardingdatabase/comp418-sharding   The shard [shard1] state changed from SHARD_ADDITION to ONLINE_SHARD in Gsm
+11h         Normal    State Change     shardingdatabase/comp418-sharding   The shard [shard2] state changed from SHARD_ADDITION to ONLINE_SHARD in Gsm
+11h         Normal    State Change     shardingdatabase/comp418-sharding   The shard [shard2] state changed from ONLINE_SHARD to SHARD_ADDITION in Gsm
+11h         Normal    State Change     shardingdatabase/comp418-sharding   The shard [shard2] state changed from ONLINE_SHARD to SHARD_ADDITION in Gsm
+11h         Normal    State Change     shardingdatabase/comp418-sharding   The shard [shard2] state changed from SHARD_ADDITION to ONLINE_SHARD in Gsm
+11h         Normal    State Change     shardingdatabase/comp418-sharding   The catalog [catalog] state changed from PROVISIONING to AVAILABLE
+11h         Warning   State Change     shardingdatabase/comp418-sharding   The shard [shard1] state changed from ONLINE_SHARD to SHARD_ONLINE_ERROR_IN_GSM in Gsm
+11h         Normal    State Change     shardingdatabase/comp418-sharding   The shard [shard1] state changed from SHARD_ONLINE_ERROR_IN_GSM to ONLINE_SHARD in Gsm
+11h         Normal    State Change     shardingdatabase/comp418-sharding   The catalog [catalog] state changed from PROVISIONING to AVAILABLE
+11h         Normal    State Change     shardingdatabase/comp418-sharding   The shard [shard2] state changed from SHARD_ONLINE_ERROR_IN_GSM to ONLINE_SHARD in Gsm
+11h         Normal    State Change     shardingdatabase/comp418-sharding   The catalog [catalog] state changed from AVAILABLE to PROVISIONING
+11h         Normal    State Change     shardingdatabase/comp418-sharding   The gsm [gsm1] state changed from AVAILABLE to PROVISIONING
+11h         Normal    State Change     shardingdatabase/comp418-sharding   The gsm [gsm2] state changed from PROVISIONING to AVAILABLE
+11h         Normal    State Change     shardingdatabase/comp418-sharding   The shard [shard1] state changed from PROVISIONING to AVAILABLE
+11h         Warning   State Change     shardingdatabase/comp418-sharding   The shard [shard1] state changed from SHARD_ADDITION to SHARD_ADDITION_ERROR_IN_GSM in Gsm
+11h         Normal    State Change     shardingdatabase/comp418-sharding   The shard [shard1] state changed from SHARD_ADDITION_ERROR_IN_GSM to ONLINE_SHARD in Gsm
+11h         Normal    State Change     shardingdatabase/comp418-sharding   The shard [shard2] state changed from PROVISIONING to AVAILABLE
+11h         Normal    State Change     shardingdatabase/comp418-sharding   The gsm [gsm2] state changed from AVAILABLE to PROVISIONING
+11h         Normal    State Change     shardingdatabase/comp418-sharding   The shard [shard2] state changed from AVAILABLE to PROVISIONING
+11h         Normal    State Change     shardingdatabase/comp418-sharding   The shard [shard2] state changed from AVAILABLE to PROVISIONING
+11h         Normal    State Change     shardingdatabase/comp418-sharding   The shard [shard2] state changed from PROVISIONING to AVAILABLE
+11h         Warning   State Change     shardingdatabase/comp418-sharding   The shard [shard2] state changed from ONLINE_SHARD to SHARD_ONLINE_ERROR_IN_GSM in Gsm
+11h         Normal    State Change     shardingdatabase/comp418-sharding   The shard [shard1] state changed from AVAILABLE to PROVISIONING
+11h         Normal    State Change     shardingdatabase/comp418-sharding   The gsm [gsm1] state changed from PROVISIONING to AVAILABLE
+11h         Normal    State Change     shardingdatabase/comp418-sharding   The shard [shard1] state changed from ONLINE_SHARD to SHARD_ADDITION in Gsm
+11h         Normal    State Change     shardingdatabase/comp418-sharding   The shard [shard1] state changed from ONLINE_SHARD to SHARD_ADDITION in Gsm
+11h         Normal    State Change     shardingdatabase/comp418-sharding   (combined from similar events): The shard [shard1] state changed from SHARD_ADDITION to ONLINE_SHARD in Gsm
+11h         Normal    State Change     shardingdatabase/comp418-sharding   (combined from similar events): The shard [shard1] state changed from SHARD_ADDITION to ONLINE_SHARD in Gsm
+100s        Normal    SandboxChanged   pod/shard1-0                        Pod sandbox changed, it will be killed and re-created.
+100s        Normal    Pulled           pod/gsm2-0                          Container image "container-registry.oracle.com/database/gsm:23.26.1.0" already present on machine
+100s        Normal    Pulling          pod/shard2-0                        Pulling image "container-registry.oracle.com/database/free:latest"
+100s        Normal    Pulling          pod/catalog-0                       Pulling image "container-registry.oracle.com/database/free:latest"
+100s        Normal    SandboxChanged   pod/shard2-0                        Pod sandbox changed, it will be killed and re-created.
+100s        Normal    Pulling          pod/shard1-0                        Pulling image "container-registry.oracle.com/database/free:latest"
+100s        Normal    SandboxChanged   pod/catalog-0                       Pod sandbox changed, it will be killed and re-created.
+100s        Normal    SandboxChanged   pod/gsm1-0                          Pod sandbox changed, it will be killed and re-created.
+100s        Normal    Pulled           pod/gsm1-0                          Container image "container-registry.oracle.com/database/gsm:23.26.1.0" already present on machine
+100s        Normal    Created          pod/gsm1-0                          Created container: gsm1
+100s        Normal    Started          pod/gsm1-0                          Started container gsm1
+100s        Normal    Started          pod/gsm2-0                          Started container gsm2
+100s        Normal    SandboxChanged   pod/gsm2-0                          Pod sandbox changed, it will be killed and re-created.
+100s        Normal    Created          pod/gsm2-0                          Created container: gsm2
+98s         Normal    Pulled           pod/shard1-0                        Successfully pulled image "container-registry.oracle.com/database/free:latest" in 653ms (2.083s including waiting). Image size: 3637337787 bytes.
+98s         Normal    Started          pod/shard1-0                        Started container shard1
+98s         Normal    Created          pod/shard1-0                        Created container: shard1
+96s         Normal    Pulled           pod/catalog-0                       Successfully pulled image "container-registry.oracle.com/database/free:latest" in 732ms (3.933s including waiting). Image size: 3637337787 bytes.
+96s         Normal    Started          pod/catalog-0                       Started container catalog
+96s         Normal    Created          pod/catalog-0                       Created container: catalog
+96s         Normal    Pulled           pod/shard2-0                        Successfully pulled image "container-registry.oracle.com/database/free:latest" in 595ms (3.261s including waiting). Image size: 3637337787 bytes.
+96s         Normal    Created          pod/shard2-0                        Created container: shard2
+96s         Normal    Started          pod/shard2-0                        Started container shard2
+62s         Normal    State Change     shardingdatabase/comp418-sharding   The gsm [gsm2] state changed from AVAILABLE to PROVISIONING
+62s         Normal    State Change     shardingdatabase/comp418-sharding   The shard [shard1] state changed from ONLINE_SHARD to SHARD_ADDITION in Gsm
+40s         Warning   Unhealthy        pod/gsm1-0                          Liveness probe failed:
+3s          Warning   Unhealthy        pod/gsm2-0                          Liveness probe failed:

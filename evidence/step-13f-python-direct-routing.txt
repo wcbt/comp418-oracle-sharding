@@ -1,0 +1,56 @@
+=== PYTHON DIRECT-ROUTING TEST ===
+python_version=3.13.13
+oracledb_version=3.4.1
+thick_mode=True
+oracle_client_version=(23, 26, 2, 0, 0)
+database_user=BANK_CUST
+director_service=//gsm1-0.gsm1.comp418-gdd.svc.cluster.local:1522/oltp_rw_svc.catalog.oradbcloud
+
+=== SHARD MAPPING SAMPLE ===
+customer_id|container|server_host|service|db_unique_name
+600000001|SHARD1PDB|shard1-0|primary%oltp_rw_svc.catalog.oradbcloud|catalog.oradbcloud
+600000002|SHARD1PDB|shard1-0|primary%oltp_rw_svc.catalog.oradbcloud|catalog.oradbcloud
+600000003|SHARD1PDB|shard1-0|primary%oltp_rw_svc.catalog.oradbcloud|catalog.oradbcloud
+600000004|SHARD2PDB|shard2-0|primary%oltp_rw_svc.catalog.oradbcloud|catalog.oradbcloud
+600000005|SHARD1PDB|shard1-0|primary%oltp_rw_svc.catalog.oradbcloud|catalog.oradbcloud
+600000006|SHARD2PDB|shard2-0|primary%oltp_rw_svc.catalog.oradbcloud|catalog.oradbcloud
+600000007|SHARD1PDB|shard1-0|primary%oltp_rw_svc.catalog.oradbcloud|catalog.oradbcloud
+600000008|SHARD1PDB|shard1-0|primary%oltp_rw_svc.catalog.oradbcloud|catalog.oradbcloud
+600000009|SHARD2PDB|shard2-0|primary%oltp_rw_svc.catalog.oradbcloud|catalog.oradbcloud
+600000010|SHARD1PDB|shard1-0|primary%oltp_rw_svc.catalog.oradbcloud|catalog.oradbcloud
+600000011|SHARD1PDB|shard1-0|primary%oltp_rw_svc.catalog.oradbcloud|catalog.oradbcloud
+600000012|SHARD2PDB|shard2-0|primary%oltp_rw_svc.catalog.oradbcloud|catalog.oradbcloud
+600000013|SHARD2PDB|shard2-0|primary%oltp_rw_svc.catalog.oradbcloud|catalog.oradbcloud
+600000014|SHARD2PDB|shard2-0|primary%oltp_rw_svc.catalog.oradbcloud|catalog.oradbcloud
+600000015|SHARD2PDB|shard2-0|primary%oltp_rw_svc.catalog.oradbcloud|catalog.oradbcloud
+600000016|SHARD2PDB|shard2-0|primary%oltp_rw_svc.catalog.oradbcloud|catalog.oradbcloud
+600000017|SHARD2PDB|shard2-0|primary%oltp_rw_svc.catalog.oradbcloud|catalog.oradbcloud
+600000018|SHARD1PDB|shard1-0|primary%oltp_rw_svc.catalog.oradbcloud|catalog.oradbcloud
+600000019|SHARD1PDB|shard1-0|primary%oltp_rw_svc.catalog.oradbcloud|catalog.oradbcloud
+600000020|SHARD1PDB|shard1-0|primary%oltp_rw_svc.catalog.oradbcloud|catalog.oradbcloud
+600000021|SHARD1PDB|shard1-0|primary%oltp_rw_svc.catalog.oradbcloud|catalog.oradbcloud
+600000022|SHARD2PDB|shard2-0|primary%oltp_rw_svc.catalog.oradbcloud|catalog.oradbcloud
+600000023|SHARD2PDB|shard2-0|primary%oltp_rw_svc.catalog.oradbcloud|catalog.oradbcloud
+600000024|SHARD2PDB|shard2-0|primary%oltp_rw_svc.catalog.oradbcloud|catalog.oradbcloud
+600000025|SHARD2PDB|shard2-0|primary%oltp_rw_svc.catalog.oradbcloud|catalog.oradbcloud
+600000026|SHARD1PDB|shard1-0|primary%oltp_rw_svc.catalog.oradbcloud|catalog.oradbcloud
+600000027|SHARD2PDB|shard2-0|primary%oltp_rw_svc.catalog.oradbcloud|catalog.oradbcloud
+600000028|SHARD1PDB|shard1-0|primary%oltp_rw_svc.catalog.oradbcloud|catalog.oradbcloud
+600000029|SHARD1PDB|shard1-0|primary%oltp_rw_svc.catalog.oradbcloud|catalog.oradbcloud
+600000030|SHARD2PDB|shard2-0|primary%oltp_rw_svc.catalog.oradbcloud|catalog.oradbcloud
+600000031|SHARD2PDB|shard2-0|primary%oltp_rw_svc.catalog.oradbcloud|catalog.oradbcloud
+600000032|SHARD1PDB|shard1-0|primary%oltp_rw_svc.catalog.oradbcloud|catalog.oradbcloud
+
+=== OBSERVED CONTAINERS ===
+SHARD1PDB: representative_customer_id=600000001, server_host=shard1-0
+SHARD2PDB: representative_customer_id=600000004, server_host=shard2-0
+
+=== DETERMINISM CHECK ===
+customer_id=600000001, attempt=1, container=SHARD1PDB, server_host=shard1-0
+customer_id=600000001, attempt=2, container=SHARD1PDB, server_host=shard1-0
+customer_id=600000001, attempt=3, container=SHARD1PDB, server_host=shard1-0
+customer_id=600000004, attempt=1, container=SHARD2PDB, server_host=shard2-0
+customer_id=600000004, attempt=2, container=SHARD2PDB, server_host=shard2-0
+customer_id=600000004, attempt=3, container=SHARD2PDB, server_host=shard2-0
+
+DIRECT_ROUTING_TEST=PASS

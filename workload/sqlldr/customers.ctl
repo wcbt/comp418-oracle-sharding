@@ -1,0 +1,22 @@
+OPTIONS
+(
+    SKIP=1,
+    ERRORS=0,
+    ROWS=5000,
+    READSIZE=1048576,
+    BINDSIZE=1048576
+)
+
+LOAD DATA
+APPEND
+INTO TABLE customers
+
+FIELDS TERMINATED BY ','
+OPTIONALLY ENCLOSED BY '"'
+TRAILING NULLCOLS
+(
+    customer_id    INTEGER EXTERNAL,
+    full_name      CHAR,
+    email          CHAR,
+    customer_state CHAR
+)

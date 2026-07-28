@@ -1,0 +1,13 @@
+SQL*Loader-925: Error while ulmai_shard_checks:OCIStmtExecute
+ORA-03113: end-of-file on communication channel
+Process ID: 85125
+Session ID: 21 Serial number: 19883
+Help: https://docs.oracle.com/error-help/db/ora-03113/
+
+SQL*Loader: Release 23.26.2.0.0 - Production on Tue Jul 28 07:37:09 2026
+Version 23.26.2.0.0
+
+Copyright (c) 1982, 2026, Oracle and/or its affiliates.  All rights reserved.
+
+Path used:      Conventional
+command terminated with exit code 1

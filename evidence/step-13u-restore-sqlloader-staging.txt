@@ -1,0 +1,23 @@
+=== RESTORE SQL*LOADER STAGING ===
+UTC_TIME=2026-07-28T20:14:59Z
+
+=== VERIFY LOCAL STAGING FILES ===
+MISSING /tmp/comp418-benchmark-10k/customers.ctl
+MISSING /tmp/comp418-benchmark-10k/accounts.ctl
+MISSING /tmp/comp418-benchmark-10k/ledger_entries.ctl
+MISSING /tmp/comp418-benchmark-10k/partitioned/bank_cust/shard1/customers.csv
+MISSING /tmp/comp418-benchmark-10k/partitioned/bank_cust/shard1/accounts.csv
+MISSING /tmp/comp418-benchmark-10k/partitioned/bank_cust/shard1/ledger_entries.csv
+MISSING /tmp/comp418-benchmark-10k/partitioned/bank_cust/shard2/customers.csv
+MISSING /tmp/comp418-benchmark-10k/partitioned/bank_cust/shard2/accounts.csv
+MISSING /tmp/comp418-benchmark-10k/partitioned/bank_cust/shard2/ledger_entries.csv
+
+LOCAL_STAGING_CHECK=FAIL
+
+=== POSSIBLE FILE LOCATIONS ===
+/home/anton/projects/comp418-oracle-sharding/workload/generated/benchmark-10k/accounts.csv
+/home/anton/projects/comp418-oracle-sharding/workload/generated/benchmark-10k/customers.csv
+/home/anton/projects/comp418-oracle-sharding/workload/generated/benchmark-10k/ledger_entries.csv
+/home/anton/projects/comp418-oracle-sharding/workload/sqlldr/accounts.ctl
+/home/anton/projects/comp418-oracle-sharding/workload/sqlldr/customers.ctl
+/home/anton/projects/comp418-oracle-sharding/workload/sqlldr/ledger_entries.ctl

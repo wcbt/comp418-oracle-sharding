@@ -1,0 +1,73 @@
+=== ORDERED SHARD REGISTRATION RECOVERY ===
+UTC_TIME=2026-07-28T19:39:55Z
+
+=== INITIAL COMPONENT STATUS ===
+NAME        READY   PHASE     RESTARTS   UID
+catalog-0   true    Running   1          e641b02d-8c51-4d68-99cf-faaa5c97d932
+gsm1-0      true    Running   2          4d925d10-77c3-405d-8492-67b88344700d
+gsm2-0      true    Running   2          807872d7-2156-49e3-8c24-9aa81af285a7
+shard1-0    true    Running   1          5fe6c81a-ce73-4541-8193-ac296f85cdbb
+shard2-0    true    Running   1          35824cf9-ccdb-4b8e-a1d1-d7d542c0277f
+
+=== VERIFY GSM STABILITY FOR 60 SECONDS ===
+GSM1_RESTARTS_BEFORE=2
+GSM1_RESTARTS_AFTER=2
+GSM1_READY=true
+
+GSM2_RESTARTS_BEFORE=2
+GSM2_RESTARTS_AFTER=2
+GSM2_READY=true
+
+GSM_STABILITY=PASS
+
+========================================
+RESTARTING shard1-0
+========================================
+OLD_UID=5fe6c81a-ce73-4541-8193-ac296f85cdbb
+pod "shard1-0" deleted from comp418-gdd namespace
+NEW_UID=d1ffcde1-9664-48d6-ba3e-ebaeffe7409d
+pod/shard1-0 condition met
+shard1-0_READY_RC=0
+Waiting 30 seconds before continuing...
+NAME       READY   STATUS    RESTARTS   AGE     IP            NODE      NOMINATED NODE   READINESS GATES
+shard1-0   1/1     Running   0          3m31s   10.244.0.14   comp418   <none>           <none>
+
+========================================
+RESTARTING shard2-0
+========================================
+OLD_UID=35824cf9-ccdb-4b8e-a1d1-d7d542c0277f
+pod "shard2-0" deleted from comp418-gdd namespace
+NEW_UID=eaf3c9fd-f9b1-4275-8739-7e029ca89e39
+pod/shard2-0 condition met
+shard2-0_READY_RC=0
+Waiting 30 seconds before continuing...
+NAME       READY   STATUS    RESTARTS   AGE     IP            NODE      NOMINATED NODE   READINESS GATES
+shard2-0   1/1     Running   0          3m31s   10.244.0.15   comp418   <none>           <none>
+
+=== WAIT FOR BOTH SHARDS TO REGISTER ONLINE ===
+ATTEMPT=1
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"ONLINE_SHARD","shard2":"SHARD_ONLINE_ERROR_IN_GSM"}
+ATTEMPT=2
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"ONLINE_SHARD","shard2":"SHARD_ONLINE_ERROR_IN_GSM"}
+ATTEMPT=3
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"ONLINE_SHARD","shard2":"SHARD_ONLINE_ERROR_IN_GSM"}
+ATTEMPT=4
+comp418-sharding   PROVISIONING         {"shard1":"ONLINE_SHARD","shard2":"ONLINE_SHARD"}
+ATTEMPT=5
+comp418-sharding   PROVISIONING         {"shard1":"ONLINE_SHARD","shard2":"ONLINE_SHARD"}
+ATTEMPT=6
+comp418-sharding   PROVISIONING         {"shard1":"ONLINE_SHARD","shard2":"ONLINE_SHARD"}
+ATTEMPT=7
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"ONLINE_SHARD","shard2":"ONLINE_SHARD"}
+SHARD_REGISTRATION_RECOVERY=PASS
+
+=== FINAL HEALTH ===
+NAME        READY   STATUS    RESTARTS      AGE     IP            NODE      NOMINATED NODE   READINESS GATES
+catalog-0   1/1     Running   1 (31m ago)   18h     10.244.0.12   comp418   <none>           <none>
+gsm1-0      1/1     Running   2 (27m ago)   18h     10.244.0.11   comp418   <none>           <none>
+gsm2-0      1/1     Running   2 (27m ago)   18h     10.244.0.13   comp418   <none>           <none>
+shard1-0    1/1     Running   0             8m38s   10.244.0.14   comp418   <none>           <none>
+shard2-0    1/1     Running   0             5m2s    10.244.0.15   comp418   <none>           <none>
+
+NAME               GSM STATE   SERVICES                                                             SHARDS
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"ONLINE_SHARD","shard2":"ONLINE_SHARD"}

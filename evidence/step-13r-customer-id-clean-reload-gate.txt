@@ -1,0 +1,633 @@
+=== CUSTOMER-ID CLEAN RELOAD GATE ===
+UTC_TIME=2026-07-28T19:31:26Z
+
+=== WAITING FOR SHARDING HEALTH ===
+ATTEMPT=1
+comp418-sharding   AVAILABLE         {"shard1":"SHARD_ONLINE_ERROR_IN_GSM","shard2":"SHARD_ONLINE_ERROR_IN_GSM"}
+ATTEMPT=2
+comp418-sharding   AVAILABLE         {"shard1":"SHARD_ONLINE_ERROR_IN_GSM","shard2":"SHARD_ONLINE_ERROR_IN_GSM"}
+ATTEMPT=3
+comp418-sharding   AVAILABLE         {"shard1":"SHARD_ONLINE_ERROR_IN_GSM","shard2":"SHARD_ONLINE_ERROR_IN_GSM"}
+ATTEMPT=4
+comp418-sharding   AVAILABLE         {"shard1":"SHARD_ONLINE_ERROR_IN_GSM","shard2":"SHARD_ONLINE_ERROR_IN_GSM"}
+ATTEMPT=5
+comp418-sharding   AVAILABLE         {"shard1":"SHARD_ONLINE_ERROR_IN_GSM","shard2":"SHARD_ADDITION"}
+ATTEMPT=6
+comp418-sharding   AVAILABLE         {"shard1":"SHARD_ONLINE_ERROR_IN_GSM","shard2":"SHARD_ADDITION"}
+ATTEMPT=7
+comp418-sharding   AVAILABLE         {"shard1":"SHARD_ONLINE_ERROR_IN_GSM","shard2":"SHARD_ADDITION"}
+ATTEMPT=8
+comp418-sharding   AVAILABLE         {"shard1":"SHARD_ONLINE_ERROR_IN_GSM","shard2":"SHARD_ADDITION"}
+ATTEMPT=9
+comp418-sharding   AVAILABLE         {"shard1":"SHARD_ONLINE_ERROR_IN_GSM","shard2":"SHARD_ADDITION"}
+ATTEMPT=10
+comp418-sharding   AVAILABLE         {"shard1":"SHARD_ONLINE_ERROR_IN_GSM","shard2":"SHARD_ADDITION"}
+ATTEMPT=11
+comp418-sharding   AVAILABLE         {"shard1":"SHARD_ONLINE_ERROR_IN_GSM","shard2":"SHARD_ADDITION"}
+ATTEMPT=12
+comp418-sharding   AVAILABLE         {"shard1":"SHARD_ONLINE_ERROR_IN_GSM","shard2":"SHARD_ADDITION"}
+ATTEMPT=13
+comp418-sharding   AVAILABLE         {"shard1":"SHARD_ONLINE_ERROR_IN_GSM","shard2":"SHARD_ADDITION"}
+ATTEMPT=14
+comp418-sharding   AVAILABLE         {"shard1":"SHARD_ONLINE_ERROR_IN_GSM","shard2":"SHARD_ADDITION"}
+ATTEMPT=15
+comp418-sharding   AVAILABLE         {"shard1":"SHARD_ONLINE_ERROR_IN_GSM","shard2":"SHARD_ONLINE_ERROR_IN_GSM"}
+ATTEMPT=16
+comp418-sharding   AVAILABLE         {"shard1":"SHARD_ONLINE_ERROR_IN_GSM","shard2":"SHARD_ONLINE_ERROR_IN_GSM"}
+ATTEMPT=17
+comp418-sharding   AVAILABLE         {"shard1":"SHARD_ONLINE_ERROR_IN_GSM","shard2":"SHARD_ONLINE_ERROR_IN_GSM"}
+ATTEMPT=18
+comp418-sharding   AVAILABLE         {"shard1":"SHARD_ONLINE_ERROR_IN_GSM","shard2":"SHARD_ONLINE_ERROR_IN_GSM"}
+ATTEMPT=19
+comp418-sharding   AVAILABLE         {"shard1":"SHARD_ONLINE_ERROR_IN_GSM","shard2":"SHARD_ONLINE_ERROR_IN_GSM"}
+ATTEMPT=20
+comp418-sharding   AVAILABLE         {"shard1":"SHARD_ONLINE_ERROR_IN_GSM","shard2":"SHARD_ONLINE_ERROR_IN_GSM"}
+
+SHARDING_HEALTH=FAIL
+CUSTOMER_ID_LOAD=NOT_STARTED
+
+=== SHARDING DATABASE DESCRIPTION ===
+Name:         comp418-sharding
+Namespace:    comp418-gdd
+Labels:       <none>
+Annotations:  lastSuccessfulSpec:
+                {"shard":[{"name":"shard1","storageSizeInGb":50,"isDelete":"disable","imagePullPolicy":"Always","shardGroup":"shardgroup1","shardRegion":"...
+API Version:  database.oracle.com/v4
+Kind:         ShardingDatabase
+Metadata:
+  Creation Timestamp:  2026-07-28T01:40:46Z
+  Finalizers:
+    Shardingdb.oracle.com
+  Generation:        2
+  Resource Version:  49654
+  UID:               ca4a1d35-b946-4910-8a53-ddd1a370ff95
+Spec:
+  Catalog:
+    Image Pull Policy:   Always
+    Name:                catalog
+    Storage Size In Gb:  50
+  Db Edition:            free
+  Db Image:              container-registry.oracle.com/database/free:latest
+  Db Image Pull Secret:  ocr-reg-cred
+  Db Secret:
+    Key File Name:      key.pem
+    Name:               db-user-pass-rsa
+    Pwd File Name:      pwdfile.enc
+    Tde Pwd File Name:  
+  Gsm:
+    Image Pull Policy:    Always
+    Name:                 gsm1
+    Region:               primary
+    Storage Size In Gb:   50
+    Image Pull Policy:    Always
+    Name:                 gsm2
+    Region:               standby
+    Storage Size In Gb:   50
+  Gsm Image:              container-registry.oracle.com/database/gsm:23.26.1.0
+  Gsm Image Pull Secret:  ocr-reg-cred
+  Gsm Service:
+    Name:             oltp_rw_svc
+    Role:             primary
+    Ru Mode:          READWRITE
+    Name:             oltp_ro_svc
+    Role:             primary
+    Ru Mode:          READONLY
+  Is Delete Ora Pvc:  true
+  Is Tde Wallet:      disable
+  Shard:
+    Image Pull Policy:   Always
+    Is Delete:           disable
+    Name:                shard1
+    Shard Group:         shardgroup1
+    Shard Region:        primary
+    Storage Size In Gb:  50
+    Image Pull Policy:   Always
+    Is Delete:           disable
+    Name:                shard2
+    Shard Group:         shardgroup1
+    Shard Region:        primary
+    Storage Size In Gb:  50
+  Storage Class:         standard
+Status:
+  Catalogs:
+    catalog_DbPasswordSecret:  db-user-pass-rsa
+    catalog_K8sInternalSvc:    catalog-0.catalog.comp418-gdd.svc.cluster.local
+    catalog_K8sInternalSvcIP:  
+    catalog_Name:              catalog
+    catalog_OpenMode:          READ WRITE
+    catalog_OraclePdb:         CATALOGPDB
+    catalog_OracleSid:         CATALOG
+    catalog_Role:              PRIMARY
+    catalog_State:             AVAILABLE
+  Conditions:
+    Last Transition Time:  2026-07-28T19:31:26Z
+    Message:               <nil>
+    Observed Generation:   2
+    Reason:                LastReconcileCycleCompleted
+    Status:                True
+    Type:                  ReconcileComplete
+    Last Transition Time:  2026-07-28T19:32:17Z
+    Message:               <nil>
+    Observed Generation:   2
+    Reason:                LastReconcileCycleWaiting
+    Status:                True
+    Type:                  ReconcileWaiting
+    Last Transition Time:  2026-07-28T19:34:46Z
+    Message:               <nil>
+    Observed Generation:   2
+    Reason:                LastReconcileCycleQueued
+    Status:                True
+    Type:                  ReconcileQueued
+  Gsm:
+    Details:
+      gsm1_DbPasswordSecret:  db-user-pass-rsa
+      gsm1_K8sInternalSvc:    gsm1-0.gsm1.comp418-gdd.svc.cluster.local
+      gsm1_K8sInternalSvcIP:  
+      gsm1_Name:              gsm1
+      gsm1_State:             AVAILABLE
+      gsm2_DbPasswordSecret:  db-user-pass-rsa
+      gsm2_K8sInternalSvc:    gsm2-0.gsm2.comp418-gdd.svc.cluster.local
+      gsm2_K8sInternalSvcIP:  
+      gsm2_Name:              gsm2
+      gsm2_State:             AVAILABLE
+    Shards:
+      shard1:  SHARD_ONLINE_ERROR_IN_GSM
+      shard2:  SHARD_ONLINE_ERROR_IN_GSM
+    State:     AVAILABLE
+  Shards:
+    shard1_DbPasswordSecret:  db-user-pass-rsa
+    shard1_K8sInternalSvc:    shard1-0.shard1.comp418-gdd.svc.cluster.local
+    shard1_K8sInternalSvcIP:  
+    shard1_Name:              shard1
+    shard1_OpenMode:          READ WRITE
+    shard1_OraclePdb:         SHARD1PDB
+    shard1_OracleSid:         SHARD1
+    shard1_Role:              PRIMARY
+    shard1_State:             AVAILABLE
+    shard2_DbPasswordSecret:  db-user-pass-rsa
+    shard2_K8sInternalSvc:    shard2-0.shard2.comp418-gdd.svc.cluster.local
+    shard2_K8sInternalSvcIP:  
+    shard2_Name:              shard2
+    shard2_OpenMode:          READ WRITE
+    shard2_OraclePdb:         SHARD2PDB
+    shard2_OracleSid:         SHARD2
+    shard2_Role:              PRIMARY
+    shard2_State:             AVAILABLE
+Events:
+  Type     Reason        Age                    From              Message
+  ----     ------        ----                   ----              -------
+  Normal   State Change  12h (x5 over 16h)      ShardingDatabase  The shard [shard1] state changed from SHARD_ADDITION to ONLINE_SHARD in Gsm
+  Warning  State Change  12h (x8 over 17h)      ShardingDatabase  The shard [shard2] state changed from SHARD_ADDITION to SHARD_ADDITION_ERROR_IN_GSM in Gsm
+  Warning  State Change  12h (x8 over 16h)      ShardingDatabase  The shard [shard2] state changed from SHARD_ADDITION to SHARD_ONLINE_ERROR_IN_GSM in Gsm
+  Normal   State Change  12h (x10 over 16h)     ShardingDatabase  The shard [shard1] state changed from SHARD_ADDITION to ONLINE_SHARD in Gsm
+  Normal   State Change  12h (x10 over 17h)     ShardingDatabase  The shard [shard2] state changed from SHARD_ADDITION to ONLINE_SHARD in Gsm
+  Normal   State Change  12h (x14 over 16h)     ShardingDatabase  The shard [shard2] state changed from ONLINE_SHARD to SHARD_ADDITION in Gsm
+  Normal   State Change  12h (x11 over 16h)     ShardingDatabase  The shard [shard2] state changed from ONLINE_SHARD to SHARD_ADDITION in Gsm
+  Normal   State Change  11h (x12 over 17h)     ShardingDatabase  The shard [shard2] state changed from SHARD_ADDITION to ONLINE_SHARD in Gsm
+  Normal   State Change  11h (x72 over 17h)     ShardingDatabase  The catalog [catalog] state changed from PROVISIONING to AVAILABLE
+  Warning  State Change  11h (x69 over 17h)     ShardingDatabase  The shard [shard1] state changed from ONLINE_SHARD to SHARD_ONLINE_ERROR_IN_GSM in Gsm
+  Normal   State Change  11h (x31 over 17h)     ShardingDatabase  The shard [shard1] state changed from SHARD_ONLINE_ERROR_IN_GSM to ONLINE_SHARD in Gsm
+  Normal   State Change  11h (x66 over 17h)     ShardingDatabase  The catalog [catalog] state changed from PROVISIONING to AVAILABLE
+  Normal   State Change  11h (x86 over 17h)     ShardingDatabase  The catalog [catalog] state changed from AVAILABLE to PROVISIONING
+  Normal   State Change  11h (x122 over 17h)    ShardingDatabase  The gsm [gsm1] state changed from AVAILABLE to PROVISIONING
+  Normal   State Change  11h (x37 over 17h)     ShardingDatabase  The shard [shard2] state changed from SHARD_ONLINE_ERROR_IN_GSM to ONLINE_SHARD in Gsm
+  Normal   State Change  11h (x108 over 17h)    ShardingDatabase  The gsm [gsm2] state changed from PROVISIONING to AVAILABLE
+  Normal   State Change  11h (x96 over 17h)     ShardingDatabase  The shard [shard1] state changed from PROVISIONING to AVAILABLE
+  Warning  State Change  11h (x13 over 17h)     ShardingDatabase  The shard [shard1] state changed from SHARD_ADDITION to SHARD_ADDITION_ERROR_IN_GSM in Gsm
+  Normal   State Change  11h (x86 over 17h)     ShardingDatabase  The shard [shard2] state changed from PROVISIONING to AVAILABLE
+  Normal   State Change  11h (x4 over 14h)      ShardingDatabase  The shard [shard1] state changed from SHARD_ADDITION_ERROR_IN_GSM to ONLINE_SHARD in Gsm
+  Normal   State Change  11h (x149 over 17h)    ShardingDatabase  The gsm [gsm2] state changed from AVAILABLE to PROVISIONING
+  Normal   State Change  11h (x94 over 17h)     ShardingDatabase  The shard [shard2] state changed from AVAILABLE to PROVISIONING
+  Normal   State Change  11h (x89 over 17h)     ShardingDatabase  The shard [shard2] state changed from AVAILABLE to PROVISIONING
+  Warning  State Change  11h (x69 over 17h)     ShardingDatabase  The shard [shard2] state changed from ONLINE_SHARD to SHARD_ONLINE_ERROR_IN_GSM in Gsm
+  Normal   State Change  11h (x84 over 17h)     ShardingDatabase  The shard [shard2] state changed from PROVISIONING to AVAILABLE
+  Normal   State Change  11h (x95 over 17h)     ShardingDatabase  The shard [shard1] state changed from AVAILABLE to PROVISIONING
+  Normal   State Change  11h (x155 over 17h)    ShardingDatabase  The gsm [gsm1] state changed from PROVISIONING to AVAILABLE
+  Normal   State Change  11h (x14 over 16h)     ShardingDatabase  The shard [shard1] state changed from ONLINE_SHARD to SHARD_ADDITION in Gsm
+  Normal   State Change  11h (x10 over 17h)     ShardingDatabase  The shard [shard1] state changed from ONLINE_SHARD to SHARD_ADDITION in Gsm
+  Normal   State Change  11h (x820 over 17h)    ShardingDatabase  (combined from similar events): The shard [shard1] state changed from SHARD_ADDITION to ONLINE_SHARD in Gsm
+  Normal   State Change  11h (x850 over 17h)    ShardingDatabase  (combined from similar events): The shard [shard1] state changed from SHARD_ADDITION to ONLINE_SHARD in Gsm
+  Normal   State Change  17m                    ShardingDatabase  The shard [shard1] state changed from ONLINE_SHARD to SHARD_ADDITION in Gsm
+  Warning  State Change  15m                    ShardingDatabase  The shard [shard2] state changed from ONLINE_SHARD to SHARD_ONLINE_ERROR_IN_GSM in Gsm
+  Warning  State Change  13m                    ShardingDatabase  The shard [shard2] state changed from SHARD_ADDITION to SHARD_ADDITION_ERROR_IN_GSM in Gsm
+  Normal   State Change  12m                    ShardingDatabase  The shard [shard2] state changed from ONLINE_SHARD to SHARD_ADDITION in Gsm
+  Warning  State Change  10m                    ShardingDatabase  The shard [shard1] state changed from ONLINE_SHARD to SHARD_ONLINE_ERROR_IN_GSM in Gsm
+  Normal   State Change  6m33s (x4 over 14m)    ShardingDatabase  The shard [shard2] state changed from PROVISIONING to AVAILABLE
+  Warning  State Change  6m24s (x2 over 15m)    ShardingDatabase  The shard [shard1] state changed from SHARD_ADDITION to SHARD_ONLINE_ERROR_IN_GSM in Gsm
+  Normal   State Change  6m12s (x3 over 9m12s)  ShardingDatabase  The gsm [gsm1] state changed from AVAILABLE to PROVISIONING
+  Normal   State Change  4m55s (x13 over 17m)   ShardingDatabase  The gsm [gsm2] state changed from AVAILABLE to PROVISIONING
+  Normal   State Change  4m50s (x12 over 14m)   ShardingDatabase  The gsm [gsm1] state changed from PROVISIONING to AVAILABLE
+  Normal   State Change  4m44s (x3 over 14m)    ShardingDatabase  The catalog [catalog] state changed from PROVISIONING to AVAILABLE
+  Normal   State Change  4m44s (x2 over 14m)    ShardingDatabase  The catalog [catalog] state changed from AVAILABLE to PROVISIONING
+  Normal   State Change  4m42s (x4 over 9m10s)  ShardingDatabase  The gsm [gsm2] state changed from PROVISIONING to AVAILABLE
+  Normal   State Change  4m42s (x3 over 6m14s)  ShardingDatabase  The gsm [gsm2] state changed from PROVISIONING to AVAILABLE
+  Normal   State Change  4m28s (x2 over 14m)    ShardingDatabase  The shard [shard2] state changed from AVAILABLE to PROVISIONING
+  Normal   State Change  4m12s (x7 over 14m)    ShardingDatabase  The shard [shard1] state changed from AVAILABLE to PROVISIONING
+  Normal   State Change  111s (x11 over 14m)    ShardingDatabase  The shard [shard1] state changed from PROVISIONING to AVAILABLE
+  Warning  State Change  105s (x2 over 10m)     ShardingDatabase  The shard [shard2] state changed from SHARD_ADDITION to SHARD_ONLINE_ERROR_IN_GSM in Gsm
+  Normal   State Change  96s (x29 over 14m)     ShardingDatabase  (combined from similar events): The shard [shard1] state changed from SHARD_ONLINE_ERROR_IN_GSM to SHARD_ADDITION in Gsm
+  Normal   State Change  96s (x28 over 14m)     ShardingDatabase  (combined from similar events): The shard [shard1] state changed from SHARD_ONLINE_ERROR_IN_GSM to SHARD_ADDITION in Gsm
+
+=== GSM1 LOG TAIL ===
+07/28/2026 07:36:02 PM     INFO: oracommon.py  -   check_sql_err    :output : GDSCTL: Version 23.26.1.0.0 - Production on Tue Jul 28 19:36:01 UTC 2026
+Copyright (c) 2011, 2026, Oracle.  All rights reserved.
+Welcome to GDSCTL, type "help" for information.
+Current GSM is set to SHARDDIRECTORGSM1
+GDSCTL> 
+GDSCTL> 
+Catalog connection is established
+GDSCTL> 
+DB Unique Name: SHARD1
+GSM-45029: SQL error
+ORA-03790: multitenant container database (CDB) already exists: SHARD1
+ORA-06512: at "SYS.DBMS_SYS_ERROR", line 86
+ORA-06512: at "GSMADMIN_INTERNAL.DBMS_GSM_POOLADMIN", line 13327
+ORA-06512: at "GSMADMIN_INTERNAL.DBMS_GSM_POOLADMIN", line 7600
+ORA-06512: at line 1
+https://docs.oracle.com/error-help/db/ora-03790/ 
+The operation completed successfully
+GDSCTL> 
+GSM-45029: SQL error
+ORA-03796: database already contains sharding metadata
+ORA-06512: at "SYS.DBMS_GSM_FIX", line 619
+ORA-06512: at "SYS.DBMS_GSM_FIX", line 531
+ORA-06512: at line 1
+https://docs.oracle.com/error-help/db/ora-03796/ 
+The operation completed successfully
+GDSCTL> 
+Name                          Group ID                      
+----                          --------                      
+10.244.*.*                                                  
+catalog-0.catalog                                           
+shard1-0.shard1                                             
+shard2-0.shard2                                             
+GDSCTL> 
+
+07/28/2026 07:36:02 PM  WARNING: oracommon.py  -   check_sql_err    :Sql command failed. Flag is set to ignore the error.
+07/28/2026 07:36:02 PM     INFO:   oragsm.py   - check_shard_status :Inside check_shard_status()
+07/28/2026 07:36:02 PM     INFO: oracommon.py  -    exec_gsm_cmd    :Inside exec_gsm_cmd()
+07/28/2026 07:36:02 PM     INFO: oracommon.py  -    run_sqlplus     :Received Command : /u01/app/oracle/product/23ai/gsmhome_1/bin/gdsctl
+
+            config;
+            exit;
+          
+07/28/2026 07:36:02 PM     INFO: oracommon.py  -    exec_gsm_cmd    :Calling check_sql_err() to validate the gsm command return status
+07/28/2026 07:36:02 PM     INFO: oracommon.py  -   check_sql_err    :output : GDSCTL: Version 23.26.1.0.0 - Production on Tue Jul 28 19:36:02 UTC 2026
+Copyright (c) 2011, 2026, Oracle.  All rights reserved.
+Welcome to GDSCTL, type "help" for information.
+Current GSM is set to SHARDDIRECTORGSM1
+GDSCTL> 
+GDSCTL> 
+Catalog connection is established
+Regions
+------------------------
+primary                       
+standby                       
+GSMs
+------------------------
+sharddirectorgsm1             
+sharddirectorgsm2             
+Sharded Database
+------------------------
+catalog                       
+Databases
+------------------------
+shard1_shard1pdb              
+shard2_shard2pdb              
+Shard Groups
+------------------------
+shardgroup1                   
+Shard spaces
+------------------------
+shardspaceora                 
+Services
+------------------------
+oltp_ro_svc                   
+oltp_rw_svc                   
+GDSCTL pending requests
+------------------------
+Command                       Object                        Status                        
+-------                       ------                        ------                        
+Global properties
+------------------------
+Name: oradbcloud
+Master GSM: sharddirectorgsm1
+DDL sequence #: 18
+
+GDSCTL> 
+
+07/28/2026 07:36:02 PM     INFO: oracommon.py  -   check_sql_err    :Sql command completed sucessfully.
+07/28/2026 07:36:02 PM     INFO: oracommon.py  - check_substr_match :Inside check_substr_match()
+07/28/2026 07:36:02 PM     INFO: oracommon.py  - check_status_value :Inside check_status_value()
+07/28/2026 07:36:02 PM     INFO:   oragsm.py   -   add_gsm_shard    :Shard DB setup completed in GSM
+07/28/2026 07:36:02 PM     INFO:   oragsm.py   - check_shard_status :Inside check_shard_status()
+07/28/2026 07:36:02 PM     INFO: oracommon.py  -    exec_gsm_cmd    :Inside exec_gsm_cmd()
+07/28/2026 07:36:02 PM     INFO: oracommon.py  -    run_sqlplus     :Received Command : /u01/app/oracle/product/23ai/gsmhome_1/bin/gdsctl
+
+            config;
+            exit;
+          
+07/28/2026 07:36:03 PM     INFO: oracommon.py  -    exec_gsm_cmd    :Calling check_sql_err() to validate the gsm command return status
+07/28/2026 07:36:03 PM     INFO: oracommon.py  -   check_sql_err    :output : GDSCTL: Version 23.26.1.0.0 - Production on Tue Jul 28 19:36:03 UTC 2026
+Copyright (c) 2011, 2026, Oracle.  All rights reserved.
+Welcome to GDSCTL, type "help" for information.
+Current GSM is set to SHARDDIRECTORGSM1
+GDSCTL> 
+GDSCTL> 
+Catalog connection is established
+Regions
+------------------------
+primary                       
+standby                       
+GSMs
+------------------------
+sharddirectorgsm1             
+sharddirectorgsm2             
+Sharded Database
+------------------------
+catalog                       
+Databases
+------------------------
+shard1_shard1pdb              
+shard2_shard2pdb              
+Shard Groups
+------------------------
+shardgroup1                   
+Shard spaces
+------------------------
+shardspaceora                 
+Services
+------------------------
+oltp_ro_svc                   
+oltp_rw_svc                   
+GDSCTL pending requests
+------------------------
+Command                       Object                        Status                        
+-------                       ------                        ------                        
+Global properties
+------------------------
+Name: oradbcloud
+Master GSM: sharddirectorgsm1
+DDL sequence #: 18
+
+GDSCTL> 
+
+07/28/2026 07:36:03 PM     INFO: oracommon.py  -   check_sql_err    :Sql command completed sucessfully.
+07/28/2026 07:36:03 PM     INFO:   oragsm.py   -    shard_regex     :Inside shard_regex()
+07/28/2026 07:36:03 PM     INFO: oracommon.py  -    exec_gsm_cmd    :Inside exec_gsm_cmd()
+07/28/2026 07:36:03 PM     INFO: oracommon.py  -    run_sqlplus     :Received Command : /u01/app/oracle/product/23ai/gsmhome_1/bin/gdsctl
+
+            config;
+            exit;
+          
+07/28/2026 07:36:04 PM     INFO: oracommon.py  -    exec_gsm_cmd    :Calling check_sql_err() to validate the gsm command return status
+07/28/2026 07:36:04 PM     INFO: oracommon.py  -   check_sql_err    :output : GDSCTL: Version 23.26.1.0.0 - Production on Tue Jul 28 19:36:03 UTC 2026
+Copyright (c) 2011, 2026, Oracle.  All rights reserved.
+Welcome to GDSCTL, type "help" for information.
+Current GSM is set to SHARDDIRECTORGSM1
+GDSCTL> 
+GDSCTL> 
+Catalog connection is established
+Regions
+------------------------
+primary                       
+standby                       
+GSMs
+------------------------
+sharddirectorgsm1             
+sharddirectorgsm2             
+Sharded Database
+------------------------
+catalog                       
+Databases
+------------------------
+shard1_shard1pdb              
+shard2_shard2pdb              
+Shard Groups
+------------------------
+shardgroup1                   
+Shard spaces
+------------------------
+shardspaceora                 
+Services
+------------------------
+oltp_ro_svc                   
+oltp_rw_svc                   
+GDSCTL pending requests
+------------------------
+Command                       Object                        Status                        
+-------                       ------                        ------                        
+Global properties
+------------------------
+Name: oradbcloud
+Master GSM: sharddirectorgsm1
+DDL sequence #: 18
+
+GDSCTL> 
+
+07/28/2026 07:36:04 PM     INFO: oracommon.py  -   check_sql_err    :Sql command completed sucessfully.
+07/28/2026 07:36:04 PM     INFO:   oragsm.py   -    shard_regex     :Inside shard_regex()
+07/28/2026 07:36:04 PM     INFO: oracommon.py  - check_status_value :Inside check_status_value()
+07/28/2026 07:36:04 PM     INFO:   oragsm.py   -   add_gsm_shard    :Shard DB setup is still not completed in GSM. Sleeping for 60 seconds and sleeping count is 2
+
+=== GSM2 LOG TAIL ===
+07/28/2026 07:31:50 PM     INFO: oracommon.py  -   check_sql_err    :output : GDSCTL: Version 23.26.1.0.0 - Production on Tue Jul 28 19:31:50 UTC 2026
+Copyright (c) 2011, 2026, Oracle.  All rights reserved.
+Welcome to GDSCTL, type "help" for information.
+Current GSM is set to SHARDDIRECTORGSM2
+GDSCTL> 
+GDSCTL> 
+Catalog connection is established
+GDSCTL> 
+Name: shard2_shard2pdb
+Shard Group: shardgroup1
+Status: Ok
+State: Deployed
+Region: primary
+Connection string: (description=(address=(protocol=tcp)(host=shard2-0.shard2)(port=1521))(connect_data=(service_name=shard2pdb)(server=DEDICATED)))
+SCAN address: 
+ONS remote port: 0
+Disk Threshold, ms: 20
+CPU Threshold, %: 75
+Version: 23.26
+Failed DDL: 
+DDL Error: ---
+Management error: 
+Failed DDL id: 
+Availability: -
+Rack: 
+
+Supported services
+------------------------
+Name                                                            Preferred Status    
+----                                                            --------- ------    
+oltp_ro_svc                                                     Yes       Enabled   
+oltp_rw_svc                                                     Yes       Enabled   
+GDSCTL> 
+
+07/28/2026 07:31:50 PM  WARNING: oracommon.py  -   check_sql_err    :Sql command failed. Flag is set to ignore the error.
+07/28/2026 07:31:50 PM     INFO:   oragsm.py   -verify_online_shard :Shard SHARD2_SHARD2PDB is not online.
+07/28/2026 07:31:51 PM     INFO:/tmp/sharding/cancel_chunk.log-        main        :=======================================================================
+07/28/2026 07:31:51 PM     INFO:/tmp/sharding/cancel_chunk.log-    <module>      : Calling OraFactory to start the setup
+07/28/2026 07:31:51 PM     INFO: orafactory.py -    get_ora_objs    :ora_env_dict set to : environ({'OP_TYPE': 'gsm', 'ORACLE_FREE_PDB': 'GSM2PDB', 'KEY_SECRET_VOLUME': '/mnt/secrets', 'SETUP_LINUX_FILE': 'setupLinuxEnv.sh', 'ORACOMMON': 'oracommon.py', 'CATALOG_SETUP': 'true', 'ORACLE_SID': 'FREE', 'GSM_HOME': '/u01/app/oracle/product/23ai/gsmhome_1', 'ORACLE_BASE': '/u01/app/oracle', 'CHECK_SPACE_FILE': 'checkSpace.sh', 'ORACLE_HOME': '/u01/app/oracle/product/23ai/gsmhome_1', 'HOSTNAME': 'gsm2-0', 'DEV_MODE': 'TRUE', 'SERVICE0_PARAMS': 'service_name=oltp_rw_svc;service_role=primary;service_mode=READWRITE', 'GSM_PATH': '/u01/app/oracle/product/23ai/gsmhome_1/bin:/bin:/usr/bin:/sbin:/usr/sbin', 'INSTALL_FILE_1': 'LINUX.X64_239000_gsm.zip', 'ORAPCATALOG': 'orapcatalog.py', 'INVENTORY': '/u01/app/oracle/oraInventory', 'ORAPSHARD': 'orapshard.py', 'ORACLE_PDB': 'FREEPDB', 'KUBERNETES_PORT_443_TCP_PROTO': 'tcp', 'SECRET_VOLUME': '/mnt/secrets', 'KUBERNETES_PORT_443_TCP_ADDR': '10.96.0.1', 'INSTALL_RSP': '23c_gsm_install.rsp', 'ORAFACTORY': 'orafactory.py', 'ORASSHARD': 'orasshard.py', 'SERVICE1_PARAMS': 'service_name=oltp_ro_svc;service_role=primary;service_mode=READONLY', 'PYTHON3_FILE': '/usr/bin/python3', 'KUBERNETES_PORT': 'tcp://10.96.0.1:443', 'PWD': '/home/oracle', 'HOME': '/home/oracle', 'ORAMACHINE': 'oramachine.py', 'ORASCATALOG': 'orascatalog.py', 'CMDEXEC': 'cmdExec', 'KUBERNETES_SERVICE_PORT_HTTPS': '443', 'GSM_LD_LIBRARY_PATH': '/u01/app/oracle/product/23ai/gsmhome_1/lib:/usr/lib:/lib', 'MAINPY': 'main.py', 'KUBERNETES_PORT_443_TCP_PORT': '443', 'GSM_SETUP_FILE': 'setupOshardEnv.sh', 'PWD_KEY': 'key.pem', 'DEMOAPPSQL': 'demoapp.sql', 'GSM_BASE': '/u01/app/oracle', 'PYTHON_FILE': '/usr/bin/python', 'KUBE_SVC': 'gsm2', 'KUBERNETES_PORT_443_TCP': 'tcp://10.96.0.1:443', 'RUNORASHARD': 'runOraShardSetup.sh', 'ORAGSM': 'oragsm.py', 'INVITED_NODE_SUBNET_FLAG': 'TRUE', 'GSM_SCRIPTS': 'scripts', 'ORAENV': 'oraenv.py', 'INSTALL_SCRIPTS': '/opt/oracle/scripts/install', 'TERM': 'xterm', 'ORALOGGER': 'oralogger.py', 'DB_UNIQUE_NAME': 'GSM2', 'CHECKLIVENESS': 'checkLiveness.sh', 'USER_SCRIPTS_FILE': 'runUserScripts.sh', 'GSM_ENV_SETUP_FILE': 'setupGSM.sh', 'INSTALL_GSM_BINARIES_FILE': 'installGSMBinaries.sh', 'GSM_USER': 'oracle', 'SCRIPT_DIR': '/opt/oracle/scripts/sharding', 'SHLVL': '1', 'SHARD_SETUP': 'true', 'KUBERNETES_SERVICE_PORT': '443', 'SHARD_DIRECTOR_PARAMS': 'director_name=sharddirectorgsm2;director_region=standby;director_port=1522', 'CATALOG_PARAMS': 'catalog_host=catalog-0.catalog;catalog_region=primary,standby;catalog_db=CATALOG;catalog_pdb=CATALOGPDB;catalog_port=1521;catalog_name=CATALOG;catalog_chunks=12', 'PATH': '/bin:/usr/bin:/sbin:/usr/sbin', 'RUN_FILE': 'runOracle.sh', 'COMMON_OS_PWD_FILE': 'pwdfile.enc', 'INSTALL_DIR': '/opt/oracle/scripts', 'KUBERNETES_SERVICE_HOST': '10.96.0.1', '_': '/bin/python', 'LC_CTYPE': 'C.UTF-8', 'GSM_LOCK_STATUS_FILE': '/tmp/.gsm_status_lock_file', 'SHARD_LOCK_STATUS_FILE': '/tmp/.shard_status_lock_file', 'ORA_ASM_DISKGROUP_NAME': '+DATA', 'ORA_GRID_USER': 'grid', 'ORA_DB_USER': 'oracle', 'ORA_OINSTALL_GROUP_NAME': 'oinstall', 'LOG_FILE_NAME': '/tmp/sharding/cancel_chunk.log', 'CANCEL_CHUNKS': '"shard_host=shard2-0.shard2;shard_db=SHARD2;shard_pdb=SHARD2PDB;shard_group=shardgroup1;shard_region=primary;shard_port=1521"'})
+07/28/2026 07:31:51 PM     INFO: orafactory.py -    get_ora_objs    :Checking the OP_TYPE and Version to begin the installation
+07/28/2026 07:31:51 PM     INFO: orafactory.py -    get_ora_objs    :OP_TYPE variable is set to gsm.
+07/28/2026 07:31:51 PM     INFO: orafactory.py -    get_ora_objs    :Creating and calling instance to setup GSM
+07/28/2026 07:31:51 PM     INFO:   oragsm.py   -    ohome_check     :ORACLE_HOME variable is set. Check Passed!
+07/28/2026 07:31:51 PM     INFO:   oragsm.py   -    ohome_check     :ORACLE_HOME /u01/app/oracle/product/23ai/gsmhome_1 dirctory exist. Directory Check passed!
+07/28/2026 07:31:51 PM     INFO: /mnt/secrets  -    get_password    :Secret_Volume set to : 
+07/28/2026 07:31:51 PM     INFO: /mnt/secrets  -    get_password    :Secret_Volume set to : 
+07/28/2026 07:31:51 PM  WARNING: oracommon.py  -    get_password    :PASSWORD_FILE not passed as an env variable. Setting default to dbpasswd.file
+07/28/2026 07:31:51 PM     INFO: oracommon.py  -    get_password    :Password file set to : /mnt/secrets/pwdfile.enc
+07/28/2026 07:31:51 PM     INFO: oracommon.py  -    get_password    :key file set to : /mnt/secrets/key.pem
+07/28/2026 07:31:51 PM     INFO: oracommon.py  -    get_password    :dbpasswd file set to : /mnt/secrets/dbpasswd.file
+07/28/2026 07:31:51 PM     INFO: oracommon.py  -    get_password    :key secret voluem set to  file set to : /mnt/secrets
+07/28/2026 07:31:51 PM     INFO: oracommon.py  -    get_password    :pwd volume set : /var/tmp
+07/28/2026 07:31:51 PM     INFO: oracommon.py  -    get_password    :Passwd file /mnt/secrets/pwdfile.enc and key file /mnt/secrets/key.pem exist. Password file Check passed!
+07/28/2026 07:31:51 PM     INFO: oracommon.py  -    get_password    :Reading encrypted passwd from file /mnt/secrets/pwdfile.enc.
+07/28/2026 07:31:51 PM     INFO: oracommon.py  -    execute_cmd     :Received Command : openssl pkeyutl -decrypt -in "/mnt/secrets/pwdfile.enc" -out /var/tmp/pwdfile.enc -inkey "/mnt/secrets/key.pem"
+07/28/2026 07:31:51 PM     INFO: oracommon.py  -    check_os_err    :OS command returned code : 0 and returned output : no Output
+07/28/2026 07:31:51 PM     INFO: oracommon.py  -    remove_file     :Inside remove_file()
+07/28/2026 07:31:51 PM     INFO: oracommon.py  -    get_password    :ORACLE_PWD set to HIDDEN_STRING generated using encrypted password file
+07/28/2026 07:31:51 PM     INFO:   oragsm.py   -    passwd_check    :ORACLE_PWD key is set. Check Passed!
+07/28/2026 07:31:51 PM     INFO:   oragsm.py   -  shard_user_check  :SHARD_ADMIN_USER is not set, setting default to mysdbadmin
+07/28/2026 07:31:51 PM     INFO:   oragsm.py   -  shard_user_check  :PDB_ADMIN_USER is not set, setting default to PDBADMIN.
+07/28/2026 07:31:51 PM     INFO:   oragsm.py   - gsm_hostname_check :ORACLE_HOSTNAME is not set, setting it to hostname gsm2-0.gsm2.comp418-gdd.svc.cluster.local of the compute!
+07/28/2026 07:31:51 PM     INFO:   oragsm.py   -   director_regex   :Inside director_regex()
+07/28/2026 07:31:51 PM     INFO:   oragsm.py   -director_params_checks:SHARD Director PARAMS SHARD_DIRECTOR_PARAMS is set to director_name=sharddirectorgsm2;director_region=standby;director_port=1522
+07/28/2026 07:31:51 PM     INFO:   oragsm.py   -   catalog_regex    :Inside catalog_regex()
+07/28/2026 07:31:51 PM     INFO:   oragsm.py   -catalog_params_check:CATALOG PARAMS CATALOG_PARAMS is set to catalog_host=catalog-0.catalog;catalog_region=primary,standby;catalog_db=CATALOG;catalog_pdb=CATALOGPDB;catalog_port=1521;catalog_name=CATALOG;catalog_chunks=12
+07/28/2026 07:31:51 PM     INFO:   oragsm.py   - process_clog_vars  :Inside process_clog_vars()
+07/28/2026 07:31:51 PM     INFO:   oragsm.py   -    shardg_regex    :Inside shardg_regex()
+07/28/2026 07:31:51 PM     INFO:   oragsm.py   - check_gsm_director :Inside check_gsm_director()
+07/28/2026 07:31:51 PM     INFO:   oragsm.py   -   director_regex   :Inside director_regex()
+07/28/2026 07:31:51 PM     INFO:   oragsm.py   -process_director_vars:Inside process_director_vars()
+07/28/2026 07:31:51 PM     INFO:   oragsm.py   - get_gsm_config_cmd :Inside get_gsm_config_cmd()
+07/28/2026 07:31:51 PM     INFO: oracommon.py  -    exec_gsm_cmd    :Inside exec_gsm_cmd()
+07/28/2026 07:31:51 PM     INFO: oracommon.py  -    run_sqlplus     :Received Command : /u01/app/oracle/product/23ai/gsmhome_1/bin/gdsctl
+
+            config;
+            exit;
+          
+07/28/2026 07:31:51 PM     INFO: oracommon.py  -    exec_gsm_cmd    :Calling check_sql_err() to validate the gsm command return status
+07/28/2026 07:31:51 PM     INFO: oracommon.py  -   check_sql_err    :output : GDSCTL: Version 23.26.1.0.0 - Production on Tue Jul 28 19:31:51 UTC 2026
+Copyright (c) 2011, 2026, Oracle.  All rights reserved.
+Welcome to GDSCTL, type "help" for information.
+Current GSM is set to SHARDDIRECTORGSM2
+GDSCTL> 
+GDSCTL> 
+Catalog connection is established
+Regions
+------------------------
+primary                       
+standby                       
+GSMs
+------------------------
+sharddirectorgsm1             
+sharddirectorgsm2             
+Sharded Database
+------------------------
+catalog                       
+Databases
+------------------------
+shard1_shard1pdb              
+shard2_shard2pdb              
+Shard Groups
+------------------------
+shardgroup1                   
+Shard spaces
+------------------------
+shardspaceora                 
+Services
+------------------------
+oltp_ro_svc                   
+oltp_rw_svc                   
+GDSCTL pending requests
+------------------------
+Command                       Object                        Status                        
+-------                       ------                        ------                        
+Global properties
+------------------------
+Name: oradbcloud
+Master GSM: sharddirectorgsm1
+DDL sequence #: 18
+
+GDSCTL> 
+
+07/28/2026 07:31:51 PM     INFO: oracommon.py  -   check_sql_err    :Sql command completed sucessfully.
+07/28/2026 07:31:51 PM     INFO: oracommon.py  - check_substr_match :Inside check_substr_match()
+07/28/2026 07:31:51 PM     INFO: oracommon.py  - check_status_value :Inside check_status_value()
+07/28/2026 07:31:51 PM     INFO:   oragsm.py   - cancel_move_chunks :Inside check_shard_chunks()
+07/28/2026 07:31:51 PM     INFO:   oragsm.py   -cancel_chunks_regex :Inside cancel_chunks_regex()
+07/28/2026 07:31:51 PM     INFO:   oragsm.py   -process_chunks_vars :Inside process_chunks_vars()
+07/28/2026 07:31:51 PM     INFO:   oragsm.py   - check_online_shard :Inside check_online_shard()
+07/28/2026 07:31:51 PM     INFO: oracommon.py  -    exec_gsm_cmd    :Inside exec_gsm_cmd()
+07/28/2026 07:31:51 PM     INFO: oracommon.py  -    run_sqlplus     :Received Command : /u01/app/oracle/product/23ai/gsmhome_1/bin/gdsctl
+
+                 connect mysdbadmin/********;
+                 config shard -shard SHARD2_SHARD2PDB;
+                 exit;
+               
+07/28/2026 07:31:52 PM     INFO: oracommon.py  -    exec_gsm_cmd    :Calling check_sql_err() to validate the gsm command return status
+07/28/2026 07:31:52 PM     INFO: oracommon.py  -   check_sql_err    :output : GDSCTL: Version 23.26.1.0.0 - Production on Tue Jul 28 19:31:52 UTC 2026
+Copyright (c) 2011, 2026, Oracle.  All rights reserved.
+Welcome to GDSCTL, type "help" for information.
+Current GSM is set to SHARDDIRECTORGSM2
+GDSCTL> 
+GDSCTL> 
+Catalog connection is established
+GDSCTL> 
+Name: shard2_shard2pdb
+Shard Group: shardgroup1
+Status: Ok
+State: Deployed
+Region: primary
+Connection string: (description=(address=(protocol=tcp)(host=shard2-0.shard2)(port=1521))(connect_data=(service_name=shard2pdb)(server=DEDICATED)))
+SCAN address: 
+ONS remote port: 0
+Disk Threshold, ms: 20
+CPU Threshold, %: 75
+Version: 23.26
+Failed DDL: 
+DDL Error: ---
+Management error: 
+Failed DDL id: 
+Availability: -
+Rack: 
+
+Supported services
+------------------------
+Name                                                            Preferred Status    
+----                                                            --------- ------    
+oltp_ro_svc                                                     Yes       Enabled   
+oltp_rw_svc                                                     Yes       Enabled   
+GDSCTL> 
+
+07/28/2026 07:31:52 PM  WARNING: oracommon.py  -   check_sql_err    :Sql command failed. Flag is set to ignore the error.
+07/28/2026 07:31:52 PM     INFO:   oragsm.py   - cancel_move_chunks :Shard is not online. Performing chunk cancellation in GSM to set the shard chunk status.
+07/28/2026 07:31:52 PM     INFO: oracommon.py  -    exec_gsm_cmd    :Inside exec_gsm_cmd()
+07/28/2026 07:31:52 PM     INFO: oracommon.py  -    run_sqlplus     :Received Command : /u01/app/oracle/product/23ai/gsmhome_1/bin/gdsctl
+
+                              connect mysdbadmin/********;
+                              ALTER MOVE -cancel -SHARD SHARD2_SHARD2PDB
+                              config shard;
+                              exit;
+                             
+07/28/2026 07:31:53 PM     INFO: oracommon.py  -    exec_gsm_cmd    :Calling check_sql_err() to validate the gsm command return status
+07/28/2026 07:31:53 PM     INFO: oracommon.py  -   check_sql_err    :output : GDSCTL: Version 23.26.1.0.0 - Production on Tue Jul 28 19:31:52 UTC 2026
+Copyright (c) 2011, 2026, Oracle.  All rights reserved.
+Welcome to GDSCTL, type "help" for information.
+Current GSM is set to SHARDDIRECTORGSM2
+GDSCTL> 
+GDSCTL> 
+Catalog connection is established
+GDSCTL> 
+The operation completed successfully
+GDSCTL> 
+Name                Shard Group         Status    State       Region    Availability 
+----                -----------         ------    -----       ------    ------------ 
+shard1_shard1pdb    shardgroup1         Ok        Deployed    primary   -            
+shard2_shard2pdb    shardgroup1         Ok        Deployed    primary   -            
+GDSCTL> 
+
+07/28/2026 07:31:53 PM     INFO: oracommon.py  -   check_sql_err    :Sql command completed sucessfully.

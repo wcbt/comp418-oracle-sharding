@@ -1,0 +1,58 @@
+=== CLUSTER RECOVERY ===
+UTC_TIME=2026-07-28T19:18:01Z
+
+=== DOCKER CHECK ===
+DOCKER=AVAILABLE
+
+=== CURRENT CONFIGURATION ===
+KUBECTL_CONTEXT=comp418
+KUBECTL_SERVER=https://127.0.0.1:17591
+
+=== MINIKUBE STATUS BEFORE START ===
+comp418
+type: Control Plane
+host: Stopped
+kubelet: Stopped
+apiserver: Stopped
+kubeconfig: Stopped
+
+
+=== START EXISTING CLUSTER ===
+* [comp418] minikube v1.38.1 on Ubuntu 26.04 (kvm/amd64)
+* Kubernetes 1.35.1 is now available. If you would like to upgrade, specify: --kubernetes-version=v1.35.1
+* Using the docker driver based on existing profile
+* Starting "comp418" primary control-plane node in "comp418" cluster
+* Pulling base image v0.0.50 ...
+* Preparing Kubernetes v1.34.1 on containerd 2.2.1 ...
+* Verifying Kubernetes components...
+  - Using image gcr.io/k8s-minikube/storage-provisioner:v5
+* Enabled addons: default-storageclass, storage-provisioner
+* Done! kubectl is now configured to use "comp418" cluster and "default" namespace by default
+MINIKUBE_START_RC=0
+
+=== REFRESH KUBECONFIG ===
+! No changes required for the "comp418" context
+* Current context is "comp418"
+Switched to context "comp418".
+
+=== WAIT FOR CONTROL PLANE ===
+node/comp418 condition met
+
+=== CLUSTER STATUS AFTER START ===
+comp418
+type: Control Plane
+host: Running
+kubelet: Running
+apiserver: Running
+kubeconfig: Configured
+
+NAME      STATUS   ROLES           AGE   VERSION   INTERNAL-IP    EXTERNAL-IP   OS-IMAGE                         KERNEL-VERSION                     CONTAINER-RUNTIME
+comp418   Ready    control-plane   19h   v1.34.1   192.168.49.2   <none>        Debian GNU/Linux 12 (bookworm)   6.6.87.2-microsoft-standard-WSL2   containerd://2.2.1
+
+=== ORACLE PODS ===
+NAME        READY   STATUS    RESTARTS     AGE   IP            NODE      NOMINATED NODE   READINESS GATES
+catalog-0   0/1     Unknown   0            17h   <none>        comp418   <none>           <none>
+gsm1-0      1/1     Running   1 (7s ago)   17h   10.244.0.11   comp418   <none>           <none>
+gsm2-0      1/1     Running   1 (6s ago)   17h   10.244.0.13   comp418   <none>           <none>
+shard1-0    0/1     Unknown   0            17h   <none>        comp418   <none>           <none>
+shard2-0    0/1     Unknown   0            17h   <none>        comp418   <none>           <none>

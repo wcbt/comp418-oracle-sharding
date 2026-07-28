@@ -1,0 +1,36 @@
+=== CUSTOMER-ID DATA PARTITIONING ===
+python_version=3.13.13
+oracledb_version=3.4.1
+database_user=BANK_CUST
+input_directory=/tmp/comp418-benchmark-10k
+output_directory=/tmp/comp418-benchmark-10k/partitioned/bank_cust
+unique_customer_ids=10000
+
+=== BUILDING CUSTOMER-TO-SHARD MAP ===
+routing_progress=1000/10000
+routing_progress=2000/10000
+routing_progress=3000/10000
+routing_progress=4000/10000
+routing_progress=5000/10000
+routing_progress=6000/10000
+routing_progress=7000/10000
+routing_progress=8000/10000
+routing_progress=9000/10000
+routing_progress=10000/10000
+
+=== CUSTOMER ROUTING DISTRIBUTION ===
+shard1_customers=5018
+shard2_customers=4982
+routing_seconds=2.312
+
+=== REPRESENTATIVE ROUTING KEYS ===
+shard1: customer_id=600000001, container=SHARD1PDB, host=shard1-0
+shard2: customer_id=600000004, container=SHARD2PDB, host=shard2-0
+
+=== SPLITTING CSV FILES ===
+customers.csv: shard1=5018, shard2=4982, total=10000
+accounts.csv: shard1=10036, shard2=9964, total=20000
+ledger_entries.csv: shard1=50180, shard2=49820, total=100000
+
+summary_file=/tmp/comp418-benchmark-10k/partitioned/bank_cust/partition-summary.json
+CUSTOMER_ID_PARTITIONING=PASS

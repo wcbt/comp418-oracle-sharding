@@ -1,0 +1,70 @@
+
+SQL*Loader: Release 23.26.2.0.0 - Production on Tue Jul 28 07:37:08 2026
+Version 23.26.2.0.0
+
+Copyright (c) 1982, 2026, Oracle and/or its affiliates.  All rights reserved.
+
+Path used:      Conventional
+Commit point reached - logical record count 903
+Commit point reached - logical record count 1806
+Commit point reached - logical record count 2709
+Commit point reached - logical record count 3612
+Commit point reached - logical record count 4515
+Commit point reached - logical record count 5418
+Commit point reached - logical record count 6321
+Commit point reached - logical record count 7224
+Commit point reached - logical record count 8127
+Commit point reached - logical record count 9030
+Commit point reached - logical record count 9933
+Commit point reached - logical record count 10836
+Commit point reached - logical record count 11739
+Commit point reached - logical record count 12642
+Commit point reached - logical record count 13545
+Commit point reached - logical record count 14448
+Commit point reached - logical record count 15351
+Commit point reached - logical record count 16254
+Commit point reached - logical record count 17157
+Commit point reached - logical record count 18060
+Commit point reached - logical record count 18963
+Commit point reached - logical record count 19866
+Commit point reached - logical record count 20769
+Commit point reached - logical record count 21672
+Commit point reached - logical record count 22575
+Commit point reached - logical record count 23478
+Commit point reached - logical record count 24381
+Commit point reached - logical record count 25284
+Commit point reached - logical record count 26187
+Commit point reached - logical record count 27090
+Commit point reached - logical record count 27993
+Commit point reached - logical record count 28896
+Commit point reached - logical record count 29799
+Commit point reached - logical record count 30702
+Commit point reached - logical record count 31605
+Commit point reached - logical record count 32508
+Commit point reached - logical record count 33411
+Commit point reached - logical record count 34053
+Commit point reached - logical record count 34956
+Commit point reached - logical record count 35859
+Commit point reached - logical record count 36762
+Commit point reached - logical record count 37665
+Commit point reached - logical record count 38568
+Commit point reached - logical record count 39471
+Commit point reached - logical record count 40374
+Commit point reached - logical record count 41277
+Commit point reached - logical record count 42180
+Commit point reached - logical record count 43083
+Commit point reached - logical record count 43986
+Commit point reached - logical record count 44889
+Commit point reached - logical record count 45792
+Commit point reached - logical record count 46695
+Commit point reached - logical record count 47598
+Commit point reached - logical record count 48501
+Commit point reached - logical record count 49404
+Commit point reached - logical record count 50180
+
+Table LEDGER_ENTRIES:
+  50180 Rows successfully loaded.
+
+Check the log file:
+  /tmp/comp418-benchmark-10k/logs/20260728T073703Z-bank-cust-direct/shard1-ledger_entries.log
+for more information about the load.

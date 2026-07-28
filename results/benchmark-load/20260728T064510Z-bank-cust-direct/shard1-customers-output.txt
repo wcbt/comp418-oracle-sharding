@@ -1,0 +1,16 @@
+
+SQL*Loader: Release 23.26.2.0.0 - Production on Tue Jul 28 06:45:11 2026
+Version 23.26.2.0.0
+
+Copyright (c) 1982, 2026, Oracle and/or its affiliates.  All rights reserved.
+
+Path used:      Conventional
+Commit point reached - logical record count 1016
+
+Table CUSTOMERS:
+  0 Rows successfully loaded.
+
+Check the log file:
+  /tmp/comp418-benchmark-10k/logs/20260728T064510Z-bank-cust-direct/shard1-customers.log
+for more information about the load.
+command terminated with exit code 2

@@ -1,0 +1,49 @@
+=== POST-RESTART HEALTH AND SHARD2 COUNTS ===
+UTC_TIME=2026-07-28T19:21:41Z
+
+=== WAIT FOR ALL COMPONENTS ===
+pod/catalog-0 condition met
+pod/shard1-0 condition met
+pod/shard2-0 condition met
+pod/gsm1-0 condition met
+pod/gsm2-0 condition met
+ALL_PODS_READY_RC=0
+
+=== POD STATUS ===
+NAME        READY   PHASE     RESTARTS   IP
+catalog-0   true    Running   1          10.244.0.12
+gsm1-0      true    Running   1          10.244.0.11
+gsm2-0      true    Running   1          10.244.0.13
+shard1-0    true    Running   1          10.244.0.7
+shard2-0    true    Running   1          10.244.0.10
+
+=== SHARDING DATABASE RESOURCE ===
+NAME               GSM STATE      SERVICES   SHARDS
+comp418-sharding   PROVISIONING              {"shard1":"SHARD_ONLINE_ERROR_IN_GSM","shard2":"SHARD_ONLINE_ERROR_IN_GSM"}
+
+=== RECENT WARNING EVENTS ===
+LAST SEEN   TYPE      REASON         OBJECT                              MESSAGE
+12h         Warning   State Change   shardingdatabase/comp418-sharding   The shard [shard2] state changed from SHARD_ADDITION to SHARD_ADDITION_ERROR_IN_GSM in Gsm
+12h         Warning   State Change   shardingdatabase/comp418-sharding   The shard [shard2] state changed from SHARD_ADDITION to SHARD_ONLINE_ERROR_IN_GSM in Gsm
+11h         Warning   State Change   shardingdatabase/comp418-sharding   The shard [shard1] state changed from ONLINE_SHARD to SHARD_ONLINE_ERROR_IN_GSM in Gsm
+11h         Warning   State Change   shardingdatabase/comp418-sharding   The shard [shard1] state changed from SHARD_ADDITION to SHARD_ADDITION_ERROR_IN_GSM in Gsm
+11h         Warning   State Change   shardingdatabase/comp418-sharding   The shard [shard2] state changed from ONLINE_SHARD to SHARD_ONLINE_ERROR_IN_GSM in Gsm
+46s         Warning   Unhealthy      pod/gsm2-0                          Liveness probe failed:
+25s         Warning   State Change   shardingdatabase/comp418-sharding   The shard [shard1] state changed from SHARD_ADDITION to SHARD_ONLINE_ERROR_IN_GSM in Gsm
+25s         Warning   State Change   shardingdatabase/comp418-sharding   The shard [shard2] state changed from ONLINE_SHARD to SHARD_ONLINE_ERROR_IN_GSM in Gsm
+23s         Warning   Unhealthy      pod/gsm1-0                          Liveness probe failed:
+
+=== SHARD2 CONNECTION AND COUNTS ===
+USER=BANK_CUST
+CONTAINER=SHARD2PDB
+CUSTOMERS=4992
+ACCOUNTS=9978
+LEDGER_ENTRIES=14
+SHARD2_SQLPLUS_RC=0
+
+=== SHARD2 ALERT ERROR MARKERS ===
+ALERT_LOG=/opt/oracle/diag/rdbms/shard2/FREE/trace/alert_FREE.log
+92:Errors in file /opt/oracle/diag/rdbms/shard2/FREE/trace/FREE_vktm_47.trc  (incident=41) (PDBNAME=CDB$ROOT):
+94:Incident details in: /opt/oracle/diag/rdbms/shard2/FREE/incident/incdir_41/FREE_vktm_47_i41.trc
+103:Errors in file /opt/oracle/diag/rdbms/shard2/FREE/trace/FREE_lgwr_87.trc  (incident=161) (PDBNAME=CDB$ROOT):
+105:Incident details in: /opt/oracle/diag/rdbms/shard2/FREE/incident/incdir_161/FREE_lgwr_87_i161.trc

@@ -1,0 +1,29 @@
+
+SQL*Loader: Release 23.26.2.0.0 - Production on Tue Jul 28 07:37:07 2026
+Version 23.26.2.0.0
+
+Copyright (c) 1982, 2026, Oracle and/or its affiliates.  All rights reserved.
+
+Path used:      Conventional
+Commit point reached - logical record count 677
+Commit point reached - logical record count 1354
+Commit point reached - logical record count 2031
+Commit point reached - logical record count 2708
+Commit point reached - logical record count 3385
+Commit point reached - logical record count 4062
+Commit point reached - logical record count 4739
+Commit point reached - logical record count 5416
+Commit point reached - logical record count 6093
+Commit point reached - logical record count 6770
+Commit point reached - logical record count 7447
+Commit point reached - logical record count 8124
+Commit point reached - logical record count 8801
+Commit point reached - logical record count 9478
+Commit point reached - logical record count 10036
+
+Table ACCOUNTS:
+  10036 Rows successfully loaded.
+
+Check the log file:
+  /tmp/comp418-benchmark-10k/logs/20260728T073703Z-bank-cust-direct/shard1-accounts.log
+for more information about the load.

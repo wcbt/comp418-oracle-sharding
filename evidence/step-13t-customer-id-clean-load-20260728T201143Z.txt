@@ -1,0 +1,64 @@
+=== CUSTOMER-ID CLEAN LOAD ===
+UTC_TIME=2026-07-28T20:11:43Z
+RUN_ID=20260728T201143Z
+
+=== SHARDING HEALTH GATE ===
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"ONLINE_SHARD","shard2":"ONLINE_SHARD"}
+SHARDING_HEALTH=PASS
+
+=== RUNNING CUSTOMER-ID LOADER ===
+workload/load_partitioned_customer_id.sh: line 4: BANK_CUST_PASSWORD: BANK_CUST_PASSWORD is not set
+
+CUSTOMER_ID_LOADER_RC=1
+
+=== POST-LOAD PHYSICAL COUNTS ===
+--- SHARD1 ---
+command terminated with exit code 1
+ERROR:
+ORA-01017: invalid credential or not authorized; logon denied
+Help: https://docs.oracle.com/error-help/db/ora-01017/
+
+
+SP2-0306: Invalid option.
+Help: https://docs.oracle.com/error-help/db/sp2-0306/
+Usage: CONN[ECT] [{logon|/|proxy} [AS {SYSDBA|SYSOPER|SYSASM|SYSBACKUP|SYSDG|SYSKM|SYSRAC}] [edition=value]]
+where <logon> ::= <username>[/<password>][@<connect_identifier>]
+      <proxy> ::= <proxyuser>[<username>][/<password>][@<connect_identifier>]
+SP2-0306: Invalid option.
+Help: https://docs.oracle.com/error-help/db/sp2-0306/
+Usage: CONN[ECT] [{logon|/|proxy} [AS {SYSDBA|SYSOPER|SYSASM|SYSBACKUP|SYSDG|SYSKM|SYSRAC}] [edition=value]]
+where <logon> ::= <username>[/<password>][@<connect_identifier>]
+      <proxy> ::= <proxyuser>[<username>][/<password>][@<connect_identifier>]
+SP2-0157: unable to CONNECT to ORACLE after 3 attempts, exiting SQL*Plus
+Help: https://docs.oracle.com/error-help/db/sp2-0157/
+SHARD1_VERIFY_RC=1
+
+--- SHARD2 ---
+command terminated with exit code 1
+ERROR:
+ORA-01017: invalid credential or not authorized; logon denied
+Help: https://docs.oracle.com/error-help/db/ora-01017/
+
+
+SP2-0306: Invalid option.
+Help: https://docs.oracle.com/error-help/db/sp2-0306/
+Usage: CONN[ECT] [{logon|/|proxy} [AS {SYSDBA|SYSOPER|SYSASM|SYSBACKUP|SYSDG|SYSKM|SYSRAC}] [edition=value]]
+where <logon> ::= <username>[/<password>][@<connect_identifier>]
+      <proxy> ::= <proxyuser>[<username>][/<password>][@<connect_identifier>]
+SP2-0306: Invalid option.
+Help: https://docs.oracle.com/error-help/db/sp2-0306/
+Usage: CONN[ECT] [{logon|/|proxy} [AS {SYSDBA|SYSOPER|SYSASM|SYSBACKUP|SYSDG|SYSKM|SYSRAC}] [edition=value]]
+where <logon> ::= <username>[/<password>][@<connect_identifier>]
+      <proxy> ::= <proxyuser>[<username>][/<password>][@<connect_identifier>]
+SP2-0157: unable to CONNECT to ORACLE after 3 attempts, exiting SQL*Plus
+Help: https://docs.oracle.com/error-help/db/sp2-0157/
+SHARD2_VERIFY_RC=1
+
+=== AGGREGATE COUNTS ===
+TOTAL_CUSTOMERS=0
+TOTAL_ACCOUNTS=0
+TOTAL_LEDGER_ENTRIES=0
+
+=== FINAL RESULT ===
+POST_LOAD_VERIFICATION=FAIL
+CUSTOMER_ID_DIRECT_LOAD=FAIL

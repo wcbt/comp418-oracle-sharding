@@ -1,0 +1,44 @@
+=== BANK_CUST CLEAN RESET ===
+UTC_TIME=2026-07-28T19:29:08Z
+
+========================================
+RESETTING SHARD1
+========================================
+USER=BANK_CUST
+CONTAINER=SHARD1PDB
+PRE_CUSTOMERS=5026
+PRE_ACCOUNTS=10046
+PRE_LEDGER_ENTRIES=50190
+SP2-0734: unknown command beginning "DBMS_OUTPU..." - rest of line ignored.
+Help: https://docs.oracle.com/error-help/db/sp2-0734/
+SP2-0734: unknown command beginning "DBMS_OUTPU..." - rest of line ignored.
+Help: https://docs.oracle.com/error-help/db/sp2-0734/
+SP2-0734: unknown command beginning "DBMS_OUTPU..." - rest of line ignored.
+Help: https://docs.oracle.com/error-help/db/sp2-0734/
+POST_CUSTOMERS=0
+POST_ACCOUNTS=0
+POST_LEDGER_ENTRIES=0
+SHARD1_RESET_RC=0
+
+========================================
+RESETTING SHARD2
+========================================
+USER=BANK_CUST
+CONTAINER=SHARD2PDB
+PRE_CUSTOMERS=4992
+PRE_ACCOUNTS=9978
+PRE_LEDGER_ENTRIES=14
+SP2-0734: unknown command beginning "DBMS_OUTPU..." - rest of line ignored.
+Help: https://docs.oracle.com/error-help/db/sp2-0734/
+SP2-0734: unknown command beginning "DBMS_OUTPU..." - rest of line ignored.
+Help: https://docs.oracle.com/error-help/db/sp2-0734/
+SP2-0734: unknown command beginning "DBMS_OUTPU..." - rest of line ignored.
+Help: https://docs.oracle.com/error-help/db/sp2-0734/
+POST_CUSTOMERS=0
+POST_ACCOUNTS=0
+POST_LEDGER_ENTRIES=0
+SHARD2_RESET_RC=0
+
+=== FINAL RESET RESULT ===
+BANK_CUST_RESET_RC=0
+BANK_CUST_RESET=PASS

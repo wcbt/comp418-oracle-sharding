@@ -1,0 +1,11 @@
+=== ROUTED DML ROLLBACK TEST ===
+database_user=BANK_CUST
+test_customer_id=699999999
+container=SHARD1PDB
+server_host=shard1-0
+service=primary%oltp_rw_svc.catalog.oradbcloud
+count_before_insert=0
+count_after_insert=1
+transaction_action=ROLLBACK
+count_after_rollback=0
+ROUTED_DML_ROLLBACK_TEST=PASS
