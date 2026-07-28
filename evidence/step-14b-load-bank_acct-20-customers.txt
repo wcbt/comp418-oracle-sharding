@@ -1,0 +1,154 @@
+=== LIMITED DATASET LOAD ===
+UTC_TIME=2026-07-28T23:20:13Z
+DB_USER=BANK_ACCT
+SCENARIO_SIZE=20
+
+FOUND=workload/generated/limited/customers-20/customers.csv
+FOUND=workload/generated/limited/customers-20/accounts.csv
+FOUND=workload/generated/limited/customers-20/ledger_entries.csv
+FOUND=workload/generated/limited/customers-20/manifest.json
+
+=== STABLE SHARD HEALTH GATE ===
+ATTEMPT=1 CONSECUTIVE_HEALTHY=0
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"ONLINE_SHARD","shard2":"SHARD_ONLINE_ERROR_IN_GSM"}
+ATTEMPT=2 CONSECUTIVE_HEALTHY=0
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"ONLINE_SHARD","shard2":"SHARD_ONLINE_ERROR_IN_GSM"}
+ATTEMPT=3 CONSECUTIVE_HEALTHY=0
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"ONLINE_SHARD","shard2":"SHARD_ONLINE_ERROR_IN_GSM"}
+ATTEMPT=4 CONSECUTIVE_HEALTHY=0
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"ONLINE_SHARD","shard2":"SHARD_ONLINE_ERROR_IN_GSM"}
+ATTEMPT=5 CONSECUTIVE_HEALTHY=0
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"ONLINE_SHARD","shard2":"SHARD_ONLINE_ERROR_IN_GSM"}
+ATTEMPT=6 CONSECUTIVE_HEALTHY=0
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"ONLINE_SHARD","shard2":"SHARD_ONLINE_ERROR_IN_GSM"}
+ATTEMPT=7 CONSECUTIVE_HEALTHY=0
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"ONLINE_SHARD","shard2":"SHARD_ONLINE_ERROR_IN_GSM"}
+ATTEMPT=8 CONSECUTIVE_HEALTHY=0
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"ONLINE_SHARD","shard2":"SHARD_ONLINE_ERROR_IN_GSM"}
+ATTEMPT=9 CONSECUTIVE_HEALTHY=0
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"ONLINE_SHARD","shard2":"SHARD_ONLINE_ERROR_IN_GSM"}
+ATTEMPT=10 CONSECUTIVE_HEALTHY=0
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"ONLINE_SHARD","shard2":"SHARD_ONLINE_ERROR_IN_GSM"}
+ATTEMPT=11 CONSECUTIVE_HEALTHY=0
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"ONLINE_SHARD","shard2":"SHARD_ONLINE_ERROR_IN_GSM"}
+ATTEMPT=12 CONSECUTIVE_HEALTHY=0
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"ONLINE_SHARD","shard2":"SHARD_ONLINE_ERROR_IN_GSM"}
+ATTEMPT=13 CONSECUTIVE_HEALTHY=0
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"ONLINE_SHARD","shard2":"SHARD_ONLINE_ERROR_IN_GSM"}
+ATTEMPT=14 CONSECUTIVE_HEALTHY=0
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"ONLINE_SHARD","shard2":"SHARD_ONLINE_ERROR_IN_GSM"}
+ATTEMPT=15 CONSECUTIVE_HEALTHY=0
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"ONLINE_SHARD","shard2":"SHARD_ONLINE_ERROR_IN_GSM"}
+ATTEMPT=16 CONSECUTIVE_HEALTHY=0
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"ONLINE_SHARD","shard2":"ONLINE_SHARD"}
+ATTEMPT=17 CONSECUTIVE_HEALTHY=1
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"ONLINE_SHARD","shard2":"ONLINE_SHARD"}
+ATTEMPT=18 CONSECUTIVE_HEALTHY=2
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"ONLINE_SHARD","shard2":"ONLINE_SHARD"}
+STABLE_SHARD_HEALTH=PASS
+
+=== STAGE LOADER AND DATA ===
+REMOTE_STAGING=PASS
+
+=== CLEAN, LOAD, AND VERIFY TARGET SCHEMA ===
+DB_USER=BANK_ACCT SCENARIO_SIZE=20
+=== CLEANING LIMITED BENCHMARK RANGE ===
+shard1|customers_deleted=5|accounts_deleted=10|ledger_deleted=50
+shard2|customers_deleted=5|accounts_deleted=10|ledger_deleted=50
+=== INSERTING LIMITED DATASET ===
+loaded_customer_id=700000001
+loaded_customer_id=700000002
+loaded_customer_id=700000003
+loaded_customer_id=700000005
+loaded_customer_id=700000007
+loaded_customer_id=700000004
+loaded_customer_id=700000006
+loaded_customer_id=700000008
+loaded_customer_id=700000009
+loaded_customer_id=700000010
+loaded_customer_id=700000011
+loaded_customer_id=700000012
+loaded_customer_id=700000013
+loaded_customer_id=700000014
+loaded_customer_id=700000015
+loaded_customer_id=700000016
+loaded_customer_id=700000017
+loaded_customer_id=700000018
+loaded_customer_id=700000019
+loaded_customer_id=700000022
+loaded_account_id=710000002
+loaded_account_id=710000001
+loaded_account_id=710000004
+loaded_account_id=710000003
+loaded_account_id=710000005
+loaded_account_id=710000006
+loaded_account_id=710000007
+loaded_account_id=710000009
+loaded_account_id=710000010
+loaded_account_id=710000008
+loaded_account_id=710000016
+loaded_account_id=710000011
+loaded_account_id=710000012
+loaded_account_id=710000021
+loaded_account_id=710000024
+loaded_account_id=710000013
+loaded_account_id=710000014
+loaded_account_id=710000028
+loaded_account_id=710000029
+loaded_account_id=710000015
+loaded_account_id=710000017
+loaded_account_id=710000032
+loaded_account_id=710000034
+loaded_account_id=710000018
+loaded_account_id=710000019
+loaded_account_id=710000035
+loaded_account_id=710000037
+loaded_account_id=710000020
+loaded_account_id=710000022
+loaded_account_id=710000038
+loaded_account_id=710000039
+loaded_account_id=710000023
+loaded_account_id=710000025
+loaded_account_id=710000040
+loaded_account_id=710000041
+loaded_account_id=710000026
+loaded_account_id=710000027
+loaded_account_id=710000042
+loaded_account_id=710000043
+loaded_account_id=710000030
+=== VERIFYING DIRECT SHARD COUNTS ===
+shard1|customers=10|accounts=20|ledger_entries=100|invalid_ledger_groups=0
+shard2|customers=10|accounts=20|ledger_entries=100|invalid_ledger_groups=0
+TOTALS|customers=20|accounts=40|ledger_entries=200
+{
+  "database_user": "BANK_ACCT",
+  "scenario_size": 20,
+  "expected_counts": {
+    "customers": 20,
+    "accounts": 40,
+    "ledger_entries": 200
+  },
+  "shard_counts": {
+    "shard1": {
+      "customers": 10,
+      "accounts": 20,
+      "ledger_entries": 100,
+      "invalid_ledger_groups": 0
+    },
+    "shard2": {
+      "customers": 10,
+      "accounts": 20,
+      "ledger_entries": 100,
+      "invalid_ledger_groups": 0
+    }
+  },
+  "totals": {
+    "customers": 20,
+    "accounts": 40,
+    "ledger_entries": 200
+  },
+  "status": "PASS"
+}
+LIMITED_DATASET_LOAD=PASS
+
+LIMITED_SCHEMA_LOAD=PASS

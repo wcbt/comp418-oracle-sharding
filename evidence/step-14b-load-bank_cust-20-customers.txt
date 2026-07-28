@@ -1,0 +1,110 @@
+=== LIMITED DATASET LOAD ===
+UTC_TIME=2026-07-28T23:14:54Z
+DB_USER=BANK_CUST
+SCENARIO_SIZE=20
+
+FOUND=workload/generated/limited/customers-20/customers.csv
+FOUND=workload/generated/limited/customers-20/accounts.csv
+FOUND=workload/generated/limited/customers-20/ledger_entries.csv
+FOUND=workload/generated/limited/customers-20/manifest.json
+
+=== STABLE SHARD HEALTH GATE ===
+ATTEMPT=1 CONSECUTIVE_HEALTHY=0
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"SHARD_ADDITION","shard2":"ONLINE_SHARD"}
+ATTEMPT=2 CONSECUTIVE_HEALTHY=0
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"SHARD_ADDITION","shard2":"ONLINE_SHARD"}
+ATTEMPT=3 CONSECUTIVE_HEALTHY=0
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"SHARD_ADDITION","shard2":"ONLINE_SHARD"}
+ATTEMPT=4 CONSECUTIVE_HEALTHY=0
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"SHARD_ADDITION","shard2":"ONLINE_SHARD"}
+ATTEMPT=5 CONSECUTIVE_HEALTHY=0
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"SHARD_ADDITION","shard2":"ONLINE_SHARD"}
+ATTEMPT=6 CONSECUTIVE_HEALTHY=0
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"SHARD_ADDITION","shard2":"ONLINE_SHARD"}
+ATTEMPT=7 CONSECUTIVE_HEALTHY=0
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"SHARD_ADDITION","shard2":"ONLINE_SHARD"}
+ATTEMPT=8 CONSECUTIVE_HEALTHY=0
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"SHARD_ADDITION","shard2":"ONLINE_SHARD"}
+ATTEMPT=9 CONSECUTIVE_HEALTHY=0
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"SHARD_ADDITION","shard2":"ONLINE_SHARD"}
+ATTEMPT=10 CONSECUTIVE_HEALTHY=0
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"SHARD_ADDITION","shard2":"ONLINE_SHARD"}
+ATTEMPT=11 CONSECUTIVE_HEALTHY=0
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"SHARD_ADDITION","shard2":"ONLINE_SHARD"}
+ATTEMPT=12 CONSECUTIVE_HEALTHY=0
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"SHARD_ADDITION","shard2":"ONLINE_SHARD"}
+ATTEMPT=13 CONSECUTIVE_HEALTHY=0
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"SHARD_ADDITION","shard2":"ONLINE_SHARD"}
+ATTEMPT=14 CONSECUTIVE_HEALTHY=0
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"ONLINE_SHARD","shard2":"ONLINE_SHARD"}
+ATTEMPT=15 CONSECUTIVE_HEALTHY=1
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"ONLINE_SHARD","shard2":"ONLINE_SHARD"}
+ATTEMPT=16 CONSECUTIVE_HEALTHY=2
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"ONLINE_SHARD","shard2":"ONLINE_SHARD"}
+STABLE_SHARD_HEALTH=PASS
+
+=== STAGE LOADER AND DATA ===
+REMOTE_STAGING=PASS
+
+=== CLEAN, LOAD, AND VERIFY TARGET SCHEMA ===
+DB_USER=BANK_CUST SCENARIO_SIZE=20
+=== CLEANING LIMITED BENCHMARK RANGE ===
+shard1|customers_deleted=5|accounts_deleted=10|ledger_deleted=50
+shard2|customers_deleted=5|accounts_deleted=10|ledger_deleted=50
+=== INSERTING LIMITED DATASET ===
+loaded_customer_id=700000001
+loaded_customer_id=700000002
+loaded_customer_id=700000003
+loaded_customer_id=700000005
+loaded_customer_id=700000007
+loaded_customer_id=700000004
+loaded_customer_id=700000006
+loaded_customer_id=700000008
+loaded_customer_id=700000009
+loaded_customer_id=700000010
+loaded_customer_id=700000011
+loaded_customer_id=700000012
+loaded_customer_id=700000013
+loaded_customer_id=700000014
+loaded_customer_id=700000015
+loaded_customer_id=700000016
+loaded_customer_id=700000017
+loaded_customer_id=700000018
+loaded_customer_id=700000019
+loaded_customer_id=700000022
+=== VERIFYING DIRECT SHARD COUNTS ===
+shard1|customers=10|accounts=20|ledger_entries=100|invalid_ledger_groups=0
+shard2|customers=10|accounts=20|ledger_entries=100|invalid_ledger_groups=0
+TOTALS|customers=20|accounts=40|ledger_entries=200
+{
+  "database_user": "BANK_CUST",
+  "scenario_size": 20,
+  "expected_counts": {
+    "customers": 20,
+    "accounts": 40,
+    "ledger_entries": 200
+  },
+  "shard_counts": {
+    "shard1": {
+      "customers": 10,
+      "accounts": 20,
+      "ledger_entries": 100,
+      "invalid_ledger_groups": 0
+    },
+    "shard2": {
+      "customers": 10,
+      "accounts": 20,
+      "ledger_entries": 100,
+      "invalid_ledger_groups": 0
+    }
+  },
+  "totals": {
+    "customers": 20,
+    "accounts": 40,
+    "ledger_entries": 200
+  },
+  "status": "PASS"
+}
+LIMITED_DATASET_LOAD=PASS
+
+LIMITED_SCHEMA_LOAD=PASS
