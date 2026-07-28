@@ -1,0 +1,110 @@
+
+========================================
+CUSTOMER-ID COMPARISON DATA: shard1-0 / SHARD1PDB
+========================================
+
+Session altered.
+
+=== CURRENT CONTAINER ===
+
+CON_NAME
+------------------------------
+SHARD1PDB
+=== LOCAL ROW COUNTS ===
+
+OBJECT_NAME	     LOCAL_ROWS
+-------------------- ----------
+CUSTOMERS		      2
+ACCOUNTS		      4
+LEDGER_ENTRIES		      4
+
+3 rows selected.
+
+=== CUSTOMER FAMILY CO-LOCATION ===
+
+  CUSTOMER_ID	       ACCOUNT_ID ACCOUNT_TYPE CUSTOMER_PARTITION	ACCOUNT_PARTITION	 LEDGER_PARTITION	  COLOCATED
+------------- ------------------- ------------ ------------------------ ------------------------ ------------------------ ----------
+       518004		   418007 SAVINGS      CUSTOMERS_P6		CUSTOMERS_P6		 CUSTOMERS_P6		  YES
+       518004		   418009 CHEQUING     CUSTOMERS_P6		CUSTOMERS_P6		 CUSTOMERS_P6		  YES
+       518005		   418008 SAVINGS      CUSTOMERS_P6		CUSTOMERS_P6		 CUSTOMERS_P6		  YES
+       518005		   418010 CHEQUING     CUSTOMERS_P6		CUSTOMERS_P6		 CUSTOMERS_P6		  YES
+
+4 rows selected.
+
+=== LOCAL ACCOUNTS PER CUSTOMER ===
+
+  CUSTOMER_ID LOCAL_ACCOUNT_COUNT LOCAL_ACCOUNT_IDS
+------------- ------------------- ---------------------------------------------
+       518004			2 418007, 418009
+       518005			2 418008, 418010
+
+2 rows selected.
+
+=== LOCAL CUSTOMER-TO-ACCOUNT JOIN ===
+
+  CUSTOMER_ID FULL_NAME 		     LOCALLY_VISIBLE_ACCOUNTS
+------------- ------------------------------ ------------------------
+       518004 Customer Design Customer 04			    2
+       518005 Customer Design Customer 05			    2
+
+2 rows selected.
+
+
+========================================
+CUSTOMER-ID COMPARISON DATA: shard2-0 / SHARD2PDB
+========================================
+
+Session altered.
+
+=== CURRENT CONTAINER ===
+
+CON_NAME
+------------------------------
+SHARD2PDB
+=== LOCAL ROW COUNTS ===
+
+OBJECT_NAME	     LOCAL_ROWS
+-------------------- ----------
+CUSTOMERS		      4
+ACCOUNTS		      8
+LEDGER_ENTRIES		      8
+
+3 rows selected.
+
+=== CUSTOMER FAMILY CO-LOCATION ===
+
+  CUSTOMER_ID	       ACCOUNT_ID ACCOUNT_TYPE CUSTOMER_PARTITION	ACCOUNT_PARTITION	 LEDGER_PARTITION	  COLOCATED
+------------- ------------------- ------------ ------------------------ ------------------------ ------------------------ ----------
+       518001		   418001 SAVINGS      CUSTOMERS_P7		CUSTOMERS_P7		 CUSTOMERS_P7		  YES
+       518001		   418003 CHEQUING     CUSTOMERS_P7		CUSTOMERS_P7		 CUSTOMERS_P7		  YES
+       518002		   418002 SAVINGS      CUSTOMERS_P8		CUSTOMERS_P8		 CUSTOMERS_P8		  YES
+       518002		   418004 CHEQUING     CUSTOMERS_P8		CUSTOMERS_P8		 CUSTOMERS_P8		  YES
+       518003		   418005 CHEQUING     CUSTOMERS_P12		CUSTOMERS_P12		 CUSTOMERS_P12		  YES
+       518003		   418006 SAVINGS      CUSTOMERS_P12		CUSTOMERS_P12		 CUSTOMERS_P12		  YES
+       518006		   418011 CHEQUING     CUSTOMERS_P9		CUSTOMERS_P9		 CUSTOMERS_P9		  YES
+       518006		   418012 SAVINGS      CUSTOMERS_P9		CUSTOMERS_P9		 CUSTOMERS_P9		  YES
+
+8 rows selected.
+
+=== LOCAL ACCOUNTS PER CUSTOMER ===
+
+  CUSTOMER_ID LOCAL_ACCOUNT_COUNT LOCAL_ACCOUNT_IDS
+------------- ------------------- ---------------------------------------------
+       518001			2 418001, 418003
+       518002			2 418002, 418004
+       518003			2 418005, 418006
+       518006			2 418011, 418012
+
+4 rows selected.
+
+=== LOCAL CUSTOMER-TO-ACCOUNT JOIN ===
+
+  CUSTOMER_ID FULL_NAME 		     LOCALLY_VISIBLE_ACCOUNTS
+------------- ------------------------------ ------------------------
+       518001 Customer Design Customer 01			    2
+       518002 Customer Design Customer 02			    2
+       518003 Customer Design Customer 03			    2
+       518006 Customer Design Customer 06			    2
+
+4 rows selected.
+

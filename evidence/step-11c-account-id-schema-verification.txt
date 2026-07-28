@@ -1,0 +1,196 @@
+
+========================================
+ACCOUNT-ID SCHEMA: shard1-0 / SHARD1PDB
+========================================
+
+Session altered.
+
+=== CURRENT CONTAINER ===
+
+CON_NAME
+------------------------------
+SHARD1PDB
+=== TABLES PRESENT ===
+
+TABLE_NAME		  PARTITIONED  STATUS
+------------------------- ------------ ------------
+ACCOUNTS		  YES	       VALID
+CUSTOMERS		  YES	       VALID
+LEDGER_ENTRIES		  YES	       VALID
+
+3 rows selected.
+
+=== PARTITIONING MODEL ===
+
+TABLE_NAME		  PARTITIONING_TYPE    PARTITION_COUNT STATUS
+------------------------- -------------------- --------------- ------------
+ACCOUNTS		  RANGE 			    12 VALID
+CUSTOMERS		  RANGE 			    12 VALID
+LEDGER_ENTRIES		  REFERENCE			    12 VALID
+
+3 rows selected.
+
+=== LOCAL TABLE PARTITION COUNTS ===
+
+TABLE_NAME		  LOCAL_PARTITIONS TABLESPACES
+------------------------- ---------------- -----------
+ACCOUNTS				12	     7
+CUSTOMERS				12	     7
+LEDGER_ENTRIES				12	     7
+
+3 rows selected.
+
+=== TABLE FAMILY TABLESPACE PLACEMENT ===
+
+TABLE_FAMILY	   TABLE_NAME		     TABLESPACE_NAME				PARTITIONS
+------------------ ------------------------- ------------------------------------------ ----------
+ACCOUNT FAMILY	   ACCOUNTS		     BANK_ACCOUNT_TS					 6
+ACCOUNT FAMILY	   LEDGER_ENTRIES	     BANK_ACCOUNT_TS					 6
+ACCOUNT FAMILY	   ACCOUNTS		     C001BANK_ACCOUNT_TS				 1
+ACCOUNT FAMILY	   LEDGER_ENTRIES	     C001BANK_ACCOUNT_TS				 1
+ACCOUNT FAMILY	   ACCOUNTS		     C002BANK_ACCOUNT_TS				 1
+ACCOUNT FAMILY	   LEDGER_ENTRIES	     C002BANK_ACCOUNT_TS				 1
+ACCOUNT FAMILY	   ACCOUNTS		     C003BANK_ACCOUNT_TS				 1
+ACCOUNT FAMILY	   LEDGER_ENTRIES	     C003BANK_ACCOUNT_TS				 1
+ACCOUNT FAMILY	   ACCOUNTS		     C004BANK_ACCOUNT_TS				 1
+ACCOUNT FAMILY	   LEDGER_ENTRIES	     C004BANK_ACCOUNT_TS				 1
+ACCOUNT FAMILY	   ACCOUNTS		     C005BANK_ACCOUNT_TS				 1
+ACCOUNT FAMILY	   LEDGER_ENTRIES	     C005BANK_ACCOUNT_TS				 1
+ACCOUNT FAMILY	   ACCOUNTS		     C006BANK_ACCOUNT_TS				 1
+ACCOUNT FAMILY	   LEDGER_ENTRIES	     C006BANK_ACCOUNT_TS				 1
+CUSTOMER FAMILY    CUSTOMERS		     BANK_ACCT_CUSTOMER_TS				 6
+CUSTOMER FAMILY    CUSTOMERS		     C001BANK_ACCT_CUSTOMER_TS				 1
+CUSTOMER FAMILY    CUSTOMERS		     C002BANK_ACCT_CUSTOMER_TS				 1
+CUSTOMER FAMILY    CUSTOMERS		     C003BANK_ACCT_CUSTOMER_TS				 1
+CUSTOMER FAMILY    CUSTOMERS		     C004BANK_ACCT_CUSTOMER_TS				 1
+CUSTOMER FAMILY    CUSTOMERS		     C005BANK_ACCT_CUSTOMER_TS				 1
+CUSTOMER FAMILY    CUSTOMERS		     C006BANK_ACCT_CUSTOMER_TS				 1
+
+21 rows selected.
+
+=== CUSTOMER LOOKUP INDEX ===
+
+INDEX_NAME			       TABLE_NAME		 PARTITIONED  STATUS
+-------------------------------------- ------------------------- ------------ ------------
+BANK_ACCT_ACCOUNTS_CUSTOMER_IX	       ACCOUNTS 		 YES	      N/A
+
+1 row selected.
+
+=== CUSTOMER LOOKUP INDEX PARTITIONS ===
+
+INDEX_NAME			       TOTAL_PARTITIONS USABLE_PARTITIONS NONUSABLE_PARTITIONS
+-------------------------------------- ---------------- ----------------- --------------------
+BANK_ACCT_ACCOUNTS_CUSTOMER_IX			     12 	       12		     0
+
+1 row selected.
+
+=== FOREIGN KEY VERIFICATION ===
+
+TABLE_NAME		  CONSTRAINT_NAME
+------------------------- --------------------------------------------------------------------------------------------------------------------------------
+R_CONSTRAINT_NAME														 STATUS
+-------------------------------------------------------------------------------------------------------------------------------- ------------
+LEDGER_ENTRIES		  BANK_ACCT_LEDGER_ACCOUNT_FK
+BANK_ACCT_ACCOUNTS_PK														 ENABLED
+
+
+1 row selected.
+
+
+========================================
+ACCOUNT-ID SCHEMA: shard2-0 / SHARD2PDB
+========================================
+
+Session altered.
+
+=== CURRENT CONTAINER ===
+
+CON_NAME
+------------------------------
+SHARD2PDB
+=== TABLES PRESENT ===
+
+TABLE_NAME		  PARTITIONED  STATUS
+------------------------- ------------ ------------
+ACCOUNTS		  YES	       VALID
+CUSTOMERS		  YES	       VALID
+LEDGER_ENTRIES		  YES	       VALID
+
+3 rows selected.
+
+=== PARTITIONING MODEL ===
+
+TABLE_NAME		  PARTITIONING_TYPE    PARTITION_COUNT STATUS
+------------------------- -------------------- --------------- ------------
+ACCOUNTS		  RANGE 			    12 VALID
+CUSTOMERS		  RANGE 			    12 VALID
+LEDGER_ENTRIES		  REFERENCE			    12 VALID
+
+3 rows selected.
+
+=== LOCAL TABLE PARTITION COUNTS ===
+
+TABLE_NAME		  LOCAL_PARTITIONS TABLESPACES
+------------------------- ---------------- -----------
+ACCOUNTS				12	     7
+CUSTOMERS				12	     7
+LEDGER_ENTRIES				12	     7
+
+3 rows selected.
+
+=== TABLE FAMILY TABLESPACE PLACEMENT ===
+
+TABLE_FAMILY	   TABLE_NAME		     TABLESPACE_NAME				PARTITIONS
+------------------ ------------------------- ------------------------------------------ ----------
+ACCOUNT FAMILY	   ACCOUNTS		     BANK_ACCOUNT_TS					 6
+ACCOUNT FAMILY	   LEDGER_ENTRIES	     BANK_ACCOUNT_TS					 6
+ACCOUNT FAMILY	   ACCOUNTS		     C007BANK_ACCOUNT_TS				 1
+ACCOUNT FAMILY	   LEDGER_ENTRIES	     C007BANK_ACCOUNT_TS				 1
+ACCOUNT FAMILY	   ACCOUNTS		     C008BANK_ACCOUNT_TS				 1
+ACCOUNT FAMILY	   LEDGER_ENTRIES	     C008BANK_ACCOUNT_TS				 1
+ACCOUNT FAMILY	   ACCOUNTS		     C009BANK_ACCOUNT_TS				 1
+ACCOUNT FAMILY	   LEDGER_ENTRIES	     C009BANK_ACCOUNT_TS				 1
+ACCOUNT FAMILY	   ACCOUNTS		     C00ABANK_ACCOUNT_TS				 1
+ACCOUNT FAMILY	   LEDGER_ENTRIES	     C00ABANK_ACCOUNT_TS				 1
+ACCOUNT FAMILY	   ACCOUNTS		     C00BBANK_ACCOUNT_TS				 1
+ACCOUNT FAMILY	   LEDGER_ENTRIES	     C00BBANK_ACCOUNT_TS				 1
+ACCOUNT FAMILY	   ACCOUNTS		     C00CBANK_ACCOUNT_TS				 1
+ACCOUNT FAMILY	   LEDGER_ENTRIES	     C00CBANK_ACCOUNT_TS				 1
+CUSTOMER FAMILY    CUSTOMERS		     BANK_ACCT_CUSTOMER_TS				 6
+CUSTOMER FAMILY    CUSTOMERS		     C007BANK_ACCT_CUSTOMER_TS				 1
+CUSTOMER FAMILY    CUSTOMERS		     C008BANK_ACCT_CUSTOMER_TS				 1
+CUSTOMER FAMILY    CUSTOMERS		     C009BANK_ACCT_CUSTOMER_TS				 1
+CUSTOMER FAMILY    CUSTOMERS		     C00ABANK_ACCT_CUSTOMER_TS				 1
+CUSTOMER FAMILY    CUSTOMERS		     C00BBANK_ACCT_CUSTOMER_TS				 1
+CUSTOMER FAMILY    CUSTOMERS		     C00CBANK_ACCT_CUSTOMER_TS				 1
+
+21 rows selected.
+
+=== CUSTOMER LOOKUP INDEX ===
+
+INDEX_NAME			       TABLE_NAME		 PARTITIONED  STATUS
+-------------------------------------- ------------------------- ------------ ------------
+BANK_ACCT_ACCOUNTS_CUSTOMER_IX	       ACCOUNTS 		 YES	      N/A
+
+1 row selected.
+
+=== CUSTOMER LOOKUP INDEX PARTITIONS ===
+
+INDEX_NAME			       TOTAL_PARTITIONS USABLE_PARTITIONS NONUSABLE_PARTITIONS
+-------------------------------------- ---------------- ----------------- --------------------
+BANK_ACCT_ACCOUNTS_CUSTOMER_IX			     12 	       12		     0
+
+1 row selected.
+
+=== FOREIGN KEY VERIFICATION ===
+
+TABLE_NAME		  CONSTRAINT_NAME
+------------------------- --------------------------------------------------------------------------------------------------------------------------------
+R_CONSTRAINT_NAME														 STATUS
+-------------------------------------------------------------------------------------------------------------------------------- ------------
+LEDGER_ENTRIES		  BANK_ACCT_LEDGER_ACCOUNT_FK
+BANK_ACCT_ACCOUNTS_PK														 ENABLED
+
+
+1 row selected.
+
