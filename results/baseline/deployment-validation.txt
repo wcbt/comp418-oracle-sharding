@@ -1,0 +1,74 @@
+COMP 418 Oracle GDD deployment validation
+Recorded UTC: Tue Jul 28 02:39:53 UTC 2026
+
+=== Kubernetes pods ===
+NAME        READY   STATUS    RESTARTS   AGE
+catalog-0   1/1     Running   0          59m
+gsm1-0      1/1     Running   0          59m
+gsm2-0      1/1     Running   0          59m
+shard1-0    1/1     Running   0          59m
+shard2-0    1/1     Running   0          59m
+
+=== Persistent volumes ===
+NAME                             STATUS   VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS   VOLUMEATTRIBUTESCLASS   AGE
+catalog-oradata-vol4-catalog-0   Bound    pvc-3bba2787-fef3-432e-9294-17079b754eba   50Gi       RWO            standard       <unset>                 59m
+gsm1-oradata-vol4-gsm1-0         Bound    pvc-5044578c-c952-485e-a231-b6d109eb263a   50Gi       RWO            standard       <unset>                 59m
+gsm2-oradata-vol4-gsm2-0         Bound    pvc-2c3348f6-1753-40fd-a4cf-1083162e09c6   50Gi       RWO            standard       <unset>                 59m
+shard1-oradata-vol4-shard1-0     Bound    pvc-ead981d1-97ba-4b55-a8af-38e1e96469da   50Gi       RWO            standard       <unset>                 59m
+shard2-oradata-vol4-shard2-0     Bound    pvc-3f4d2d37-ec57-4cc1-b28a-3955763969f5   50Gi       RWO            standard       <unset>                 59m
+
+=== Sharding resource ===
+NAME               GSM STATE   SERVICES                                                             SHARDS
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"ONLINE_SHARD","shard2":"SHARD_ADDITION"}
+
+=== GDS configuration ===
+GDSCTL: Version 23.26.1.0.0 - Production on Tue Jul 28 02:39:54 UTC 2026
+
+Copyright (c) 2011, 2026, Oracle.  All rights reserved.
+
+Welcome to GDSCTL, type "help" for information.
+
+Current GSM is set to SHARDDIRECTORGSM1
+GDSCTL> 
+Catalog connection is established
+Name                Shard Group         Status    State       Region    Availability 
+----                -----------         ------    -----       ------    ------------ 
+shard1_shard1pdb    shardgroup1         Ok        Deployed    primary   ONLINE       
+shard2_shard2pdb    shardgroup1         Ok        Deployed    primary   ONLINE       
+
+GDSCTL> 
+Name           Network name                  Pool           Started Preferred all 
+----           ------------                  ----           ------- ------------- 
+oltp_ro_svc    oltp_ro_svc.catalog.oradbclou catalog        Yes     Yes           
+               d                                                                  
+
+oltp_rw_svc    oltp_rw_svc.catalog.oradbclou catalog        Yes     Yes           
+               d                                                                  
+
+
+GDSCTL> 
+GDS Pool administrators
+------------------------
+
+
+Replication Type
+------------------------
+
+Data Guard                    
+
+Shard type
+------------------------
+System-managed
+
+Shard spaces
+------------------------
+
+shardspaceora                 
+
+Services
+------------------------
+
+oltp_ro_svc                   
+oltp_rw_svc                   
+
+GDSCTL> 
