@@ -1,0 +1,47 @@
+=== BOUNDED SHARD REGISTRATION RECOVERY ===
+UTC_TIME=2026-07-28T21:40:11Z
+
+=== CURRENT PODS ===
+NAME        READY   STATUS    RESTARTS       AGE    IP            NODE      NOMINATED NODE   READINESS GATES
+catalog-0   1/1     Running   1 (141m ago)   19h    10.244.0.12   comp418   <none>           <none>
+gsm1-0      1/1     Running   2 (138m ago)   19h    10.244.0.11   comp418   <none>           <none>
+gsm2-0      1/1     Running   2 (137m ago)   19h    10.244.0.13   comp418   <none>           <none>
+shard1-0    1/1     Running   0              119m   10.244.0.14   comp418   <none>           <none>
+shard2-0    1/1     Running   0              115m   10.244.0.15   comp418   <none>           <none>
+
+=== PERSISTENT VOLUME CHECK ===
+NAME                             STATUS   VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS   VOLUMEATTRIBUTESCLASS   AGE
+catalog-oradata-vol4-catalog-0   Bound    pvc-3bba2787-fef3-432e-9294-17079b754eba   50Gi       RWO            standard       <unset>                 19h
+gsm1-oradata-vol4-gsm1-0         Bound    pvc-5044578c-c952-485e-a231-b6d109eb263a   50Gi       RWO            standard       <unset>                 19h
+gsm2-oradata-vol4-gsm2-0         Bound    pvc-2c3348f6-1753-40fd-a4cf-1083162e09c6   50Gi       RWO            standard       <unset>                 19h
+shard1-oradata-vol4-shard1-0     Bound    pvc-ead981d1-97ba-4b55-a8af-38e1e96469da   50Gi       RWO            standard       <unset>                 19h
+shard2-oradata-vol4-shard2-0     Bound    pvc-3f4d2d37-ec57-4cc1-b28a-3955763969f5   50Gi       RWO            standard       <unset>                 19h
+PERSISTENT_VOLUMES=PASS
+
+=== ALLOW TRANSIENT REGISTRATION TO SETTLE ===
+
+--- health attempt 1/12 ---
+comp418-sharding   PROVISIONING         {"shard1":"ONLINE_SHARD","shard2":"ONLINE_SHARD"}
+
+--- health attempt 2/12 ---
+comp418-sharding   PROVISIONING         {"shard1":"ONLINE_SHARD","shard2":"ONLINE_SHARD"}
+
+--- health attempt 3/12 ---
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"ONLINE_SHARD","shard2":"ONLINE_SHARD"}
+SHARDING_HEALTH=PASS
+
+AUTOMATIC_REGISTRATION_RECOVERY=PASS
+
+=== FINAL POD STATUS ===
+NAME        READY   STATUS    RESTARTS       AGE    IP            NODE      NOMINATED NODE   READINESS GATES
+catalog-0   1/1     Running   1 (142m ago)   19h    10.244.0.12   comp418   <none>           <none>
+gsm1-0      1/1     Running   2 (138m ago)   19h    10.244.0.11   comp418   <none>           <none>
+gsm2-0      1/1     Running   2 (138m ago)   19h    10.244.0.13   comp418   <none>           <none>
+shard1-0    1/1     Running   0              119m   10.244.0.14   comp418   <none>           <none>
+shard2-0    1/1     Running   0              115m   10.244.0.15   comp418   <none>           <none>
+
+=== FINAL SHARDING STATUS ===
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"ONLINE_SHARD","shard2":"ONLINE_SHARD"}
+
+FINAL_SHARDING_HEALTH=PASS
+SHARD_REGISTRATION_RECOVERY=PASS

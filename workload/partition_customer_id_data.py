@@ -12,6 +12,11 @@ from pathlib import Path
 import oracledb
 
 
+# Retain the one-shot routing pool until os._exit() so the completed
+# partition files are not lost to an Oracle Client teardown crash.
+_OPEN_POOLS = []
+
+
 ORACLE_HOME = os.environ["ORACLE_HOME"]
 DB_USER = os.environ["DB_USER"]
 DB_PASSWORD = os.environ["DB_PASSWORD"]
@@ -195,7 +200,10 @@ def build_customer_mapping(
                 )
 
     finally:
-        pool.close()
+        # Routing has repeatedly completed all 10,000 keys and then
+        # segfaulted while closing this Thick-mode connection pool.
+        # Keep it referenced until the one-shot process exits.
+        _OPEN_POOLS.append(pool)
 
     if set(representatives) != {"shard1", "shard2"}:
         raise RuntimeError(
@@ -395,7 +403,11 @@ def main() -> int:
     print(f"summary_file={summary_path}")
     print("CUSTOMER_ID_PARTITIONING=PASS")
 
-    return 0
+    # The CSV handles and summary file are already closed. Flush the
+    # evidence stream and bypass native Oracle Client interpreter teardown.
+    sys.stdout.flush()
+    sys.stderr.flush()
+    os._exit(0)
 
 
 if __name__ == "__main__":

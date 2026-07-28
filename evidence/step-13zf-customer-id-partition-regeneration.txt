@@ -1,0 +1,41 @@
+=== CUSTOMER-ID PARTITION REGENERATION ===
+UTC_TIME=2026-07-28T22:13:19Z
+
+=== SHARDING HEALTH GATE ===
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"ONLINE_SHARD","shard2":"ONLINE_SHARD"}
+SHARDING_HEALTH=PASS
+
+=== VERIFY STAGED SOURCE FILES ===
+FOUND=/tmp/comp418-benchmark-10k/customers.csv
+FOUND=/tmp/comp418-benchmark-10k/accounts.csv
+FOUND=/tmp/comp418-benchmark-10k/ledger_entries.csv
+FOUND=/tmp/comp418-benchmark-10k/customers.ctl
+FOUND=/tmp/comp418-benchmark-10k/accounts.ctl
+FOUND=/tmp/comp418-benchmark-10k/ledger_entries.ctl
+FOUND=/tmp/comp418-benchmark-10k/partition_customer_id_data.py
+CUSTOMERS_SOURCE_ROWS=10000
+ACCOUNTS_SOURCE_ROWS=20000
+LEDGER_SOURCE_ROWS=100000
+SOURCE_STAGING=PASS
+
+=== RUN PARTITIONER ===
+=== CUSTOMER-ID DATA PARTITIONING ===
+python_version=3.13.13
+oracledb_version=3.4.1
+database_user=BANK_CUST
+input_directory=/tmp/comp418-benchmark-10k
+output_directory=/tmp/comp418-benchmark-10k/partitioned/bank_cust
+unique_customer_ids=10000
+
+=== BUILDING CUSTOMER-TO-SHARD MAP ===
+routing_progress=1000/10000
+routing_progress=2000/10000
+routing_progress=3000/10000
+routing_progress=4000/10000
+routing_progress=5000/10000
+routing_progress=6000/10000
+routing_progress=7000/10000
+routing_progress=8000/10000
+routing_progress=9000/10000
+routing_progress=10000/10000
+command terminated with exit code 139

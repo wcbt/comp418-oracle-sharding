@@ -1,0 +1,35 @@
+=== CATALOG BUNDLED ORACLE PYTHON GATE ===
+UTC_TIME=2026-07-28T21:35:10Z
+
+ORACLE_HOME=/opt/oracle/product/26ai/dbhomeFree
+PYTHON_BIN=/opt/oracle/product/26ai/dbhomeFree/python/bin/python3.13
+
+=== EXACT PATH CHECK ===
+BUNDLED_PYTHON=FOUND
+-rwxr-x--- 1 oracle oinstall 22192 Jan 30 11:52 /opt/oracle/product/26ai/dbhomeFree/python/bin/python3.13
+
+=== ORACLE CLIENT LIBRARY CHECK ===
+ORACLE_CLIENT_LIBRARY=FOUND
+lrwxrwxrwx 1 oracle oinstall   17 Apr 29 00:07 /opt/oracle/product/26ai/dbhomeFree/lib/libclntsh.so -> libclntsh.so.23.1
+lrwxrwxrwx 1 oracle oinstall   12 Apr 29 00:05 /opt/oracle/product/26ai/dbhomeFree/lib/libclntsh.so.10.1 -> libclntsh.so
+lrwxrwxrwx 1 oracle oinstall   12 Apr 29 00:05 /opt/oracle/product/26ai/dbhomeFree/lib/libclntsh.so.11.1 -> libclntsh.so
+lrwxrwxrwx 1 oracle oinstall   12 Apr 29 00:05 /opt/oracle/product/26ai/dbhomeFree/lib/libclntsh.so.12.1 -> libclntsh.so
+lrwxrwxrwx 1 oracle oinstall   12 Apr 29 00:05 /opt/oracle/product/26ai/dbhomeFree/lib/libclntsh.so.18.1 -> libclntsh.so
+lrwxrwxrwx 1 oracle oinstall   12 Apr 29 00:05 /opt/oracle/product/26ai/dbhomeFree/lib/libclntsh.so.19.1 -> libclntsh.so
+lrwxrwxrwx 1 oracle oinstall   12 Apr 29 00:05 /opt/oracle/product/26ai/dbhomeFree/lib/libclntsh.so.20.1 -> libclntsh.so
+lrwxrwxrwx 1 oracle oinstall   12 Apr 29 00:05 /opt/oracle/product/26ai/dbhomeFree/lib/libclntsh.so.21.1 -> libclntsh.so
+lrwxrwxrwx 1 oracle oinstall   12 Apr 29 00:05 /opt/oracle/product/26ai/dbhomeFree/lib/libclntsh.so.22.1 -> libclntsh.so
+-rwxr-xr-x 1 oracle oinstall  96M Apr 29 00:07 /opt/oracle/product/26ai/dbhomeFree/lib/libclntsh.so.23.1
+
+=== PYTHON AND DRIVER CHECK ===
+PYTHON_EXECUTABLE=/opt/oracle/product/26ai/dbhomeFree/python/bin/python3.13
+PYTHON_VERSION=3.13.13
+PYTHON_ORACLEDB_VERSION=3.4.1
+
+=== THICK MODE CHECK ===
+THIN_MODE_BEFORE=True
+THIN_MODE_AFTER=False
+ORACLE_CLIENT_VERSION=23.26.2.0.0
+CATALOG_ORACLEDB_THICK_MODE=PASS
+
+CATALOG_BUNDLED_RUNTIME=PASS
