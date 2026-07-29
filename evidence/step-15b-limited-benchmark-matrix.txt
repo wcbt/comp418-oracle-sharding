@@ -1,0 +1,198 @@
+=== LIMITED BENCHMARK FULL ===
+UTC_TIME=2026-07-29T00:14:07Z
+RUN_ID=20260729T001353Z
+RESULT_ROOT=results/limited-benchmark/20260729T001353Z-full
+SCHEMAS=BANK_CUST BANK_ACCT
+SIZES=5 10 20
+CONCURRENCIES=1,5,10
+ITERATIONS_PER_CLIENT=10
+WARMUP_PER_CLIENT=2
+REPEATS=3
+
+=== LOCAL VALIDATION ===
+LOCAL_VALIDATION=PASS
+
+=== STAGE BENCHMARK RUNNER ===
+LOCAL_RUNNER_SHA256=f3a7b0ac79d50ed902d5f7ae9956d6b4119fc41795028dbb90b13ee6bd790532
+REMOTE_RUNNER_SHA256=f3a7b0ac79d50ed902d5f7ae9956d6b4119fc41795028dbb90b13ee6bd790532
+RUNNER_STAGING=PASS
+
+=== RELOAD DATASET ===
+SCHEMA=BANK_CUST
+SIZE=5
+
+=== LIMITED DATASET LOAD ===
+UTC_TIME=2026-07-29T00:14:08Z
+DB_USER=BANK_CUST
+SCENARIO_SIZE=5
+
+FOUND=workload/generated/limited/customers-5/customers.csv
+FOUND=workload/generated/limited/customers-5/accounts.csv
+FOUND=workload/generated/limited/customers-5/ledger_entries.csv
+FOUND=workload/generated/limited/customers-5/manifest.json
+
+=== STABLE SHARD HEALTH GATE ===
+ATTEMPT=1 CONSECUTIVE_HEALTHY=0
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"ONLINE_SHARD","shard2":"ONLINE_SHARD"}
+ATTEMPT=2 CONSECUTIVE_HEALTHY=1
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"ONLINE_SHARD","shard2":"ONLINE_SHARD"}
+ATTEMPT=3 CONSECUTIVE_HEALTHY=2
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"ONLINE_SHARD","shard2":"ONLINE_SHARD"}
+STABLE_SHARD_HEALTH=PASS
+
+=== STAGE LOADER AND DATA ===
+REMOTE_STAGING=PASS
+
+=== CLEAN, LOAD, AND VERIFY TARGET SCHEMA ===
+DB_USER=BANK_CUST SCENARIO_SIZE=5
+=== CLEANING LIMITED BENCHMARK RANGE ===
+shard1|customers_deleted=3|accounts_deleted=6|ledger_deleted=30
+shard2|customers_deleted=2|accounts_deleted=4|ledger_deleted=20
+=== INSERTING LIMITED DATASET ===
+loaded_customer_id=700000001
+loaded_customer_id=700000002
+loaded_customer_id=700000003
+loaded_customer_id=700000005
+loaded_customer_id=700000007
+=== VERIFYING DIRECT SHARD COUNTS ===
+shard1|customers=3|accounts=6|ledger_entries=30|invalid_ledger_groups=0
+shard2|customers=2|accounts=4|ledger_entries=20|invalid_ledger_groups=0
+TOTALS|customers=5|accounts=10|ledger_entries=50
+{
+  "database_user": "BANK_CUST",
+  "scenario_size": 5,
+  "expected_counts": {
+    "customers": 5,
+    "accounts": 10,
+    "ledger_entries": 50
+  },
+  "shard_counts": {
+    "shard1": {
+      "customers": 3,
+      "accounts": 6,
+      "ledger_entries": 30,
+      "invalid_ledger_groups": 0
+    },
+    "shard2": {
+      "customers": 2,
+      "accounts": 4,
+      "ledger_entries": 20,
+      "invalid_ledger_groups": 0
+    }
+  },
+  "totals": {
+    "customers": 5,
+    "accounts": 10,
+    "ledger_entries": 50
+  },
+  "status": "PASS"
+}
+LIMITED_DATASET_LOAD=PASS
+
+LIMITED_SCHEMA_LOAD=PASS
+
+LIMITED_SCHEMA_LOAD_RC=0
+DATASET_RELOAD_RC=0
+
+=== STABLE SHARD HEALTH GATE ===
+ATTEMPT=1 CONSECUTIVE_HEALTHY=0
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"ONLINE_SHARD","shard2":"ONLINE_SHARD"}
+ATTEMPT=2 CONSECUTIVE_HEALTHY=1
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"ONLINE_SHARD","shard2":"ONLINE_SHARD"}
+ATTEMPT=3 CONSECUTIVE_HEALTHY=2
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"ONLINE_SHARD","shard2":"ONLINE_SHARD"}
+STABLE_SHARD_HEALTH=PASS
+
+=== RUN BENCHMARK SCENARIO ===
+SCHEMA=BANK_CUST
+SIZE=5
+REMOTE_RESULT_DIR=/tmp/comp418-limited-benchmark/results/20260729T001353Z/bank_cust-customers-5
+=== BENCHMARK TOPOLOGY DISCOVERY ===
+SCHEMA=BANK_CUST
+DATASET_SIZE=5
+SNAPSHOT_BEFORE={"accounts": 10, "customers": 5, "ledger_entries": 50, "total_balance": "15000"}
+COORDINATOR_DSN=//localhost:1521/GDS$CATALOG.oradbcloud
+DIRECT_ROUTING_KEYS={"shard1": 700000001, "shard2": 700000002}
+SAME_CUSTOMER_TRANSFER_SCOPES=single_shard
+CROSS_CUSTOMER_TRANSFER_SCOPES=cross_shard
+RUN|schema=BANK_CUST|size=5|workload=customer_account_lookup|concurrency=1|repeat=1
+RESULT|status=PASS|attempted=10|failed=0|throughput=174.335548|p95_ms=0.480826
+RUN|schema=BANK_CUST|size=5|workload=customer_account_lookup|concurrency=1|repeat=2
+RESULT|status=PASS|attempted=10|failed=0|throughput=220.884872|p95_ms=0.462738
+RUN|schema=BANK_CUST|size=5|workload=customer_account_lookup|concurrency=1|repeat=3
+RESULT|status=PASS|attempted=10|failed=0|throughput=218.278416|p95_ms=0.568973
+RUN|schema=BANK_CUST|size=5|workload=customer_account_lookup|concurrency=5|repeat=1
+RESULT|status=PASS|attempted=50|failed=0|throughput=609.760619|p95_ms=0.781195
+RUN|schema=BANK_CUST|size=5|workload=customer_account_lookup|concurrency=5|repeat=2
+RESULT|status=PASS|attempted=50|failed=0|throughput=415.438206|p95_ms=0.90694
+RUN|schema=BANK_CUST|size=5|workload=customer_account_lookup|concurrency=5|repeat=3
+RESULT|status=PASS|attempted=50|failed=0|throughput=453.351081|p95_ms=0.748163
+RUN|schema=BANK_CUST|size=5|workload=customer_account_lookup|concurrency=10|repeat=1
+RESULT|status=PASS|attempted=100|failed=0|throughput=760.715669|p95_ms=2.178224
+RUN|schema=BANK_CUST|size=5|workload=customer_account_lookup|concurrency=10|repeat=2
+RESULT|status=PASS|attempted=100|failed=0|throughput=656.029804|p95_ms=2.223726
+RUN|schema=BANK_CUST|size=5|workload=customer_account_lookup|concurrency=10|repeat=3
+RESULT|status=PASS|attempted=100|failed=0|throughput=838.969235|p95_ms=1.955476
+RUN|schema=BANK_CUST|size=5|workload=individual_account_lookup|concurrency=1|repeat=1
+RESULT|status=PASS|attempted=10|failed=0|throughput=35.82897|p95_ms=5.018149
+RUN|schema=BANK_CUST|size=5|workload=individual_account_lookup|concurrency=1|repeat=2
+RESULT|status=PASS|attempted=10|failed=0|throughput=55.801576|p95_ms=4.235109
+RUN|schema=BANK_CUST|size=5|workload=individual_account_lookup|concurrency=1|repeat=3
+RESULT|status=PASS|attempted=10|failed=0|throughput=53.592982|p95_ms=4.778017
+RUN|schema=BANK_CUST|size=5|workload=individual_account_lookup|concurrency=5|repeat=1
+RESULT|status=PASS|attempted=50|failed=0|throughput=216.14728|p95_ms=6.303951
+RUN|schema=BANK_CUST|size=5|workload=individual_account_lookup|concurrency=5|repeat=2
+RESULT|status=PASS|attempted=50|failed=0|throughput=210.150061|p95_ms=5.850841
+RUN|schema=BANK_CUST|size=5|workload=individual_account_lookup|concurrency=5|repeat=3
+RESULT|status=PASS|attempted=50|failed=0|throughput=194.595189|p95_ms=5.487067
+RUN|schema=BANK_CUST|size=5|workload=individual_account_lookup|concurrency=10|repeat=1
+RESULT|status=PASS|attempted=100|failed=0|throughput=320.167351|p95_ms=8.471463
+RUN|schema=BANK_CUST|size=5|workload=individual_account_lookup|concurrency=10|repeat=2
+RESULT|status=PASS|attempted=100|failed=0|throughput=312.132801|p95_ms=8.868279
+RUN|schema=BANK_CUST|size=5|workload=individual_account_lookup|concurrency=10|repeat=3
+RESULT|status=PASS|attempted=100|failed=0|throughput=297.253596|p95_ms=7.22097
+RUN|schema=BANK_CUST|size=5|workload=same_customer_transfer|concurrency=1|repeat=1
+RESULT|status=PASS|attempted=10|failed=0|throughput=33.564617|p95_ms=25.845071
+RUN|schema=BANK_CUST|size=5|workload=same_customer_transfer|concurrency=1|repeat=2
+RESULT|status=PASS|attempted=10|failed=0|throughput=102.575685|p95_ms=2.489435
+RUN|schema=BANK_CUST|size=5|workload=same_customer_transfer|concurrency=1|repeat=3
+RESULT|status=PASS|attempted=10|failed=0|throughput=123.434301|p95_ms=2.644086
+RUN|schema=BANK_CUST|size=5|workload=same_customer_transfer|concurrency=5|repeat=1
+RESULT|status=FAIL|attempted=5|failed=5|throughput=45.316215|p95_ms=None
+RUN|schema=BANK_CUST|size=5|workload=same_customer_transfer|concurrency=5|repeat=2
+RESULT|status=FAIL|attempted=5|failed=5|throughput=155.309837|p95_ms=None
+RUN|schema=BANK_CUST|size=5|workload=same_customer_transfer|concurrency=5|repeat=3
+RESULT|status=FAIL|attempted=5|failed=5|throughput=189.594888|p95_ms=None
+RUN|schema=BANK_CUST|size=5|workload=same_customer_transfer|concurrency=10|repeat=1
+RESULT|status=FAIL|attempted=10|failed=10|throughput=134.764538|p95_ms=None
+RUN|schema=BANK_CUST|size=5|workload=same_customer_transfer|concurrency=10|repeat=2
+RESULT|status=FAIL|attempted=10|failed=10|throughput=363.410045|p95_ms=None
+RUN|schema=BANK_CUST|size=5|workload=same_customer_transfer|concurrency=10|repeat=3
+RESULT|status=FAIL|attempted=10|failed=10|throughput=423.285386|p95_ms=None
+RUN|schema=BANK_CUST|size=5|workload=cross_customer_transfer|concurrency=1|repeat=1
+RESULT|status=FAIL|attempted=1|failed=1|throughput=8.968302|p95_ms=None
+RUN|schema=BANK_CUST|size=5|workload=cross_customer_transfer|concurrency=1|repeat=2
+RESULT|status=FAIL|attempted=1|failed=1|throughput=10.911622|p95_ms=None
+RUN|schema=BANK_CUST|size=5|workload=cross_customer_transfer|concurrency=1|repeat=3
+RESULT|status=FAIL|attempted=1|failed=1|throughput=11.880066|p95_ms=None
+RUN|schema=BANK_CUST|size=5|workload=cross_customer_transfer|concurrency=5|repeat=1
+RESULT|status=FAIL|attempted=5|failed=5|throughput=42.738917|p95_ms=None
+RUN|schema=BANK_CUST|size=5|workload=cross_customer_transfer|concurrency=5|repeat=2
+RESULT|status=FAIL|attempted=5|failed=5|throughput=50.447775|p95_ms=None
+RUN|schema=BANK_CUST|size=5|workload=cross_customer_transfer|concurrency=5|repeat=3
+RESULT|status=FAIL|attempted=5|failed=5|throughput=56.867972|p95_ms=None
+RUN|schema=BANK_CUST|size=5|workload=cross_customer_transfer|concurrency=10|repeat=1
+RESULT|status=FAIL|attempted=10|failed=10|throughput=88.885582|p95_ms=None
+RUN|schema=BANK_CUST|size=5|workload=cross_customer_transfer|concurrency=10|repeat=2
+RESULT|status=FAIL|attempted=10|failed=10|throughput=74.476679|p95_ms=None
+RUN|schema=BANK_CUST|size=5|workload=cross_customer_transfer|concurrency=10|repeat=3
+RESULT|status=FAIL|attempted=10|failed=10|throughput=52.166809|p95_ms=None
+=== POST-BENCHMARK STATE VERIFICATION ===
+BENCHMARK_RUNNER=FAIL
+ERROR_TYPE=DatabaseError
+ERROR_MESSAGE=DPY-4011: the database or network closed the connection
+ORA-12537: TNS:connection closed
+Help: https://docs.oracle.com/error-help/db/ora-12537/
+command terminated with exit code 1
+BENCHMARK_SCENARIO_RC=1
+LIMITED_BENCHMARK_FULL=FAIL
