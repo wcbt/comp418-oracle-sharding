@@ -1,0 +1,33 @@
+=== DIRECT ROUTING PROBE ===
+DIRECT_DATABASE=catalog.oradbcloud
+DIRECT_CUSTOMER_ID=700000001
+DIRECT_ACCOUNT_COUNT=2
+DIRECT_ROUTING_LOOKUP=PASS
+
+=== DIRECT SAME-CUSTOMER TRANSFER PROBE ===
+DIRECT_DEBIT_ROWS=1
+DIRECT_CREDIT_ROWS=1
+DIRECT_BALANCE_BEFORE=3000
+DIRECT_BALANCE_AFTER=3000
+DIRECT_TRANSFER_ROLLBACK=PASS
+
+=== COORDINATOR CONNECTION PROBE ===
+COORDINATOR_CANDIDATE=gsm-gds-catalog|status=FAIL|error_type=DatabaseError|error=ORA-12514: Cannot connect to database. Service GDS$CATALOG.oradbcloud is not registered with the listener at host 10.244.0.11 port 1522. (CONNECTION_ID=V7WcxFJ+PvbgYwwA9ApmUg==)
+Help: https://docs.oracle.com/error-help/db/ora-12514/
+COORDINATOR_CANDIDATE=gsm-gds-coordinator|status=FAIL|error_type=DatabaseError|error=ORA-12514: Cannot connect to database. Service GDS$COORDINATOR.oradbcloud is not registered with the listener at host 10.244.0.11 port 1522. (CONNECTION_ID=V7WcxFJ/PvbgYwwA9ApmUg==)
+Help: https://docs.oracle.com/error-help/db/ora-12514/
+COORDINATOR_CANDIDATE=local-gds-catalog|database=CATALOG|customer_count=2|account_count=1|status=TESTED
+SELECTED_COORDINATOR=local-gds-catalog
+SELECTED_COORDINATOR_DSN=//localhost:1521/GDS$CATALOG.oradbcloud
+COORDINATOR_LOOKUPS=PASS
+
+=== CROSS-SHARD TRANSFER PROBE ===
+shard1|account_id=710000001|customer_id=700000001
+shard2|account_id=710000003|customer_id=700000002
+CROSS_DEBIT_ROWS=1
+CROSS_CREDIT_ROWS=1
+CROSS_TOTAL_BEFORE=15000
+CROSS_TOTAL_AFTER=15000
+CROSS_SHARD_TRANSFER_ROLLBACK=PASS
+
+ROUTING_MODE_PROBE=PASS

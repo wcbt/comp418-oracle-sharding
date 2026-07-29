@@ -1,0 +1,279 @@
+=== LIMITED BENCHMARK SMOKE ===
+UTC_TIME=2026-07-29T00:08:42Z
+RUN_ID=20260729T000828Z
+RESULT_ROOT=results/limited-benchmark/20260729T000828Z-smoke
+SCHEMAS=BANK_CUST BANK_ACCT
+SIZES=5
+CONCURRENCIES=1
+ITERATIONS_PER_CLIENT=3
+WARMUP_PER_CLIENT=1
+REPEATS=1
+
+=== LOCAL VALIDATION ===
+LOCAL_VALIDATION=PASS
+
+=== STAGE BENCHMARK RUNNER ===
+LOCAL_RUNNER_SHA256=f3a7b0ac79d50ed902d5f7ae9956d6b4119fc41795028dbb90b13ee6bd790532
+REMOTE_RUNNER_SHA256=f3a7b0ac79d50ed902d5f7ae9956d6b4119fc41795028dbb90b13ee6bd790532
+RUNNER_STAGING=PASS
+
+=== RELOAD DATASET ===
+SCHEMA=BANK_CUST
+SIZE=5
+
+=== LIMITED DATASET LOAD ===
+UTC_TIME=2026-07-29T00:08:44Z
+DB_USER=BANK_CUST
+SCENARIO_SIZE=5
+
+FOUND=workload/generated/limited/customers-5/customers.csv
+FOUND=workload/generated/limited/customers-5/accounts.csv
+FOUND=workload/generated/limited/customers-5/ledger_entries.csv
+FOUND=workload/generated/limited/customers-5/manifest.json
+
+=== STABLE SHARD HEALTH GATE ===
+ATTEMPT=1 CONSECUTIVE_HEALTHY=0
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"ONLINE_SHARD","shard2":"ONLINE_SHARD"}
+ATTEMPT=2 CONSECUTIVE_HEALTHY=1
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"ONLINE_SHARD","shard2":"ONLINE_SHARD"}
+ATTEMPT=3 CONSECUTIVE_HEALTHY=2
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"ONLINE_SHARD","shard2":"ONLINE_SHARD"}
+STABLE_SHARD_HEALTH=PASS
+
+=== STAGE LOADER AND DATA ===
+REMOTE_STAGING=PASS
+
+=== CLEAN, LOAD, AND VERIFY TARGET SCHEMA ===
+DB_USER=BANK_CUST SCENARIO_SIZE=5
+=== CLEANING LIMITED BENCHMARK RANGE ===
+shard1|customers_deleted=3|accounts_deleted=6|ledger_deleted=30
+shard2|customers_deleted=2|accounts_deleted=4|ledger_deleted=20
+=== INSERTING LIMITED DATASET ===
+loaded_customer_id=700000001
+loaded_customer_id=700000002
+loaded_customer_id=700000003
+loaded_customer_id=700000005
+loaded_customer_id=700000007
+=== VERIFYING DIRECT SHARD COUNTS ===
+shard1|customers=3|accounts=6|ledger_entries=30|invalid_ledger_groups=0
+shard2|customers=2|accounts=4|ledger_entries=20|invalid_ledger_groups=0
+TOTALS|customers=5|accounts=10|ledger_entries=50
+{
+  "database_user": "BANK_CUST",
+  "scenario_size": 5,
+  "expected_counts": {
+    "customers": 5,
+    "accounts": 10,
+    "ledger_entries": 50
+  },
+  "shard_counts": {
+    "shard1": {
+      "customers": 3,
+      "accounts": 6,
+      "ledger_entries": 30,
+      "invalid_ledger_groups": 0
+    },
+    "shard2": {
+      "customers": 2,
+      "accounts": 4,
+      "ledger_entries": 20,
+      "invalid_ledger_groups": 0
+    }
+  },
+  "totals": {
+    "customers": 5,
+    "accounts": 10,
+    "ledger_entries": 50
+  },
+  "status": "PASS"
+}
+LIMITED_DATASET_LOAD=PASS
+
+LIMITED_SCHEMA_LOAD=PASS
+
+LIMITED_SCHEMA_LOAD_RC=0
+DATASET_RELOAD_RC=0
+
+=== STABLE SHARD HEALTH GATE ===
+ATTEMPT=1 CONSECUTIVE_HEALTHY=0
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"ONLINE_SHARD","shard2":"ONLINE_SHARD"}
+ATTEMPT=2 CONSECUTIVE_HEALTHY=1
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"ONLINE_SHARD","shard2":"ONLINE_SHARD"}
+ATTEMPT=3 CONSECUTIVE_HEALTHY=2
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"ONLINE_SHARD","shard2":"ONLINE_SHARD"}
+STABLE_SHARD_HEALTH=PASS
+
+=== RUN BENCHMARK SCENARIO ===
+SCHEMA=BANK_CUST
+SIZE=5
+REMOTE_RESULT_DIR=/tmp/comp418-limited-benchmark/results/20260729T000828Z/bank_cust-customers-5
+=== BENCHMARK TOPOLOGY DISCOVERY ===
+SCHEMA=BANK_CUST
+DATASET_SIZE=5
+SNAPSHOT_BEFORE={"accounts": 10, "customers": 5, "ledger_entries": 50, "total_balance": "15000"}
+COORDINATOR_DSN=//localhost:1521/GDS$CATALOG.oradbcloud
+DIRECT_ROUTING_KEYS={"shard1": 700000001, "shard2": 700000002}
+SAME_CUSTOMER_TRANSFER_SCOPES=single_shard
+CROSS_CUSTOMER_TRANSFER_SCOPES=cross_shard
+RUN|schema=BANK_CUST|size=5|workload=customer_account_lookup|concurrency=1|repeat=1
+RESULT|status=PASS|attempted=3|failed=0|throughput=41.878534|p95_ms=5.947943
+RUN|schema=BANK_CUST|size=5|workload=individual_account_lookup|concurrency=1|repeat=1
+RESULT|status=PASS|attempted=3|failed=0|throughput=13.461133|p95_ms=5.157024
+RUN|schema=BANK_CUST|size=5|workload=same_customer_transfer|concurrency=1|repeat=1
+RESULT|status=PASS|attempted=3|failed=0|throughput=36.728043|p95_ms=14.645014
+RUN|schema=BANK_CUST|size=5|workload=cross_customer_transfer|concurrency=1|repeat=1
+RESULT|status=PASS|attempted=3|failed=0|throughput=17.791484|p95_ms=9.572651
+=== POST-BENCHMARK STATE VERIFICATION ===
+SNAPSHOT_AFTER={"accounts": 10, "customers": 5, "ledger_entries": 50, "total_balance": "15000"}
+DATASET_STATE_UNCHANGED=PASS
+OUTPUT_DIR=/tmp/comp418-limited-benchmark/results/20260729T000828Z/bank_cust-customers-5
+BENCHMARK_RUNNER=PASS
+BENCHMARK_SCENARIO_RC=0
+
+=== RELOAD DATASET ===
+SCHEMA=BANK_ACCT
+SIZE=5
+
+=== LIMITED DATASET LOAD ===
+UTC_TIME=2026-07-29T00:09:28Z
+DB_USER=BANK_ACCT
+SCENARIO_SIZE=5
+
+FOUND=workload/generated/limited/customers-5/customers.csv
+FOUND=workload/generated/limited/customers-5/accounts.csv
+FOUND=workload/generated/limited/customers-5/ledger_entries.csv
+FOUND=workload/generated/limited/customers-5/manifest.json
+
+=== STABLE SHARD HEALTH GATE ===
+ATTEMPT=1 CONSECUTIVE_HEALTHY=0
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"ONLINE_SHARD","shard2":"ONLINE_SHARD"}
+ATTEMPT=2 CONSECUTIVE_HEALTHY=1
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"ONLINE_SHARD","shard2":"ONLINE_SHARD"}
+ATTEMPT=3 CONSECUTIVE_HEALTHY=2
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"ONLINE_SHARD","shard2":"ONLINE_SHARD"}
+STABLE_SHARD_HEALTH=PASS
+
+=== STAGE LOADER AND DATA ===
+REMOTE_STAGING=PASS
+
+=== CLEAN, LOAD, AND VERIFY TARGET SCHEMA ===
+DB_USER=BANK_ACCT SCENARIO_SIZE=5
+=== CLEANING LIMITED BENCHMARK RANGE ===
+shard1|customers_deleted=10|accounts_deleted=20|ledger_deleted=100
+shard2|customers_deleted=10|accounts_deleted=20|ledger_deleted=100
+=== INSERTING LIMITED DATASET ===
+loaded_customer_id=700000001
+loaded_customer_id=700000002
+loaded_customer_id=700000003
+loaded_customer_id=700000005
+loaded_customer_id=700000007
+loaded_account_id=710000002
+loaded_account_id=710000001
+loaded_account_id=710000004
+loaded_account_id=710000003
+loaded_account_id=710000005
+loaded_account_id=710000006
+loaded_account_id=710000007
+loaded_account_id=710000009
+loaded_account_id=710000010
+loaded_account_id=710000008
+=== VERIFYING DIRECT SHARD COUNTS ===
+shard1|customers=3|accounts=5|ledger_entries=25|invalid_ledger_groups=0
+shard2|customers=2|accounts=5|ledger_entries=25|invalid_ledger_groups=0
+TOTALS|customers=5|accounts=10|ledger_entries=50
+{
+  "database_user": "BANK_ACCT",
+  "scenario_size": 5,
+  "expected_counts": {
+    "customers": 5,
+    "accounts": 10,
+    "ledger_entries": 50
+  },
+  "shard_counts": {
+    "shard1": {
+      "customers": 3,
+      "accounts": 5,
+      "ledger_entries": 25,
+      "invalid_ledger_groups": 0
+    },
+    "shard2": {
+      "customers": 2,
+      "accounts": 5,
+      "ledger_entries": 25,
+      "invalid_ledger_groups": 0
+    }
+  },
+  "totals": {
+    "customers": 5,
+    "accounts": 10,
+    "ledger_entries": 50
+  },
+  "status": "PASS"
+}
+LIMITED_DATASET_LOAD=PASS
+
+LIMITED_SCHEMA_LOAD=PASS
+
+LIMITED_SCHEMA_LOAD_RC=0
+DATASET_RELOAD_RC=0
+
+=== STABLE SHARD HEALTH GATE ===
+ATTEMPT=1 CONSECUTIVE_HEALTHY=0
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"ONLINE_SHARD","shard2":"ONLINE_SHARD"}
+ATTEMPT=2 CONSECUTIVE_HEALTHY=1
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"ONLINE_SHARD","shard2":"ONLINE_SHARD"}
+ATTEMPT=3 CONSECUTIVE_HEALTHY=2
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"ONLINE_SHARD","shard2":"ONLINE_SHARD"}
+STABLE_SHARD_HEALTH=PASS
+
+=== RUN BENCHMARK SCENARIO ===
+SCHEMA=BANK_ACCT
+SIZE=5
+REMOTE_RESULT_DIR=/tmp/comp418-limited-benchmark/results/20260729T000828Z/bank_acct-customers-5
+=== BENCHMARK TOPOLOGY DISCOVERY ===
+SCHEMA=BANK_ACCT
+DATASET_SIZE=5
+SNAPSHOT_BEFORE={"accounts": 10, "customers": 5, "ledger_entries": 50, "total_balance": "15000"}
+COORDINATOR_DSN=//localhost:1521/GDS$CATALOG.oradbcloud
+DIRECT_ROUTING_KEYS={"shard1": 710000002, "shard2": 710000001}
+SAME_CUSTOMER_TRANSFER_SCOPES=cross_shard
+CROSS_CUSTOMER_TRANSFER_SCOPES=single_shard
+RUN|schema=BANK_ACCT|size=5|workload=customer_account_lookup|concurrency=1|repeat=1
+RESULT|status=PASS|attempted=3|failed=0|throughput=25.477485|p95_ms=4.645423
+RUN|schema=BANK_ACCT|size=5|workload=individual_account_lookup|concurrency=1|repeat=1
+RESULT|status=PASS|attempted=3|failed=0|throughput=50.451518|p95_ms=7.891778
+RUN|schema=BANK_ACCT|size=5|workload=same_customer_transfer|concurrency=1|repeat=1
+RESULT|status=PASS|attempted=3|failed=0|throughput=19.928453|p95_ms=16.38978
+RUN|schema=BANK_ACCT|size=5|workload=cross_customer_transfer|concurrency=1|repeat=1
+RESULT|status=PASS|attempted=3|failed=0|throughput=48.893679|p95_ms=8.016867
+=== POST-BENCHMARK STATE VERIFICATION ===
+SNAPSHOT_AFTER={"accounts": 10, "customers": 5, "ledger_entries": 50, "total_balance": "15000"}
+DATASET_STATE_UNCHANGED=PASS
+OUTPUT_DIR=/tmp/comp418-limited-benchmark/results/20260729T000828Z/bank_acct-customers-5
+BENCHMARK_RUNNER=PASS
+BENCHMARK_SCENARIO_RC=0
+
+=== COMBINE RESULTS ===
+SUMMARY_FILES=2
+SUMMARY_ROWS=8
+FAILED_SUMMARY_ROWS=0
+COMBINED_CSV=results/limited-benchmark/20260729T000828Z-smoke/combined_summary.csv
+COMBINED_RESULTS=PASS
+
+=== RESULT FILES ===
+bank_acct-customers-5/load.log
+bank_acct-customers-5/operations.csv
+bank_acct-customers-5/runner.log
+bank_acct-customers-5/summary.csv
+bank_acct-customers-5/summary.json
+bank_cust-customers-5/load.log
+bank_cust-customers-5/operations.csv
+bank_cust-customers-5/runner.log
+bank_cust-customers-5/summary.csv
+bank_cust-customers-5/summary.json
+combined_summary.csv
+combined_summary.json
+
+LIMITED_BENCHMARK_SMOKE=PASS
+RESULT_ROOT=results/limited-benchmark/20260729T000828Z-smoke
+EVIDENCE_FILE=evidence/step-15a-benchmark-smoke.txt

@@ -1,0 +1,135 @@
+=== LIMITED BENCHMARK SMOKE ===
+UTC_TIME=2026-07-28T23:41:39Z
+RUN_ID=20260728T234131Z
+RESULT_ROOT=results/limited-benchmark/20260728T234131Z-smoke
+SCHEMAS=BANK_CUST
+SIZES=5
+CONCURRENCIES=1
+ITERATIONS_PER_CLIENT=3
+WARMUP_PER_CLIENT=1
+REPEATS=1
+
+=== LOCAL VALIDATION ===
+LOCAL_VALIDATION=PASS
+
+=== STAGE BENCHMARK RUNNER ===
+LOCAL_RUNNER_SHA256=0c183406257aec83011d1db3ef2b5151f57a292fe2c3648f9e935e9f8fec20d2
+REMOTE_RUNNER_SHA256=0c183406257aec83011d1db3ef2b5151f57a292fe2c3648f9e935e9f8fec20d2
+RUNNER_STAGING=PASS
+
+=== RELOAD DATASET ===
+SCHEMA=BANK_CUST
+SIZE=5
+
+=== LIMITED DATASET LOAD ===
+UTC_TIME=2026-07-28T23:41:40Z
+DB_USER=BANK_CUST
+SCENARIO_SIZE=5
+
+FOUND=workload/generated/limited/customers-5/customers.csv
+FOUND=workload/generated/limited/customers-5/accounts.csv
+FOUND=workload/generated/limited/customers-5/ledger_entries.csv
+FOUND=workload/generated/limited/customers-5/manifest.json
+
+=== STABLE SHARD HEALTH GATE ===
+ATTEMPT=1 CONSECUTIVE_HEALTHY=0
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"ONLINE_SHARD","shard2":"SHARD_ADDITION"}
+ATTEMPT=2 CONSECUTIVE_HEALTHY=0
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"ONLINE_SHARD","shard2":"SHARD_ADDITION"}
+ATTEMPT=3 CONSECUTIVE_HEALTHY=0
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"ONLINE_SHARD","shard2":"ONLINE_SHARD"}
+ATTEMPT=4 CONSECUTIVE_HEALTHY=1
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"ONLINE_SHARD","shard2":"ONLINE_SHARD"}
+ATTEMPT=5 CONSECUTIVE_HEALTHY=2
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"ONLINE_SHARD","shard2":"ONLINE_SHARD"}
+STABLE_SHARD_HEALTH=PASS
+
+=== STAGE LOADER AND DATA ===
+REMOTE_STAGING=PASS
+
+=== CLEAN, LOAD, AND VERIFY TARGET SCHEMA ===
+DB_USER=BANK_CUST SCENARIO_SIZE=5
+=== CLEANING LIMITED BENCHMARK RANGE ===
+shard1|customers_deleted=10|accounts_deleted=20|ledger_deleted=100
+shard2|customers_deleted=10|accounts_deleted=20|ledger_deleted=100
+=== INSERTING LIMITED DATASET ===
+loaded_customer_id=700000001
+loaded_customer_id=700000002
+loaded_customer_id=700000003
+loaded_customer_id=700000005
+loaded_customer_id=700000007
+=== VERIFYING DIRECT SHARD COUNTS ===
+shard1|customers=3|accounts=6|ledger_entries=30|invalid_ledger_groups=0
+shard2|customers=2|accounts=4|ledger_entries=20|invalid_ledger_groups=0
+TOTALS|customers=5|accounts=10|ledger_entries=50
+{
+  "database_user": "BANK_CUST",
+  "scenario_size": 5,
+  "expected_counts": {
+    "customers": 5,
+    "accounts": 10,
+    "ledger_entries": 50
+  },
+  "shard_counts": {
+    "shard1": {
+      "customers": 3,
+      "accounts": 6,
+      "ledger_entries": 30,
+      "invalid_ledger_groups": 0
+    },
+    "shard2": {
+      "customers": 2,
+      "accounts": 4,
+      "ledger_entries": 20,
+      "invalid_ledger_groups": 0
+    }
+  },
+  "totals": {
+    "customers": 5,
+    "accounts": 10,
+    "ledger_entries": 50
+  },
+  "status": "PASS"
+}
+LIMITED_DATASET_LOAD=PASS
+
+LIMITED_SCHEMA_LOAD=PASS
+
+LIMITED_SCHEMA_LOAD_RC=0
+DATASET_RELOAD_RC=0
+
+=== STABLE SHARD HEALTH GATE ===
+ATTEMPT=1 CONSECUTIVE_HEALTHY=0
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"ONLINE_SHARD","shard2":"ONLINE_SHARD"}
+ATTEMPT=2 CONSECUTIVE_HEALTHY=1
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"ONLINE_SHARD","shard2":"ONLINE_SHARD"}
+ATTEMPT=3 CONSECUTIVE_HEALTHY=2
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"ONLINE_SHARD","shard2":"ONLINE_SHARD"}
+STABLE_SHARD_HEALTH=PASS
+
+=== RUN BENCHMARK SCENARIO ===
+SCHEMA=BANK_CUST
+SIZE=5
+REMOTE_RESULT_DIR=/tmp/comp418-limited-benchmark/results/20260728T234131Z/bank_cust-customers-5
+=== BENCHMARK TOPOLOGY DISCOVERY ===
+SCHEMA=BANK_CUST
+DATASET_SIZE=5
+SNAPSHOT_BEFORE={"accounts": 10, "customers": 5, "ledger_entries": 50, "total_balance": "15000"}
+SAME_CUSTOMER_TRANSFER_SCOPES=single_shard
+CROSS_CUSTOMER_TRANSFER_SCOPES=cross_shard
+RUN|schema=BANK_CUST|size=5|workload=customer_account_lookup|concurrency=1|repeat=1
+RESULT|status=FAIL|attempted=3|failed=2|throughput=81.671473|p95_ms=0.284279
+RUN|schema=BANK_CUST|size=5|workload=individual_account_lookup|concurrency=1|repeat=1
+RESULT|status=FAIL|attempted=3|failed=1|throughput=30.424022|p95_ms=0.766566
+RUN|schema=BANK_CUST|size=5|workload=same_customer_transfer|concurrency=1|repeat=1
+RESULT|status=FAIL|attempted=3|failed=2|throughput=51.596327|p95_ms=2.457816
+RUN|schema=BANK_CUST|size=5|workload=cross_customer_transfer|concurrency=1|repeat=1
+RESULT|status=FAIL|attempted=1|failed=1|throughput=38.639724|p95_ms=None
+=== POST-BENCHMARK STATE VERIFICATION ===
+SNAPSHOT_AFTER={"accounts": 10, "customers": 5, "ledger_entries": 50, "total_balance": "15000"}
+DATASET_STATE_UNCHANGED=PASS
+OUTPUT_DIR=/tmp/comp418-limited-benchmark/results/20260728T234131Z/bank_cust-customers-5
+BENCHMARK_RUNNER=FAIL
+command terminated with exit code 2
+BENCHMARK_SCENARIO_RC=2
+LIMITED_BENCHMARK_SMOKE=FAIL
