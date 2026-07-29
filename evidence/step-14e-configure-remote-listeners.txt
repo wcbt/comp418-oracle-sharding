@@ -1,0 +1,139 @@
+=== CONFIGURE PRIMARY GSM REMOTE LISTENER ===
+UTC_TIME=2026-07-29T21:40:58Z
+
+REMOTE_GSM=gsm1-0.gsm1.comp418-gdd.svc.cluster.local:1522
+
+
+============================================================
+=== CONFIGURING catalog-0 ===
+============================================================
+=== INSTANCE STATUS ===
+
+INSTANCE_NAME	 STATUS       DATABASE_STATUS
+---------------- ------------ -----------------
+FREE		 OPEN	      ACTIVE
+
+1 row selected.
+
+=== PARAMETERS BEFORE CHANGE ===
+
+NAME				     TYPE	 VALUE
+------------------------------------ ----------- ------------------------------
+local_listener			     string	 catalog-0.catalog.comp418-gdd.
+						 svc.cluster.local:1521
+
+NAME				     TYPE	 VALUE
+------------------------------------ ----------- ------------------------------
+remote_listener 		     string
+=== SET PRIMARY GSM REMOTE LISTENER ===
+
+System altered.
+
+
+System altered.
+
+=== PARAMETERS AFTER CHANGE ===
+
+NAME				     TYPE	 VALUE
+------------------------------------ ----------- ------------------------------
+remote_listener 		     string	 gsm1-0.gsm1.comp418-gdd.svc.cl
+						 uster.local:1522
+    isspecified
+    *
+ERROR at line 5:
+ORA-00904: "ISSPECIFIED": invalid identifier
+Help: https://docs.oracle.com/error-help/db/ora-00904/
+
+
+command terminated with exit code 136
+catalog-0_CONFIGURE_RC=136
+
+============================================================
+=== CONFIGURING shard1-0 ===
+============================================================
+=== INSTANCE STATUS ===
+
+INSTANCE_NAME	 STATUS       DATABASE_STATUS
+---------------- ------------ -----------------
+FREE		 OPEN	      ACTIVE
+
+1 row selected.
+
+=== PARAMETERS BEFORE CHANGE ===
+
+NAME				     TYPE	 VALUE
+------------------------------------ ----------- ------------------------------
+local_listener			     string	 shard1-0.shard1.comp418-gdd.sv
+						 c.cluster.local:1521
+
+NAME				     TYPE	 VALUE
+------------------------------------ ----------- ------------------------------
+remote_listener 		     string
+=== SET PRIMARY GSM REMOTE LISTENER ===
+
+System altered.
+
+
+System altered.
+
+=== PARAMETERS AFTER CHANGE ===
+
+NAME				     TYPE	 VALUE
+------------------------------------ ----------- ------------------------------
+remote_listener 		     string	 gsm1-0.gsm1.comp418-gdd.svc.cl
+						 uster.local:1522
+    isspecified
+    *
+ERROR at line 5:
+ORA-00904: "ISSPECIFIED": invalid identifier
+Help: https://docs.oracle.com/error-help/db/ora-00904/
+
+
+command terminated with exit code 136
+shard1-0_CONFIGURE_RC=136
+
+============================================================
+=== CONFIGURING shard2-0 ===
+============================================================
+=== INSTANCE STATUS ===
+
+INSTANCE_NAME	 STATUS       DATABASE_STATUS
+---------------- ------------ -----------------
+FREE		 OPEN	      ACTIVE
+
+1 row selected.
+
+=== PARAMETERS BEFORE CHANGE ===
+
+NAME				     TYPE	 VALUE
+------------------------------------ ----------- ------------------------------
+local_listener			     string	 shard2-0.shard2.comp418-gdd.sv
+						 c.cluster.local:1521
+
+NAME				     TYPE	 VALUE
+------------------------------------ ----------- ------------------------------
+remote_listener 		     string
+=== SET PRIMARY GSM REMOTE LISTENER ===
+
+System altered.
+
+
+System altered.
+
+=== PARAMETERS AFTER CHANGE ===
+
+NAME				     TYPE	 VALUE
+------------------------------------ ----------- ------------------------------
+remote_listener 		     string	 gsm1-0.gsm1.comp418-gdd.svc.cl
+						 uster.local:1522
+    isspecified
+    *
+ERROR at line 5:
+ORA-00904: "ISSPECIFIED": invalid identifier
+Help: https://docs.oracle.com/error-help/db/ora-00904/
+
+
+command terminated with exit code 136
+shard2-0_CONFIGURE_RC=136
+
+REMOTE_LISTENER_REPAIR=SQL_FAILURE

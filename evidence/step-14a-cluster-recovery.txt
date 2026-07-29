@@ -1,0 +1,95 @@
+=== CLUSTER RECOVERY ===
+UTC_TIME=2026-07-29T21:23:48Z
+
+=== REPOSITORY STATE ===
+## checkpoint/customer-id-recovery-20260728T202221Z...origin/checkpoint/customer-id-recovery-20260728T202221Z
+ M workload/benchmark/benchmark_runner.py
+ M workload/benchmark/run_limited_benchmark.sh
+?? evidence/step-14a-cluster-recovery.txt
+?? evidence/step-14b-sharding-health-diagnostics.txt
+?? evidence/step-15a2-transfer-concurrency-smoke.txt
+?? evidence/step-15b-limited-benchmark-matrix.txt
+?? evidence/step-15b0-session-exhaustion-failure.txt
+58714f7 feat: add routed limited benchmark runner
+
+=== DOCKER CHECK ===
+DOCKER=AVAILABLE
+
+=== MINIKUBE STATUS BEFORE START ===
+comp418
+type: Control Plane
+host: Running
+kubelet: Running
+apiserver: Running
+kubeconfig: Configured
+
+
+=== START EXISTING PROFILE ===
+* [comp418] minikube v1.38.1 on Ubuntu 26.04 (kvm/amd64)
+* Kubernetes 1.35.1 is now available. If you would like to upgrade, specify: --kubernetes-version=v1.35.1
+* Using the docker driver based on existing profile
+* Starting "comp418" primary control-plane node in "comp418" cluster
+* Pulling base image v0.0.50 ...
+* Preparing Kubernetes v1.34.1 on containerd 2.2.1 ...
+* Verifying Kubernetes components...
+  - Using image gcr.io/k8s-minikube/storage-provisioner:v5
+* Enabled addons: storage-provisioner, default-storageclass
+* Done! kubectl is now configured to use "comp418" cluster and "default" namespace by default
+MINIKUBE_START_RC=0
+
+=== KUBERNETES CONTEXT ===
+Switched to context "comp418".
+KUBECTL_CONTEXT=comp418
+Kubernetes control plane is running at https://127.0.0.1:49005
+CoreDNS is running at https://127.0.0.1:49005/api/v1/namespaces/kube-system/services/kube-dns:dns/proxy
+
+To further debug and diagnose cluster problems, use 'kubectl cluster-info dump'.
+
+=== DATABASE PODS BEFORE WAIT ===
+NAME        READY   STATUS    RESTARTS        AGE   IP            NODE      NOMINATED NODE   READINESS GATES
+catalog-0   1/1     Running   2 (14m ago)     43h   10.244.0.8    comp418   <none>           <none>
+gsm1-0      1/1     Running   4 (9m23s ago)   43h   10.244.0.9    comp418   <none>           <none>
+gsm2-0      1/1     Running   4 (9m12s ago)   43h   10.244.0.7    comp418   <none>           <none>
+shard1-0    1/1     Running   1 (14m ago)     25h   10.244.0.10   comp418   <none>           <none>
+shard2-0    1/1     Running   1 (14m ago)     25h   10.244.0.12   comp418   <none>           <none>
+
+=== WAIT FOR POD READINESS ===
+pod/catalog-0 condition met
+pod/gsm1-0 condition met
+pod/gsm2-0 condition met
+pod/shard1-0 condition met
+pod/shard2-0 condition met
+POD_READY_WAIT_RC=0
+
+=== DATABASE PODS AFTER WAIT ===
+NAME        READY   STATUS    RESTARTS        AGE   IP            NODE      NOMINATED NODE   READINESS GATES
+catalog-0   1/1     Running   2 (14m ago)     43h   10.244.0.8    comp418   <none>           <none>
+gsm1-0      1/1     Running   4 (9m23s ago)   43h   10.244.0.9    comp418   <none>           <none>
+gsm2-0      1/1     Running   4 (9m12s ago)   43h   10.244.0.7    comp418   <none>           <none>
+shard1-0    1/1     Running   1 (14m ago)     25h   10.244.0.10   comp418   <none>           <none>
+shard2-0    1/1     Running   1 (14m ago)     25h   10.244.0.12   comp418   <none>           <none>
+
+=== STATEFULSETS ===
+NAME      READY   AGE
+catalog   1/1     43h
+gsm1      1/1     43h
+gsm2      1/1     43h
+shard1    1/1     43h
+shard2    1/1     43h
+
+=== SERVICES ===
+NAME      TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)                               AGE
+catalog   ClusterIP   None         <none>        1521/TCP,6234/TCP,6123/TCP,8080/TCP   43h
+gsm1      ClusterIP   None         <none>        1522/TCP,6234/TCP,6123/TCP,8080/TCP   43h
+gsm2      ClusterIP   None         <none>        1522/TCP,6234/TCP,6123/TCP,8080/TCP   43h
+shard1    ClusterIP   None         <none>        1521/TCP,6234/TCP,6123/TCP,8080/TCP   43h
+shard2    ClusterIP   None         <none>        1521/TCP,6234/TCP,6123/TCP,8080/TCP   43h
+
+=== SHARDING RESOURCE TYPES ===
+shardingdatabases                                            database.oracle.com/v4            true         ShardingDatabase
+
+=== SHARDING DATABASE STATUS ===
+NAME               GSM STATE   SERVICES   SHARDS
+comp418-sharding   AVAILABLE              {"shard1":"SHARD_ADDITION_ERROR_IN_GSM","shard2":"SHARD_ONLINE_ERROR_IN_GSM"}
+
+CLUSTER_RECOVERY_INSPECTION=COMPLETE

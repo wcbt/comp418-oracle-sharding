@@ -1,0 +1,387 @@
+=== VNCR AND DNS VERIFICATION ===
+UTC_TIME=2026-07-29T21:32:03Z
+
+=== CURRENT SHARDING STATUS ===
+NAME               GSM STATE      SERVICES   SHARDS
+comp418-sharding   PROVISIONING              {"shard1":"SHARD_ADDITION","shard2":"SHARD_ONLINE_ERROR_IN_GSM"}
+
+=== PODS AND ENDPOINTS ===
+NAME        READY   STATUS    RESTARTS      AGE   IP            NODE      NOMINATED NODE   READINESS GATES
+catalog-0   1/1     Running   2 (22m ago)   43h   10.244.0.8    comp418   <none>           <none>
+gsm1-0      1/1     Running   4 (17m ago)   43h   10.244.0.9    comp418   <none>           <none>
+gsm2-0      1/1     Running   4 (17m ago)   43h   10.244.0.7    comp418   <none>           <none>
+shard1-0    1/1     Running   1 (22m ago)   25h   10.244.0.10   comp418   <none>           <none>
+shard2-0    1/1     Running   1 (22m ago)   25h   10.244.0.12   comp418   <none>           <none>
+
+Warning: v1 Endpoints is deprecated in v1.33+; use discovery.k8s.io/v1 EndpointSlice
+NAME      ENDPOINTS                                                        AGE
+catalog   10.244.0.8:1521,10.244.0.8:8080,10.244.0.8:6123 + 1 more...      43h
+gsm1      10.244.0.9:1522,10.244.0.9:6123,10.244.0.9:8080 + 1 more...      43h
+gsm2      10.244.0.7:6123,10.244.0.7:8080,10.244.0.7:1522 + 1 more...      43h
+shard1    10.244.0.10:1521,10.244.0.10:6123,10.244.0.10:8080 + 1 more...   43h
+shard2    10.244.0.12:1521,10.244.0.12:6123,10.244.0.12:6234 + 1 more...   43h
+
+=== COREDNS STATUS ===
+NAME                       READY   STATUS    RESTARTS      AGE   IP            NODE      NOMINATED NODE   READINESS GATES
+coredns-66bc5c9577-q8k49   1/1     Running   2 (22m ago)   46h   10.244.0.11   comp418   <none>           <none>
+
+
+############################################################
+=== DNS FROM gsm1-0 ===
+############################################################
+--- /etc/resolv.conf ---
+search comp418-gdd.svc.cluster.local svc.cluster.local cluster.local
+nameserver 10.96.0.10
+options ndots:5
+
+--- DNS: shard1-0.shard1 ---
+10.244.0.10     STREAM shard1-0.shard1.comp418-gdd.svc.cluster.local
+10.244.0.10     DGRAM  
+10.244.0.10     RAW    
+DNS_RESULT=PASS
+--- TCP CHECK: shard1-0.shard1:1521 ---
+TCP_1521=PASS
+
+--- DNS: shard2-0.shard2 ---
+10.244.0.12     STREAM shard2-0.shard2.comp418-gdd.svc.cluster.local
+10.244.0.12     DGRAM  
+10.244.0.12     RAW    
+DNS_RESULT=PASS
+--- TCP CHECK: shard2-0.shard2:1521 ---
+TCP_1521=PASS
+
+--- DNS: shard1-0.shard1.comp418-gdd.svc.cluster.local ---
+10.244.0.10     STREAM shard1-0.shard1.comp418-gdd.svc.cluster.local
+10.244.0.10     DGRAM  
+10.244.0.10     RAW    
+DNS_RESULT=PASS
+--- TCP CHECK: shard1-0.shard1.comp418-gdd.svc.cluster.local:1521 ---
+TCP_1521=PASS
+
+--- DNS: shard2-0.shard2.comp418-gdd.svc.cluster.local ---
+10.244.0.12     STREAM shard2-0.shard2.comp418-gdd.svc.cluster.local
+10.244.0.12     DGRAM  
+10.244.0.12     RAW    
+DNS_RESULT=PASS
+--- TCP CHECK: shard2-0.shard2.comp418-gdd.svc.cluster.local:1521 ---
+TCP_1521=PASS
+
+--- DNS: catalog-0.catalog ---
+10.244.0.8      STREAM catalog-0.catalog.comp418-gdd.svc.cluster.local
+10.244.0.8      DGRAM  
+10.244.0.8      RAW    
+DNS_RESULT=PASS
+--- TCP CHECK: catalog-0.catalog:1521 ---
+TCP_1521=PASS
+
+--- DNS: catalog-0.catalog.comp418-gdd.svc.cluster.local ---
+10.244.0.8      STREAM catalog-0.catalog.comp418-gdd.svc.cluster.local
+10.244.0.8      DGRAM  
+10.244.0.8      RAW    
+DNS_RESULT=PASS
+--- TCP CHECK: catalog-0.catalog.comp418-gdd.svc.cluster.local:1521 ---
+TCP_1521=PASS
+
+
+############################################################
+=== DNS FROM gsm2-0 ===
+############################################################
+--- /etc/resolv.conf ---
+search comp418-gdd.svc.cluster.local svc.cluster.local cluster.local
+nameserver 10.96.0.10
+options ndots:5
+
+--- DNS: shard1-0.shard1 ---
+10.244.0.10     STREAM shard1-0.shard1.comp418-gdd.svc.cluster.local
+10.244.0.10     DGRAM  
+10.244.0.10     RAW    
+DNS_RESULT=PASS
+--- TCP CHECK: shard1-0.shard1:1521 ---
+TCP_1521=PASS
+
+--- DNS: shard2-0.shard2 ---
+10.244.0.12     STREAM shard2-0.shard2.comp418-gdd.svc.cluster.local
+10.244.0.12     DGRAM  
+10.244.0.12     RAW    
+DNS_RESULT=PASS
+--- TCP CHECK: shard2-0.shard2:1521 ---
+TCP_1521=PASS
+
+--- DNS: shard1-0.shard1.comp418-gdd.svc.cluster.local ---
+10.244.0.10     STREAM shard1-0.shard1.comp418-gdd.svc.cluster.local
+10.244.0.10     DGRAM  
+10.244.0.10     RAW    
+DNS_RESULT=PASS
+--- TCP CHECK: shard1-0.shard1.comp418-gdd.svc.cluster.local:1521 ---
+TCP_1521=PASS
+
+--- DNS: shard2-0.shard2.comp418-gdd.svc.cluster.local ---
+10.244.0.12     STREAM shard2-0.shard2.comp418-gdd.svc.cluster.local
+10.244.0.12     DGRAM  
+10.244.0.12     RAW    
+DNS_RESULT=PASS
+--- TCP CHECK: shard2-0.shard2.comp418-gdd.svc.cluster.local:1521 ---
+TCP_1521=PASS
+
+--- DNS: catalog-0.catalog ---
+10.244.0.8      STREAM catalog-0.catalog.comp418-gdd.svc.cluster.local
+10.244.0.8      DGRAM  
+10.244.0.8      RAW    
+DNS_RESULT=PASS
+--- TCP CHECK: catalog-0.catalog:1521 ---
+TCP_1521=PASS
+
+--- DNS: catalog-0.catalog.comp418-gdd.svc.cluster.local ---
+10.244.0.8      STREAM catalog-0.catalog.comp418-gdd.svc.cluster.local
+10.244.0.8      DGRAM  
+10.244.0.8      RAW    
+DNS_RESULT=PASS
+--- TCP CHECK: catalog-0.catalog.comp418-gdd.svc.cluster.local:1521 ---
+TCP_1521=PASS
+
+
+=== GDSCTL CONFIGURATION FROM GSM1 ===
+GSM_HOME=/u01/app/oracle/product/23ai/gsmhome_1
+GDSCTL=/u01/app/oracle/product/23ai/gsmhome_1/bin/gdsctl
+--- commands ---
+config vncr
+config shard -shard SHARD1_SHARD1PDB
+config shard -shard SHARD2_SHARD2PDB
+config service -service OLTP_RW_SVC
+config service -service OLTP_RO_SVC
+exit
+--- output ---
+GDSCTL: Version 23.26.1.0.0 - Production on Wed Jul 29 21:32:05 UTC 2026
+
+Copyright (c) 2011, 2026, Oracle.  All rights reserved.
+
+Welcome to GDSCTL, type "help" for information.
+
+Current GSM is set to SHARDDIRECTORGSM1
+GDSCTL> 
+Catalog connection is established
+Name                          Group ID                      
+----                          --------                      
+10.244.*.*                                                  
+catalog-0.catalog                                           
+shard1-0.shard1                                             
+shard2-0.shard2                                             
+
+GDSCTL> 
+
+Name: shard1_shard1pdb
+Shard Group: shardgroup1
+Status: Ok
+State: Deployed
+Region: primary
+Connection string: (description=(address=(protocol=tcp)(host=shard1-0.shard1)(port=1521))(connect_data=(service_name=shard1pdb)(server=DEDICATED)))
+SCAN address: 
+ONS remote port: 0
+Disk Threshold, ms: 20
+CPU Threshold, %: 75
+Version: 23.26
+Failed DDL: 
+DDL Error: ---
+Management error: 
+Failed DDL id: 
+Availability: -
+Rack: 
+
+
+Supported services
+------------------------
+Name                                                            Preferred Status    
+----                                                            --------- ------    
+oltp_ro_svc                                                     Yes       Enabled   
+oltp_rw_svc                                                     Yes       Enabled   
+
+GDSCTL> 
+
+Name: shard2_shard2pdb
+Shard Group: shardgroup1
+Status: Ok
+State: Deployed
+Region: primary
+Connection string: (description=(address=(protocol=tcp)(host=shard2-0.shard2)(port=1521))(connect_data=(service_name=shard2pdb)(server=DEDICATED)))
+SCAN address: 
+ONS remote port: 0
+Disk Threshold, ms: 20
+CPU Threshold, %: 75
+Version: 23.26
+Failed DDL: 
+DDL Error: ---
+Management error: 
+Failed DDL id: 
+Availability: -
+Rack: 
+
+
+Supported services
+------------------------
+Name                                                            Preferred Status    
+----                                                            --------- ------    
+oltp_ro_svc                                                     Yes       Enabled   
+oltp_rw_svc                                                     Yes       Enabled   
+
+GDSCTL> 
+
+Name: oltp_rw_svc
+Network name: oltp_rw_svc.catalog.oradbcloud
+Pool: catalog
+Started: Yes
+Preferred all: Yes
+Locality: ANYWHERE
+Region Failover: No
+Role: PRIMARY
+SNR Mode: ANY
+Primary Failover: No
+Lag: ANY
+Runtime Balance: SERVICE_TIME
+Connection Balance: LONG
+Notification: Yes
+TAF Policy: NONE
+Policy: AUTOMATIC
+DTP: FALSE
+Failover Method: NONE
+Failover Type: NONE
+Failover Retries: 
+Failover Delay: 
+FAILOVER_RESTORE: NONE
+Edition: 
+PDB: 
+Commit Outcome: FALSE
+Retention Timeout: 
+Replay Initiation Timeout: 
+Session State Consistency: 
+SQL Translation Profile: 
+Stop option: NONE
+Drain timeout: 
+Table family: 4
+
+
+Databases
+------------------------
+Database                      Preferred Status    
+--------                      --------- ------    
+shard1_shard1pdb              Yes       Enabled   
+shard2_shard2pdb              Yes       Enabled   
+
+GDSCTL> 
+
+Name: oltp_ro_svc
+Network name: oltp_ro_svc.catalog.oradbcloud
+Pool: catalog
+Started: Yes
+Preferred all: Yes
+Locality: ANYWHERE
+Region Failover: No
+Role: PRIMARY
+SNR Mode: ANY
+Primary Failover: No
+Lag: ANY
+Runtime Balance: SERVICE_TIME
+Connection Balance: LONG
+Notification: Yes
+TAF Policy: NONE
+Policy: AUTOMATIC
+DTP: FALSE
+Failover Method: NONE
+Failover Type: NONE
+Failover Retries: 
+Failover Delay: 
+FAILOVER_RESTORE: NONE
+Edition: 
+PDB: 
+Commit Outcome: FALSE
+Retention Timeout: 
+Replay Initiation Timeout: 
+Session State Consistency: 
+SQL Translation Profile: 
+Stop option: NONE
+Drain timeout: 
+Table family: 4
+
+
+Databases
+------------------------
+Database                      Preferred Status    
+--------                      --------- ------    
+shard1_shard1pdb              Yes       Enabled   
+shard2_shard2pdb              Yes       Enabled   
+
+GDSCTL> 
+GDSCTL_RC=0
+
+=== SHARD LISTENER SERVICES ===
+
+--- shard1-0 listener services ---
+Services Summary...
+Service "57a303292a8c0e99e0630c00f40ac029" has 1 instance(s).
+  Instance "FREE", status READY, has 1 handler(s) for this service...
+    Handler(s):
+      "DEDICATED" established:2 refused:0 state:ready
+Service "57a30936d08819bbe0630c00f40a168a" has 1 instance(s).
+  Instance "FREE", status READY, has 1 handler(s) for this service...
+    Handler(s):
+      "DEDICATED" established:2 refused:0 state:ready
+Service "FREEXDB" has 1 instance(s).
+  Instance "FREE", status READY, has 1 handler(s) for this service...
+    Handler(s):
+      "D000" established:0 refused:0 current:0 max:1022 state:ready
+         DISPATCHER <machine: shard1-0, pid: 172>
+         (ADDRESS=(PROTOCOL=tcp)(HOST=shard1-0.shard1.comp418-gdd.svc.cluster.local)(PORT=42527))
+Service "SHARD1" has 2 instance(s).
+  Instance "FREE", status READY, has 1 handler(s) for this service...
+    Handler(s):
+      "DEDICATED" established:2 refused:0 state:ready
+  Instance "SHARD1", status UNKNOWN, has 1 handler(s) for this service...
+    Handler(s):
+Service "SHARD1_DGMRL" has 1 instance(s).
+  Instance "SHARD1", status UNKNOWN, has 1 handler(s) for this service...
+    Handler(s):
+Service "freepdb1" has 1 instance(s).
+  Instance "FREE", status READY, has 1 handler(s) for this service...
+    Handler(s):
+      "DEDICATED" established:2 refused:0 state:ready
+Service "shard1pdb" has 1 instance(s).
+  Instance "FREE", status READY, has 1 handler(s) for this service...
+    Handler(s):
+      "DEDICATED" established:2 refused:0 state:ready
+
+--- shard2-0 listener services ---
+Services Summary...
+Service "57a3037268ad0eb9e0630d00f40ade4a" has 1 instance(s).
+  Instance "FREE", status READY, has 1 handler(s) for this service...
+    Handler(s):
+      "DEDICATED" established:12 refused:0 state:ready
+Service "57a3098fd9e719d8e0630d00f40a93ed" has 1 instance(s).
+  Instance "FREE", status READY, has 1 handler(s) for this service...
+    Handler(s):
+      "DEDICATED" established:12 refused:0 state:ready
+Service "FREEXDB" has 1 instance(s).
+  Instance "FREE", status READY, has 1 handler(s) for this service...
+    Handler(s):
+      "D000" established:0 refused:0 current:0 max:1022 state:ready
+         DISPATCHER <machine: shard2-0, pid: 172>
+         (ADDRESS=(PROTOCOL=tcp)(HOST=shard2-0.shard2.comp418-gdd.svc.cluster.local)(PORT=45585))
+Service "SHARD2" has 2 instance(s).
+  Instance "FREE", status READY, has 1 handler(s) for this service...
+    Handler(s):
+      "DEDICATED" established:12 refused:0 state:ready
+  Instance "SHARD2", status UNKNOWN, has 1 handler(s) for this service...
+    Handler(s):
+Service "SHARD2_DGMRL" has 1 instance(s).
+  Instance "SHARD2", status UNKNOWN, has 1 handler(s) for this service...
+    Handler(s):
+Service "freepdb1" has 1 instance(s).
+  Instance "FREE", status READY, has 1 handler(s) for this service...
+    Handler(s):
+      "DEDICATED" established:12 refused:0 state:ready
+Service "shard2pdb" has 1 instance(s).
+  Instance "FREE", status READY, has 1 handler(s) for this service...
+    Handler(s):
+      "DEDICATED" established:12 refused:0 state:ready
+
+=== RECENT OPERATOR ERRORS ===
+
+VNCR_DNS_VERIFICATION=COMPLETE

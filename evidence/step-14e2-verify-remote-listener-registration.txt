@@ -1,0 +1,248 @@
+=== VERIFY REMOTE LISTENER REGISTRATION ===
+UTC_TIME=2026-07-29T21:41:53Z
+
+
+============================================================
+=== VERIFYING catalog-0 ===
+============================================================
+=== MEMORY PARAMETER ===
+
+NAME
+--------------------------------------------------------------------------------
+VALUE
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ISDEFAULT ISMODIFIED
+--------- ----------
+remote_listener
+gsm1-0.gsm1.comp418-gdd.svc.cluster.local:1522
+TRUE	  SYSTEM_MOD
+
+
+1 row selected.
+
+=== SPFILE PARAMETER ===
+
+NAME
+--------------------------------------------------------------------------------
+VALUE
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ISSPEC
+------
+remote_listener
+gsm1-0.gsm1.comp418-gdd.svc.cluster.local:1522
+TRUE
+
+
+1 row selected.
+
+=== FORCE REGISTRATION ===
+
+System altered.
+
+
+RESULT
+-------------------------------
+REMOTE_LISTENER_VALIDATION=PASS
+
+1 row selected.
+catalog-0_VALIDATION_RC=0
+catalog-0_REMOTE_LISTENER=PASS
+
+============================================================
+=== VERIFYING shard1-0 ===
+============================================================
+=== MEMORY PARAMETER ===
+
+NAME
+--------------------------------------------------------------------------------
+VALUE
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ISDEFAULT ISMODIFIED
+--------- ----------
+remote_listener
+gsm1-0.gsm1.comp418-gdd.svc.cluster.local:1522
+TRUE	  SYSTEM_MOD
+
+
+1 row selected.
+
+=== SPFILE PARAMETER ===
+
+NAME
+--------------------------------------------------------------------------------
+VALUE
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ISSPEC
+------
+remote_listener
+gsm1-0.gsm1.comp418-gdd.svc.cluster.local:1522
+TRUE
+
+
+1 row selected.
+
+=== FORCE REGISTRATION ===
+
+System altered.
+
+
+RESULT
+-------------------------------
+REMOTE_LISTENER_VALIDATION=PASS
+
+1 row selected.
+shard1-0_VALIDATION_RC=0
+shard1-0_REMOTE_LISTENER=PASS
+
+============================================================
+=== VERIFYING shard2-0 ===
+============================================================
+=== MEMORY PARAMETER ===
+
+NAME
+--------------------------------------------------------------------------------
+VALUE
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ISDEFAULT ISMODIFIED
+--------- ----------
+remote_listener
+gsm1-0.gsm1.comp418-gdd.svc.cluster.local:1522
+TRUE	  SYSTEM_MOD
+
+
+1 row selected.
+
+=== SPFILE PARAMETER ===
+
+NAME
+--------------------------------------------------------------------------------
+VALUE
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ISSPEC
+------
+remote_listener
+gsm1-0.gsm1.comp418-gdd.svc.cluster.local:1522
+TRUE
+
+
+1 row selected.
+
+=== FORCE REGISTRATION ===
+
+System altered.
+
+
+RESULT
+-------------------------------
+REMOTE_LISTENER_VALIDATION=PASS
+
+1 row selected.
+shard2-0_VALIDATION_RC=0
+shard2-0_REMOTE_LISTENER=PASS
+
+=== WAIT FOR LREG PROPAGATION ===
+
+=== GDSCTL REGISTRATION STATUS ===
+GDSCTL: Version 23.26.1.0.0 - Production on Wed Jul 29 21:42:54 UTC 2026
+
+Copyright (c) 2011, 2026, Oracle.  All rights reserved.
+
+Welcome to GDSCTL, type "help" for information.
+
+Current GSM is set to SHARDDIRECTORGSM1
+GDSCTL> 
+Database: "shard1_shard1pdb" Registered: Y State: Ok ONS: N. Role: PRIMARY Instances: 1 Region: primary
+   Service: "oltp_ro_svc" Globally started: Y Started: Y
+            Scan: N Enabled: Y Preferred: Y
+   Service: "oltp_rw_svc" Globally started: Y Started: Y
+            Scan: N Enabled: Y Preferred: Y
+   Registered instances:
+     catalog%1
+Database: "shard2_shard2pdb" Registered: Y State: Ok ONS: N. Role: PRIMARY Instances: 1 Region: primary
+   Service: "oltp_ro_svc" Globally started: Y Started: Y
+            Scan: N Enabled: Y Preferred: Y
+   Service: "oltp_rw_svc" Globally started: Y Started: Y
+            Scan: N Enabled: Y Preferred: Y
+   Registered instances:
+     catalog%11
+
+GDSCTL> 
+Service "oltp_ro_svc.catalog.oradbcloud" has 2 instance(s). Affinity: ANYWHERE
+   Instance "catalog%1", name: "FREE", db: "shard1_shard1pdb", region: "primary", status: ready.
+   Instance "catalog%11", name: "FREE", db: "shard2_shard2pdb", region: "primary", status: ready.
+Service "oltp_rw_svc.catalog.oradbcloud" has 2 instance(s). Affinity: ANYWHERE
+   Instance "catalog%1", name: "FREE", db: "shard1_shard1pdb", region: "primary", status: ready.
+   Instance "catalog%11", name: "FREE", db: "shard2_shard2pdb", region: "primary", status: ready.
+
+GDSCTL> 
+Catalog connection is established
+
+Name: shard1_shard1pdb
+Shard Group: shardgroup1
+Status: Ok
+State: Deployed
+Region: primary
+Connection string: (description=(address=(protocol=tcp)(host=shard1-0.shard1)(port=1521))(connect_data=(service_name=shard1pdb)(server=DEDICATED)))
+SCAN address: 
+ONS remote port: 0
+Disk Threshold, ms: 20
+CPU Threshold, %: 75
+Version: 23.26
+Failed DDL: 
+DDL Error: ---
+Management error: 
+Failed DDL id: 
+Availability: ONLINE
+Rack: 
+
+
+Supported services
+------------------------
+Name                                                            Preferred Status    
+----                                                            --------- ------    
+oltp_ro_svc                                                     Yes       Enabled   
+oltp_rw_svc                                                     Yes       Enabled   
+
+GDSCTL> 
+
+Name: shard2_shard2pdb
+Shard Group: shardgroup1
+Status: Ok
+State: Deployed
+Region: primary
+Connection string: (description=(address=(protocol=tcp)(host=shard2-0.shard2)(port=1521))(connect_data=(service_name=shard2pdb)(server=DEDICATED)))
+SCAN address: 
+ONS remote port: 0
+Disk Threshold, ms: 20
+CPU Threshold, %: 75
+Version: 23.26
+Failed DDL: 
+DDL Error: ---
+Management error: 
+Failed DDL id: 
+Availability: ONLINE
+Rack: 
+
+
+Supported services
+------------------------
+Name                                                            Preferred Status    
+----                                                            --------- ------    
+oltp_ro_svc                                                     Yes       Enabled   
+oltp_rw_svc                                                     Yes       Enabled   
+
+GDSCTL> 
+
+GDSCTL_RC=0
+
+=== OPERATOR STATUS ===
+NAME               GSM STATE   SERVICES                                                             SHARDS
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"ONLINE_SHARD","shard2":"ONLINE_SHARD"}
+
+=== REGISTRATION RESULT CHECK ===
+SHARD1_REGISTERED=PASS
+SHARD2_REGISTERED=PASS
+ONLINE_SHARD_COUNT=2
+SHARD_AVAILABILITY=PASS
+CATALOG_REGISTERED=PASS
+REMOTE_LISTENER_REPAIR=PASS

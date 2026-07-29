@@ -1,0 +1,200 @@
+=== STABLE SHARDING HEALTH GATE ===
+UTC_TIME=2026-07-29T21:43:56Z
+
+CHECK=1
+UTC_TIME=2026-07-29T21:43:56Z
+GSM_STATE=AVAILABLE
+SHARD1_STATE=ONLINE_SHARD
+SHARD2_STATE=ONLINE_SHARD
+NOT_READY_PODS=0
+CHECK_RESULT=PASS
+CONSECUTIVE_HEALTHY=1
+
+CHECK=2
+UTC_TIME=2026-07-29T21:44:12Z
+GSM_STATE=AVAILABLE
+SHARD1_STATE=ONLINE_SHARD
+SHARD2_STATE=ONLINE_SHARD
+NOT_READY_PODS=0
+CHECK_RESULT=PASS
+CONSECUTIVE_HEALTHY=2
+
+CHECK=3
+UTC_TIME=2026-07-29T21:44:28Z
+GSM_STATE=AVAILABLE
+SHARD1_STATE=ONLINE_SHARD
+SHARD2_STATE=ONLINE_SHARD
+NOT_READY_PODS=0
+CHECK_RESULT=PASS
+CONSECUTIVE_HEALTHY=3
+
+CHECK=4
+UTC_TIME=2026-07-29T21:44:44Z
+GSM_STATE=AVAILABLE
+SHARD1_STATE=ONLINE_SHARD
+SHARD2_STATE=ONLINE_SHARD
+NOT_READY_PODS=0
+CHECK_RESULT=PASS
+CONSECUTIVE_HEALTHY=4
+
+CHECK=5
+UTC_TIME=2026-07-29T21:44:59Z
+GSM_STATE=PROVISIONING
+SHARD1_STATE=ONLINE_SHARD
+SHARD2_STATE=ONLINE_SHARD
+NOT_READY_PODS=0
+CHECK_RESULT=FAIL
+CONSECUTIVE_HEALTHY=0
+
+CHECK=6
+UTC_TIME=2026-07-29T21:45:15Z
+GSM_STATE=AVAILABLE
+SHARD1_STATE=ONLINE_SHARD
+SHARD2_STATE=ONLINE_SHARD
+NOT_READY_PODS=0
+CHECK_RESULT=PASS
+CONSECUTIVE_HEALTHY=1
+
+CHECK=7
+UTC_TIME=2026-07-29T21:45:31Z
+GSM_STATE=AVAILABLE
+SHARD1_STATE=ONLINE_SHARD
+SHARD2_STATE=ONLINE_SHARD
+NOT_READY_PODS=0
+CHECK_RESULT=PASS
+CONSECUTIVE_HEALTHY=2
+
+CHECK=8
+UTC_TIME=2026-07-29T21:45:47Z
+GSM_STATE=AVAILABLE
+SHARD1_STATE=ONLINE_SHARD
+SHARD2_STATE=ONLINE_SHARD
+NOT_READY_PODS=0
+CHECK_RESULT=PASS
+CONSECUTIVE_HEALTHY=3
+
+CHECK=9
+UTC_TIME=2026-07-29T21:46:02Z
+GSM_STATE=AVAILABLE
+SHARD1_STATE=ONLINE_SHARD
+SHARD2_STATE=ONLINE_SHARD
+NOT_READY_PODS=0
+CHECK_RESULT=PASS
+CONSECUTIVE_HEALTHY=4
+
+CHECK=10
+UTC_TIME=2026-07-29T21:46:18Z
+GSM_STATE=AVAILABLE
+SHARD1_STATE=ONLINE_SHARD
+SHARD2_STATE=ONLINE_SHARD
+NOT_READY_PODS=0
+CHECK_RESULT=PASS
+CONSECUTIVE_HEALTHY=5
+
+CHECK=11
+UTC_TIME=2026-07-29T21:46:34Z
+GSM_STATE=AVAILABLE
+SHARD1_STATE=ONLINE_SHARD
+SHARD2_STATE=ONLINE_SHARD
+NOT_READY_PODS=0
+CHECK_RESULT=PASS
+CONSECUTIVE_HEALTHY=6
+
+=== FINAL GDSCTL VERIFICATION ===
+GDSCTL: Version 23.26.1.0.0 - Production on Wed Jul 29 21:46:35 UTC 2026
+
+Copyright (c) 2011, 2026, Oracle.  All rights reserved.
+
+Welcome to GDSCTL, type "help" for information.
+
+Current GSM is set to SHARDDIRECTORGSM1
+GDSCTL> 
+Database: "shard1_shard1pdb" Registered: Y State: Ok ONS: N. Role: PRIMARY Instances: 1 Region: primary
+   Service: "oltp_ro_svc" Globally started: Y Started: Y
+            Scan: N Enabled: Y Preferred: Y
+   Service: "oltp_rw_svc" Globally started: Y Started: Y
+            Scan: N Enabled: Y Preferred: Y
+   Registered instances:
+     catalog%1
+Database: "shard2_shard2pdb" Registered: Y State: Ok ONS: N. Role: PRIMARY Instances: 1 Region: primary
+   Service: "oltp_ro_svc" Globally started: Y Started: Y
+            Scan: N Enabled: Y Preferred: Y
+   Service: "oltp_rw_svc" Globally started: Y Started: Y
+            Scan: N Enabled: Y Preferred: Y
+   Registered instances:
+     catalog%11
+
+GDSCTL> 
+Service "oltp_ro_svc.catalog.oradbcloud" has 2 instance(s). Affinity: ANYWHERE
+   Instance "catalog%1", name: "FREE", db: "shard1_shard1pdb", region: "primary", status: ready.
+   Instance "catalog%11", name: "FREE", db: "shard2_shard2pdb", region: "primary", status: ready.
+Service "oltp_rw_svc.catalog.oradbcloud" has 2 instance(s). Affinity: ANYWHERE
+   Instance "catalog%1", name: "FREE", db: "shard1_shard1pdb", region: "primary", status: ready.
+   Instance "catalog%11", name: "FREE", db: "shard2_shard2pdb", region: "primary", status: ready.
+
+GDSCTL> 
+Catalog connection is established
+
+Name: shard1_shard1pdb
+Shard Group: shardgroup1
+Status: Ok
+State: Deployed
+Region: primary
+Connection string: (description=(address=(protocol=tcp)(host=shard1-0.shard1)(port=1521))(connect_data=(service_name=shard1pdb)(server=DEDICATED)))
+SCAN address: 
+ONS remote port: 0
+Disk Threshold, ms: 20
+CPU Threshold, %: 75
+Version: 23.26
+Failed DDL: 
+DDL Error: ---
+Management error: 
+Failed DDL id: 
+Availability: ONLINE
+Rack: 
+
+
+Supported services
+------------------------
+Name                                                            Preferred Status    
+----                                                            --------- ------    
+oltp_ro_svc                                                     Yes       Enabled   
+oltp_rw_svc                                                     Yes       Enabled   
+
+GDSCTL> 
+
+Name: shard2_shard2pdb
+Shard Group: shardgroup1
+Status: Ok
+State: Deployed
+Region: primary
+Connection string: (description=(address=(protocol=tcp)(host=shard2-0.shard2)(port=1521))(connect_data=(service_name=shard2pdb)(server=DEDICATED)))
+SCAN address: 
+ONS remote port: 0
+Disk Threshold, ms: 20
+CPU Threshold, %: 75
+Version: 23.26
+Failed DDL: 
+DDL Error: ---
+Management error: 
+Failed DDL id: 
+Availability: ONLINE
+Rack: 
+
+
+Supported services
+------------------------
+Name                                                            Preferred Status    
+----                                                            --------- ------    
+oltp_ro_svc                                                     Yes       Enabled   
+oltp_rw_svc                                                     Yes       Enabled   
+
+GDSCTL> 
+
+GDSCTL_RC=0
+SHARD1_REGISTERED=PASS
+SHARD2_REGISTERED=PASS
+ONLINE_SHARD_COUNT=2
+READY_SERVICE_INSTANCE_LINES=4
+FINAL_GDS_VERIFICATION=PASS
+STABLE_HEALTH_GATE=PASS

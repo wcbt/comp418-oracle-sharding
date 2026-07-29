@@ -1,0 +1,258 @@
+=== SHARD GSM REGISTRATION REFRESH ===
+UTC_TIME=2026-07-29T21:34:25Z
+
+=== PRE-REFRESH GDS STATUS ===
+GDSCTL: Version 23.26.1.0.0 - Production on Wed Jul 29 21:34:25 UTC 2026
+
+Copyright (c) 2011, 2026, Oracle.  All rights reserved.
+
+Welcome to GDSCTL, type "help" for information.
+
+Current GSM is set to SHARDDIRECTORGSM1
+GDSCTL> 
+Alert: catalog database is not registered on GSM listener.
+Database: "shard1_shard1pdb" Registered: N State: Ok ONS: N. Role: N/A Instances: 0 Region: primary
+   Service: "oltp_ro_svc" Globally started: Y Started: N
+            Scan: N Enabled: Y Preferred: Y
+   Service: "oltp_rw_svc" Globally started: Y Started: N
+            Scan: N Enabled: Y Preferred: Y
+Database: "shard2_shard2pdb" Registered: N State: Ok ONS: N. Role: N/A Instances: 0 Region: primary
+   Service: "oltp_ro_svc" Globally started: Y Started: N
+            Scan: N Enabled: Y Preferred: Y
+   Service: "oltp_rw_svc" Globally started: Y Started: N
+            Scan: N Enabled: Y Preferred: Y
+
+GDSCTL> 
+
+GDSCTL> 
+Catalog connection is established
+
+Name: shard1_shard1pdb
+Shard Group: shardgroup1
+Status: Ok
+State: Deployed
+Region: primary
+Connection string: (description=(address=(protocol=tcp)(host=shard1-0.shard1)(port=1521))(connect_data=(service_name=shard1pdb)(server=DEDICATED)))
+SCAN address: 
+ONS remote port: 0
+Disk Threshold, ms: 20
+CPU Threshold, %: 75
+Version: 23.26
+Failed DDL: 
+DDL Error: ---
+Management error: 
+Failed DDL id: 
+Availability: -
+Rack: 
+
+
+Supported services
+------------------------
+Name                                                            Preferred Status    
+----                                                            --------- ------    
+oltp_ro_svc                                                     Yes       Enabled   
+oltp_rw_svc                                                     Yes       Enabled   
+
+GDSCTL> 
+
+Name: shard2_shard2pdb
+Shard Group: shardgroup1
+Status: Ok
+State: Deployed
+Region: primary
+Connection string: (description=(address=(protocol=tcp)(host=shard2-0.shard2)(port=1521))(connect_data=(service_name=shard2pdb)(server=DEDICATED)))
+SCAN address: 
+ONS remote port: 0
+Disk Threshold, ms: 20
+CPU Threshold, %: 75
+Version: 23.26
+Failed DDL: 
+DDL Error: ---
+Management error: 
+Failed DDL id: 
+Availability: -
+Rack: 
+
+
+Supported services
+------------------------
+Name                                                            Preferred Status    
+----                                                            --------- ------    
+oltp_ro_svc                                                     Yes       Enabled   
+oltp_rw_svc                                                     Yes       Enabled   
+
+GDSCTL> 
+
+
+============================================================
+=== REGISTERING shard1-0 WITH REMOTE LISTENERS ===
+============================================================
+HOSTNAME=shard1-0
+ORACLE_SID=FREE
+SQLPLUS=/opt/oracle/product/26ai/dbhomeFree/bin/sqlplus
+=== INSTANCE STATUS ===
+
+INSTANCE_NAME	 STATUS       DATABASE_STATUS
+---------------- ------------ -----------------
+FREE		 OPEN	      ACTIVE
+
+1 row selected.
+
+=== LISTENER PARAMETERS ===
+
+NAME				     TYPE	 VALUE
+------------------------------------ ----------- ------------------------------
+local_listener			     string	 shard1-0.shard1.comp418-gdd.sv
+						 c.cluster.local:1521
+
+NAME				     TYPE	 VALUE
+------------------------------------ ----------- ------------------------------
+remote_listener 		     string
+=== FORCE GSM REGISTRATION ===
+
+System altered.
+
+
+RESULT
+-------------------------
+REGISTRATION_REFRESH=PASS
+
+1 row selected.
+
+shard1-0_REGISTER_RC=0
+
+============================================================
+=== REGISTERING shard2-0 WITH REMOTE LISTENERS ===
+============================================================
+HOSTNAME=shard2-0
+ORACLE_SID=FREE
+SQLPLUS=/opt/oracle/product/26ai/dbhomeFree/bin/sqlplus
+=== INSTANCE STATUS ===
+
+INSTANCE_NAME	 STATUS       DATABASE_STATUS
+---------------- ------------ -----------------
+FREE		 OPEN	      ACTIVE
+
+1 row selected.
+
+=== LISTENER PARAMETERS ===
+
+NAME				     TYPE	 VALUE
+------------------------------------ ----------- ------------------------------
+local_listener			     string	 shard2-0.shard2.comp418-gdd.sv
+						 c.cluster.local:1521
+
+NAME				     TYPE	 VALUE
+------------------------------------ ----------- ------------------------------
+remote_listener 		     string
+=== FORCE GSM REGISTRATION ===
+
+System altered.
+
+
+RESULT
+-------------------------
+REGISTRATION_REFRESH=PASS
+
+1 row selected.
+
+shard2-0_REGISTER_RC=0
+
+=== ALLOW REGISTRATION PROPAGATION ===
+
+=== POST-REFRESH GDS STATUS ===
+GDSCTL: Version 23.26.1.0.0 - Production on Wed Jul 29 21:34:47 UTC 2026
+
+Copyright (c) 2011, 2026, Oracle.  All rights reserved.
+
+Welcome to GDSCTL, type "help" for information.
+
+Current GSM is set to SHARDDIRECTORGSM1
+GDSCTL> 
+Alert: catalog database is not registered on GSM listener.
+Database: "shard1_shard1pdb" Registered: N State: Ok ONS: N. Role: N/A Instances: 0 Region: primary
+   Service: "oltp_ro_svc" Globally started: Y Started: N
+            Scan: N Enabled: Y Preferred: Y
+   Service: "oltp_rw_svc" Globally started: Y Started: N
+            Scan: N Enabled: Y Preferred: Y
+Database: "shard2_shard2pdb" Registered: N State: Ok ONS: N. Role: N/A Instances: 0 Region: primary
+   Service: "oltp_ro_svc" Globally started: Y Started: N
+            Scan: N Enabled: Y Preferred: Y
+   Service: "oltp_rw_svc" Globally started: Y Started: N
+            Scan: N Enabled: Y Preferred: Y
+
+GDSCTL> 
+
+GDSCTL> 
+Catalog connection is established
+
+Name: shard1_shard1pdb
+Shard Group: shardgroup1
+Status: Ok
+State: Deployed
+Region: primary
+Connection string: (description=(address=(protocol=tcp)(host=shard1-0.shard1)(port=1521))(connect_data=(service_name=shard1pdb)(server=DEDICATED)))
+SCAN address: 
+ONS remote port: 0
+Disk Threshold, ms: 20
+CPU Threshold, %: 75
+Version: 23.26
+Failed DDL: 
+DDL Error: ---
+Management error: 
+Failed DDL id: 
+Availability: -
+Rack: 
+
+
+Supported services
+------------------------
+Name                                                            Preferred Status    
+----                                                            --------- ------    
+oltp_ro_svc                                                     Yes       Enabled   
+oltp_rw_svc                                                     Yes       Enabled   
+
+GDSCTL> 
+
+Name: shard2_shard2pdb
+Shard Group: shardgroup1
+Status: Ok
+State: Deployed
+Region: primary
+Connection string: (description=(address=(protocol=tcp)(host=shard2-0.shard2)(port=1521))(connect_data=(service_name=shard2pdb)(server=DEDICATED)))
+SCAN address: 
+ONS remote port: 0
+Disk Threshold, ms: 20
+CPU Threshold, %: 75
+Version: 23.26
+Failed DDL: 
+DDL Error: ---
+Management error: 
+Failed DDL id: 
+Availability: -
+Rack: 
+
+
+Supported services
+------------------------
+Name                                                            Preferred Status    
+----                                                            --------- ------    
+oltp_ro_svc                                                     Yes       Enabled   
+oltp_rw_svc                                                     Yes       Enabled   
+
+GDSCTL> 
+POST_REFRESH_GDSCTL_RC=0
+
+=== OPERATOR RESOURCE STATUS ===
+NAME               GSM STATE   SERVICES   SHARDS
+comp418-sharding   AVAILABLE              {"shard1":"SHARD_ONLINE_ERROR_IN_GSM","shard2":"SHARD_ONLINE_ERROR_IN_GSM"}
+
+=== POD STATUS ===
+NAME        READY   STATUS    RESTARTS      AGE   IP            NODE      NOMINATED NODE   READINESS GATES
+catalog-0   1/1     Running   2 (25m ago)   43h   10.244.0.8    comp418   <none>           <none>
+gsm1-0      1/1     Running   4 (20m ago)   43h   10.244.0.9    comp418   <none>           <none>
+gsm2-0      1/1     Running   4 (20m ago)   43h   10.244.0.7    comp418   <none>           <none>
+shard1-0    1/1     Running   1 (25m ago)   25h   10.244.0.10   comp418   <none>           <none>
+shard2-0    1/1     Running   1 (25m ago)   25h   10.244.0.12   comp418   <none>           <none>
+
+SHARD_GSM_REGISTRATION_REFRESH=COMPLETE

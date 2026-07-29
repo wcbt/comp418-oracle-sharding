@@ -174,6 +174,20 @@ def connect(
     return retain_connection(connection)
 
 
+def safe_close(connection: Any | None) -> None:
+    """Release the database session while retaining the Python object reference."""
+    if connection is None:
+        return
+    try:
+        connection.rollback()
+    except Exception:
+        pass
+    try:
+        connection.close()
+    except Exception:
+        pass
+
+
 def decimal_text(value: Any) -> str:
     if value is None:
         return "0"
@@ -239,6 +253,7 @@ def discover_topology(user: str, password: str, expected_size: int) -> Topology:
             {"minimum": LEDGER_MIN, "maximum": LEDGER_MAX},
         )
         ledger_count += int(cursor.fetchone()[0])
+        safe_close(connection)
 
     expected_accounts = expected_size * 2
     expected_ledger = expected_accounts * 5
@@ -431,43 +446,62 @@ def execute_transfer(
     pair: TransferPair,
     amount: Decimal,
 ) -> tuple[int, dict[str, int | None]]:
-    try:
-        cursor.execute(
-            """
-            UPDATE accounts
-            SET balance = balance - :amount
-            WHERE account_id = :account_id
-              AND customer_id = :customer_id
-              AND balance >= :amount
-            """,
-            {
-                "amount": amount,
-                "account_id": pair.source.account_id,
-                "customer_id": pair.source.customer_id,
-            },
-        )
-        if cursor.rowcount != 1:
-            raise RuntimeError(
-                f"Debit updated {cursor.rowcount} rows for account {pair.source.account_id}."
-            )
+    """Apply a rolled-back transfer using a canonical account lock order.
 
-        cursor.execute(
-            """
-            UPDATE accounts
-            SET balance = balance + :amount
-            WHERE account_id = :account_id
-              AND customer_id = :customer_id
-            """,
-            {
-                "amount": amount,
-                "account_id": pair.target.account_id,
-                "customer_id": pair.target.customer_id,
-            },
-        )
-        if cursor.rowcount != 1:
-            raise RuntimeError(
-                f"Credit updated {cursor.rowcount} rows for account {pair.target.account_id}."
-            )
+    Concurrent benchmark pairs can overlap. Always touching the lower account ID
+    first prevents cycles such as A->B, B->C, C->A from acquiring row locks in
+    conflicting orders and producing artificial ORA-00060 deadlocks.
+    """
+
+    steps = sorted(
+        (
+            ("debit", pair.source),
+            ("credit", pair.target),
+        ),
+        key=lambda item: item[1].account_id,
+    )
+
+    try:
+        for action, account in steps:
+            if action == "debit":
+                cursor.execute(
+                    """
+                    UPDATE accounts
+                    SET balance = balance - :amount
+                    WHERE account_id = :account_id
+                      AND customer_id = :customer_id
+                      AND balance >= :amount
+                    """,
+                    {
+                        "amount": amount,
+                        "account_id": account.account_id,
+                        "customer_id": account.customer_id,
+                    },
+                )
+                if cursor.rowcount != 1:
+                    raise RuntimeError(
+                        f"Debit updated {cursor.rowcount} rows "
+                        f"for account {account.account_id}."
+                    )
+            else:
+                cursor.execute(
+                    """
+                    UPDATE accounts
+                    SET balance = balance + :amount
+                    WHERE account_id = :account_id
+                      AND customer_id = :customer_id
+                    """,
+                    {
+                        "amount": amount,
+                        "account_id": account.account_id,
+                        "customer_id": account.customer_id,
+                    },
+                )
+                if cursor.rowcount != 1:
+                    raise RuntimeError(
+                        f"Credit updated {cursor.rowcount} rows "
+                        f"for account {account.account_id}."
+                    )
 
         connection.rollback()
         return 2, {
@@ -657,6 +691,10 @@ def worker_run(
                 error_message=f"Worker setup failed: {str(exc)[:450]}",
             )
         ]
+    finally:
+        safe_close(coordinator_connection)
+        for connection in direct_connections.values():
+            safe_close(connection)
 
 
 def run_scenario(

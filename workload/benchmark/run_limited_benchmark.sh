@@ -14,6 +14,16 @@ case "$MODE" in
     REPEATS=1
     EVIDENCE_FILE="evidence/step-15a-benchmark-smoke.txt"
     ;;
+  transfer-smoke)
+    SCHEMAS=(BANK_CUST BANK_ACCT)
+    SIZES=(5)
+    CONCURRENCIES="1,5,10"
+    ITERATIONS=3
+    WARMUP=1
+    REPEATS=1
+    WORKLOADS="same_customer_transfer,cross_customer_transfer"
+    EVIDENCE_FILE="evidence/step-15a2-transfer-concurrency-smoke.txt"
+    ;;
   full)
     SCHEMAS=(BANK_CUST BANK_ACCT)
     SIZES=(5 10 20)
@@ -24,7 +34,7 @@ case "$MODE" in
     EVIDENCE_FILE="evidence/step-15b-limited-benchmark-matrix.txt"
     ;;
   *)
-    echo "Usage: $0 smoke|full" >&2
+    echo "Usage: $0 smoke|transfer-smoke|full" >&2
     exit 64
     ;;
 esac
@@ -36,7 +46,7 @@ ORACLE_HOME="/opt/oracle/product/26ai/dbhomeFree"
 PYTHON_BIN="$ORACLE_HOME/python/bin/python3.13"
 REMOTE_ROOT="/tmp/comp418-limited-benchmark"
 REMOTE_SCRIPT="$REMOTE_ROOT/benchmark_runner.py"
-WORKLOADS="customer_account_lookup,individual_account_lookup,same_customer_transfer,cross_customer_transfer"
+WORKLOADS="${WORKLOADS:-customer_account_lookup,individual_account_lookup,same_customer_transfer,cross_customer_transfer}"
 
 RUN_ID="$(date -u '+%Y%m%dT%H%M%SZ')"
 LOCAL_ROOT="results/limited-benchmark/${RUN_ID}-${MODE}"
