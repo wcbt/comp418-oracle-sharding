@@ -1,0 +1,1959 @@
+=== BENCHMARK HEALTH GATE SOURCE INSPECTION ===
+UTC_TIME=2026-07-29T22:29:45Z
+
+SCRIPT=workload/benchmark/run_limited_benchmark.sh
+
+=== MATCHING LINES ===
+72:stable_health_gate() {
+73:  echo "=== STABLE SHARD HEALTH GATE ==="
+74:  local consecutive_healthy=0
+79:      kubectl get shardingdatabase "$DATABASE" \
+85:    echo "ATTEMPT=$attempt CONSECUTIVE_HEALTHY=$consecutive_healthy"
+89:          "$state" == *'"shard1":"ONLINE_SHARD"'* &&
+90:          "$state" == *'"shard2":"ONLINE_SHARD"'* ]]; then
+91:      consecutive_healthy=$((consecutive_healthy + 1))
+93:      consecutive_healthy=0
+96:    if (( consecutive_healthy >= 3 )); then
+97:      echo "STABLE_SHARD_HEALTH=PASS"
+104:  echo "STABLE_SHARD_HEALTH=FAIL" >&2
+206:    stable_health_gate
+
+=== RELEVANT SOURCE WINDOWS ===
+
+------------------------------------------------------------
+SOURCE_WINDOW=12-172
+------------------------------------------------------------
+    12	    ITERATIONS=3
+    13	    WARMUP=1
+    14	    REPEATS=1
+    15	    EVIDENCE_FILE="evidence/step-15a-benchmark-smoke.txt"
+    16	    ;;
+    17	  transfer-smoke)
+    18	    SCHEMAS=(BANK_CUST BANK_ACCT)
+    19	    SIZES=(5)
+    20	    CONCURRENCIES="1,5,10"
+    21	    ITERATIONS=3
+    22	    WARMUP=1
+    23	    REPEATS=1
+    24	    WORKLOADS="same_customer_transfer,cross_customer_transfer"
+    25	    EVIDENCE_FILE="evidence/step-15a2-transfer-concurrency-smoke.txt"
+    26	    ;;
+    27	  full)
+    28	    SCHEMAS=(BANK_CUST BANK_ACCT)
+    29	    SIZES=(5 10 20)
+    30	    CONCURRENCIES="1,5,10"
+    31	    ITERATIONS=10
+    32	    WARMUP=2
+    33	    REPEATS=3
+    34	    EVIDENCE_FILE="evidence/step-15b-limited-benchmark-matrix.txt"
+    35	    ;;
+    36	  *)
+    37	    echo "Usage: $0 smoke|transfer-smoke|full" >&2
+    38	    exit 64
+    39	    ;;
+    40	esac
+    41	
+    42	NAMESPACE="comp418-gdd"
+    43	DATABASE="comp418-sharding"
+    44	POD="catalog-0"
+    45	ORACLE_HOME="/opt/oracle/product/26ai/dbhomeFree"
+    46	PYTHON_BIN="$ORACLE_HOME/python/bin/python3.13"
+    47	REMOTE_ROOT="/tmp/comp418-limited-benchmark"
+    48	REMOTE_SCRIPT="$REMOTE_ROOT/benchmark_runner.py"
+    49	WORKLOADS="${WORKLOADS:-customer_account_lookup,individual_account_lookup,same_customer_transfer,cross_customer_transfer}"
+    50	
+    51	RUN_ID="$(date -u '+%Y%m%dT%H%M%SZ')"
+    52	LOCAL_ROOT="results/limited-benchmark/${RUN_ID}-${MODE}"
+    53	mkdir -p "$LOCAL_ROOT" evidence
+    54	: > "$EVIDENCE_FILE"
+    55	
+    56	read -rsp "Enter BANK_CUST password: " BANK_CUST_PASSWORD
+    57	echo
+    58	if [[ " ${SCHEMAS[*]} " == *" BANK_ACCT "* ]]; then
+    59	  read -rsp "Enter BANK_ACCT password: " BANK_ACCT_PASSWORD
+    60	  echo
+    61	else
+    62	  BANK_ACCT_PASSWORD=""
+    63	fi
+    64	
+    65	cleanup() {
+    66	  unset BANK_CUST_PASSWORD BANK_ACCT_PASSWORD
+    67	}
+    68	trap cleanup EXIT
+    69	
+    70	exec > >(tee -a "$EVIDENCE_FILE") 2>&1
+    71	
+    72	stable_health_gate() {
+    73	  echo "=== STABLE SHARD HEALTH GATE ==="
+    74	  local consecutive_healthy=0
+    75	  local state=""
+    76	
+    77	  for attempt in $(seq 1 30); do
+    78	    state="$(
+    79	      kubectl get shardingdatabase "$DATABASE" \
+    80	        -n "$NAMESPACE" \
+    81	        -o wide \
+    82	        --no-headers
+    83	    )"
+    84	
+    85	    echo "ATTEMPT=$attempt CONSECUTIVE_HEALTHY=$consecutive_healthy"
+    86	    echo "$state"
+    87	
+    88	    if [[ "$state" == *"AVAILABLE"* &&
+    89	          "$state" == *'"shard1":"ONLINE_SHARD"'* &&
+    90	          "$state" == *'"shard2":"ONLINE_SHARD"'* ]]; then
+    91	      consecutive_healthy=$((consecutive_healthy + 1))
+    92	    else
+    93	      consecutive_healthy=0
+    94	    fi
+    95	
+    96	    if (( consecutive_healthy >= 3 )); then
+    97	      echo "STABLE_SHARD_HEALTH=PASS"
+    98	      return 0
+    99	    fi
+   100	
+   101	    sleep 10
+   102	  done
+   103	
+   104	  echo "STABLE_SHARD_HEALTH=FAIL" >&2
+   105	  return 2
+   106	}
+   107	
+   108	schema_password() {
+   109	  case "$1" in
+   110	    BANK_CUST) printf '%s' "$BANK_CUST_PASSWORD" ;;
+   111	    BANK_ACCT) printf '%s' "$BANK_ACCT_PASSWORD" ;;
+   112	    *) return 64 ;;
+   113	  esac
+   114	}
+   115	
+   116	load_dataset() {
+   117	  local schema="$1"
+   118	  local size="$2"
+   119	  local password="$3"
+   120	  local scenario_dir="$4"
+   121	  local schema_lower="${schema,,}"
+   122	  local load_evidence="evidence/step-14b-load-${schema_lower}-${size}-customers.txt"
+   123	
+   124	  echo
+   125	  echo "=== RELOAD DATASET ==="
+   126	  echo "SCHEMA=$schema"
+   127	  echo "SIZE=$size"
+   128	
+   129	  set +e
+   130	  ./workload/limited/load_limited_dataset.sh "$schema" "$size" \
+   131	    <<< "$password" 2>&1 |
+   132	    tee "$scenario_dir/load.log"
+   133	  local load_rc="${PIPESTATUS[0]}"
+   134	  set -e
+   135	
+   136	  # Preserve the committed Step 14 evidence; this benchmark has its own logs.
+   137	  git restore -- "$load_evidence" 2>/dev/null || true
+   138	
+   139	  echo "DATASET_RELOAD_RC=$load_rc"
+   140	  if (( load_rc != 0 )); then
+   141	    return "$load_rc"
+   142	  fi
+   143	}
+   144	
+   145	copy_remote_results() {
+   146	  local remote_dir="$1"
+   147	  local local_dir="$2"
+   148	
+   149	  mkdir -p "$local_dir"
+   150	  kubectl exec -n "$NAMESPACE" "$POD" -- \
+   151	    tar -C "$remote_dir" -cf - . |
+   152	    tar -C "$local_dir" -xf -
+   153	}
+   154	
+   155	echo "=== LIMITED BENCHMARK ${MODE^^} ==="
+   156	echo "UTC_TIME=$(date -u '+%Y-%m-%dT%H:%M:%SZ')"
+   157	echo "RUN_ID=$RUN_ID"
+   158	echo "RESULT_ROOT=$LOCAL_ROOT"
+   159	echo "SCHEMAS=${SCHEMAS[*]}"
+   160	echo "SIZES=${SIZES[*]}"
+   161	echo "CONCURRENCIES=$CONCURRENCIES"
+   162	echo "ITERATIONS_PER_CLIENT=$ITERATIONS"
+   163	echo "WARMUP_PER_CLIENT=$WARMUP"
+   164	echo "REPEATS=$REPEATS"
+   165	
+   166	echo
+   167	echo "=== LOCAL VALIDATION ==="
+   168	bash -n workload/benchmark/run_limited_benchmark.sh
+   169	python3 -m py_compile \
+   170	  workload/benchmark/benchmark_runner.py \
+   171	  workload/benchmark/combine_results.py
+   172	rm -rf workload/benchmark/__pycache__
+
+------------------------------------------------------------
+SOURCE_WINDOW=13-173
+------------------------------------------------------------
+    13	    WARMUP=1
+    14	    REPEATS=1
+    15	    EVIDENCE_FILE="evidence/step-15a-benchmark-smoke.txt"
+    16	    ;;
+    17	  transfer-smoke)
+    18	    SCHEMAS=(BANK_CUST BANK_ACCT)
+    19	    SIZES=(5)
+    20	    CONCURRENCIES="1,5,10"
+    21	    ITERATIONS=3
+    22	    WARMUP=1
+    23	    REPEATS=1
+    24	    WORKLOADS="same_customer_transfer,cross_customer_transfer"
+    25	    EVIDENCE_FILE="evidence/step-15a2-transfer-concurrency-smoke.txt"
+    26	    ;;
+    27	  full)
+    28	    SCHEMAS=(BANK_CUST BANK_ACCT)
+    29	    SIZES=(5 10 20)
+    30	    CONCURRENCIES="1,5,10"
+    31	    ITERATIONS=10
+    32	    WARMUP=2
+    33	    REPEATS=3
+    34	    EVIDENCE_FILE="evidence/step-15b-limited-benchmark-matrix.txt"
+    35	    ;;
+    36	  *)
+    37	    echo "Usage: $0 smoke|transfer-smoke|full" >&2
+    38	    exit 64
+    39	    ;;
+    40	esac
+    41	
+    42	NAMESPACE="comp418-gdd"
+    43	DATABASE="comp418-sharding"
+    44	POD="catalog-0"
+    45	ORACLE_HOME="/opt/oracle/product/26ai/dbhomeFree"
+    46	PYTHON_BIN="$ORACLE_HOME/python/bin/python3.13"
+    47	REMOTE_ROOT="/tmp/comp418-limited-benchmark"
+    48	REMOTE_SCRIPT="$REMOTE_ROOT/benchmark_runner.py"
+    49	WORKLOADS="${WORKLOADS:-customer_account_lookup,individual_account_lookup,same_customer_transfer,cross_customer_transfer}"
+    50	
+    51	RUN_ID="$(date -u '+%Y%m%dT%H%M%SZ')"
+    52	LOCAL_ROOT="results/limited-benchmark/${RUN_ID}-${MODE}"
+    53	mkdir -p "$LOCAL_ROOT" evidence
+    54	: > "$EVIDENCE_FILE"
+    55	
+    56	read -rsp "Enter BANK_CUST password: " BANK_CUST_PASSWORD
+    57	echo
+    58	if [[ " ${SCHEMAS[*]} " == *" BANK_ACCT "* ]]; then
+    59	  read -rsp "Enter BANK_ACCT password: " BANK_ACCT_PASSWORD
+    60	  echo
+    61	else
+    62	  BANK_ACCT_PASSWORD=""
+    63	fi
+    64	
+    65	cleanup() {
+    66	  unset BANK_CUST_PASSWORD BANK_ACCT_PASSWORD
+    67	}
+    68	trap cleanup EXIT
+    69	
+    70	exec > >(tee -a "$EVIDENCE_FILE") 2>&1
+    71	
+    72	stable_health_gate() {
+    73	  echo "=== STABLE SHARD HEALTH GATE ==="
+    74	  local consecutive_healthy=0
+    75	  local state=""
+    76	
+    77	  for attempt in $(seq 1 30); do
+    78	    state="$(
+    79	      kubectl get shardingdatabase "$DATABASE" \
+    80	        -n "$NAMESPACE" \
+    81	        -o wide \
+    82	        --no-headers
+    83	    )"
+    84	
+    85	    echo "ATTEMPT=$attempt CONSECUTIVE_HEALTHY=$consecutive_healthy"
+    86	    echo "$state"
+    87	
+    88	    if [[ "$state" == *"AVAILABLE"* &&
+    89	          "$state" == *'"shard1":"ONLINE_SHARD"'* &&
+    90	          "$state" == *'"shard2":"ONLINE_SHARD"'* ]]; then
+    91	      consecutive_healthy=$((consecutive_healthy + 1))
+    92	    else
+    93	      consecutive_healthy=0
+    94	    fi
+    95	
+    96	    if (( consecutive_healthy >= 3 )); then
+    97	      echo "STABLE_SHARD_HEALTH=PASS"
+    98	      return 0
+    99	    fi
+   100	
+   101	    sleep 10
+   102	  done
+   103	
+   104	  echo "STABLE_SHARD_HEALTH=FAIL" >&2
+   105	  return 2
+   106	}
+   107	
+   108	schema_password() {
+   109	  case "$1" in
+   110	    BANK_CUST) printf '%s' "$BANK_CUST_PASSWORD" ;;
+   111	    BANK_ACCT) printf '%s' "$BANK_ACCT_PASSWORD" ;;
+   112	    *) return 64 ;;
+   113	  esac
+   114	}
+   115	
+   116	load_dataset() {
+   117	  local schema="$1"
+   118	  local size="$2"
+   119	  local password="$3"
+   120	  local scenario_dir="$4"
+   121	  local schema_lower="${schema,,}"
+   122	  local load_evidence="evidence/step-14b-load-${schema_lower}-${size}-customers.txt"
+   123	
+   124	  echo
+   125	  echo "=== RELOAD DATASET ==="
+   126	  echo "SCHEMA=$schema"
+   127	  echo "SIZE=$size"
+   128	
+   129	  set +e
+   130	  ./workload/limited/load_limited_dataset.sh "$schema" "$size" \
+   131	    <<< "$password" 2>&1 |
+   132	    tee "$scenario_dir/load.log"
+   133	  local load_rc="${PIPESTATUS[0]}"
+   134	  set -e
+   135	
+   136	  # Preserve the committed Step 14 evidence; this benchmark has its own logs.
+   137	  git restore -- "$load_evidence" 2>/dev/null || true
+   138	
+   139	  echo "DATASET_RELOAD_RC=$load_rc"
+   140	  if (( load_rc != 0 )); then
+   141	    return "$load_rc"
+   142	  fi
+   143	}
+   144	
+   145	copy_remote_results() {
+   146	  local remote_dir="$1"
+   147	  local local_dir="$2"
+   148	
+   149	  mkdir -p "$local_dir"
+   150	  kubectl exec -n "$NAMESPACE" "$POD" -- \
+   151	    tar -C "$remote_dir" -cf - . |
+   152	    tar -C "$local_dir" -xf -
+   153	}
+   154	
+   155	echo "=== LIMITED BENCHMARK ${MODE^^} ==="
+   156	echo "UTC_TIME=$(date -u '+%Y-%m-%dT%H:%M:%SZ')"
+   157	echo "RUN_ID=$RUN_ID"
+   158	echo "RESULT_ROOT=$LOCAL_ROOT"
+   159	echo "SCHEMAS=${SCHEMAS[*]}"
+   160	echo "SIZES=${SIZES[*]}"
+   161	echo "CONCURRENCIES=$CONCURRENCIES"
+   162	echo "ITERATIONS_PER_CLIENT=$ITERATIONS"
+   163	echo "WARMUP_PER_CLIENT=$WARMUP"
+   164	echo "REPEATS=$REPEATS"
+   165	
+   166	echo
+   167	echo "=== LOCAL VALIDATION ==="
+   168	bash -n workload/benchmark/run_limited_benchmark.sh
+   169	python3 -m py_compile \
+   170	  workload/benchmark/benchmark_runner.py \
+   171	  workload/benchmark/combine_results.py
+   172	rm -rf workload/benchmark/__pycache__
+   173	echo "LOCAL_VALIDATION=PASS"
+
+------------------------------------------------------------
+SOURCE_WINDOW=14-174
+------------------------------------------------------------
+    14	    REPEATS=1
+    15	    EVIDENCE_FILE="evidence/step-15a-benchmark-smoke.txt"
+    16	    ;;
+    17	  transfer-smoke)
+    18	    SCHEMAS=(BANK_CUST BANK_ACCT)
+    19	    SIZES=(5)
+    20	    CONCURRENCIES="1,5,10"
+    21	    ITERATIONS=3
+    22	    WARMUP=1
+    23	    REPEATS=1
+    24	    WORKLOADS="same_customer_transfer,cross_customer_transfer"
+    25	    EVIDENCE_FILE="evidence/step-15a2-transfer-concurrency-smoke.txt"
+    26	    ;;
+    27	  full)
+    28	    SCHEMAS=(BANK_CUST BANK_ACCT)
+    29	    SIZES=(5 10 20)
+    30	    CONCURRENCIES="1,5,10"
+    31	    ITERATIONS=10
+    32	    WARMUP=2
+    33	    REPEATS=3
+    34	    EVIDENCE_FILE="evidence/step-15b-limited-benchmark-matrix.txt"
+    35	    ;;
+    36	  *)
+    37	    echo "Usage: $0 smoke|transfer-smoke|full" >&2
+    38	    exit 64
+    39	    ;;
+    40	esac
+    41	
+    42	NAMESPACE="comp418-gdd"
+    43	DATABASE="comp418-sharding"
+    44	POD="catalog-0"
+    45	ORACLE_HOME="/opt/oracle/product/26ai/dbhomeFree"
+    46	PYTHON_BIN="$ORACLE_HOME/python/bin/python3.13"
+    47	REMOTE_ROOT="/tmp/comp418-limited-benchmark"
+    48	REMOTE_SCRIPT="$REMOTE_ROOT/benchmark_runner.py"
+    49	WORKLOADS="${WORKLOADS:-customer_account_lookup,individual_account_lookup,same_customer_transfer,cross_customer_transfer}"
+    50	
+    51	RUN_ID="$(date -u '+%Y%m%dT%H%M%SZ')"
+    52	LOCAL_ROOT="results/limited-benchmark/${RUN_ID}-${MODE}"
+    53	mkdir -p "$LOCAL_ROOT" evidence
+    54	: > "$EVIDENCE_FILE"
+    55	
+    56	read -rsp "Enter BANK_CUST password: " BANK_CUST_PASSWORD
+    57	echo
+    58	if [[ " ${SCHEMAS[*]} " == *" BANK_ACCT "* ]]; then
+    59	  read -rsp "Enter BANK_ACCT password: " BANK_ACCT_PASSWORD
+    60	  echo
+    61	else
+    62	  BANK_ACCT_PASSWORD=""
+    63	fi
+    64	
+    65	cleanup() {
+    66	  unset BANK_CUST_PASSWORD BANK_ACCT_PASSWORD
+    67	}
+    68	trap cleanup EXIT
+    69	
+    70	exec > >(tee -a "$EVIDENCE_FILE") 2>&1
+    71	
+    72	stable_health_gate() {
+    73	  echo "=== STABLE SHARD HEALTH GATE ==="
+    74	  local consecutive_healthy=0
+    75	  local state=""
+    76	
+    77	  for attempt in $(seq 1 30); do
+    78	    state="$(
+    79	      kubectl get shardingdatabase "$DATABASE" \
+    80	        -n "$NAMESPACE" \
+    81	        -o wide \
+    82	        --no-headers
+    83	    )"
+    84	
+    85	    echo "ATTEMPT=$attempt CONSECUTIVE_HEALTHY=$consecutive_healthy"
+    86	    echo "$state"
+    87	
+    88	    if [[ "$state" == *"AVAILABLE"* &&
+    89	          "$state" == *'"shard1":"ONLINE_SHARD"'* &&
+    90	          "$state" == *'"shard2":"ONLINE_SHARD"'* ]]; then
+    91	      consecutive_healthy=$((consecutive_healthy + 1))
+    92	    else
+    93	      consecutive_healthy=0
+    94	    fi
+    95	
+    96	    if (( consecutive_healthy >= 3 )); then
+    97	      echo "STABLE_SHARD_HEALTH=PASS"
+    98	      return 0
+    99	    fi
+   100	
+   101	    sleep 10
+   102	  done
+   103	
+   104	  echo "STABLE_SHARD_HEALTH=FAIL" >&2
+   105	  return 2
+   106	}
+   107	
+   108	schema_password() {
+   109	  case "$1" in
+   110	    BANK_CUST) printf '%s' "$BANK_CUST_PASSWORD" ;;
+   111	    BANK_ACCT) printf '%s' "$BANK_ACCT_PASSWORD" ;;
+   112	    *) return 64 ;;
+   113	  esac
+   114	}
+   115	
+   116	load_dataset() {
+   117	  local schema="$1"
+   118	  local size="$2"
+   119	  local password="$3"
+   120	  local scenario_dir="$4"
+   121	  local schema_lower="${schema,,}"
+   122	  local load_evidence="evidence/step-14b-load-${schema_lower}-${size}-customers.txt"
+   123	
+   124	  echo
+   125	  echo "=== RELOAD DATASET ==="
+   126	  echo "SCHEMA=$schema"
+   127	  echo "SIZE=$size"
+   128	
+   129	  set +e
+   130	  ./workload/limited/load_limited_dataset.sh "$schema" "$size" \
+   131	    <<< "$password" 2>&1 |
+   132	    tee "$scenario_dir/load.log"
+   133	  local load_rc="${PIPESTATUS[0]}"
+   134	  set -e
+   135	
+   136	  # Preserve the committed Step 14 evidence; this benchmark has its own logs.
+   137	  git restore -- "$load_evidence" 2>/dev/null || true
+   138	
+   139	  echo "DATASET_RELOAD_RC=$load_rc"
+   140	  if (( load_rc != 0 )); then
+   141	    return "$load_rc"
+   142	  fi
+   143	}
+   144	
+   145	copy_remote_results() {
+   146	  local remote_dir="$1"
+   147	  local local_dir="$2"
+   148	
+   149	  mkdir -p "$local_dir"
+   150	  kubectl exec -n "$NAMESPACE" "$POD" -- \
+   151	    tar -C "$remote_dir" -cf - . |
+   152	    tar -C "$local_dir" -xf -
+   153	}
+   154	
+   155	echo "=== LIMITED BENCHMARK ${MODE^^} ==="
+   156	echo "UTC_TIME=$(date -u '+%Y-%m-%dT%H:%M:%SZ')"
+   157	echo "RUN_ID=$RUN_ID"
+   158	echo "RESULT_ROOT=$LOCAL_ROOT"
+   159	echo "SCHEMAS=${SCHEMAS[*]}"
+   160	echo "SIZES=${SIZES[*]}"
+   161	echo "CONCURRENCIES=$CONCURRENCIES"
+   162	echo "ITERATIONS_PER_CLIENT=$ITERATIONS"
+   163	echo "WARMUP_PER_CLIENT=$WARMUP"
+   164	echo "REPEATS=$REPEATS"
+   165	
+   166	echo
+   167	echo "=== LOCAL VALIDATION ==="
+   168	bash -n workload/benchmark/run_limited_benchmark.sh
+   169	python3 -m py_compile \
+   170	  workload/benchmark/benchmark_runner.py \
+   171	  workload/benchmark/combine_results.py
+   172	rm -rf workload/benchmark/__pycache__
+   173	echo "LOCAL_VALIDATION=PASS"
+   174	
+
+------------------------------------------------------------
+SOURCE_WINDOW=25-185
+------------------------------------------------------------
+    25	    EVIDENCE_FILE="evidence/step-15a2-transfer-concurrency-smoke.txt"
+    26	    ;;
+    27	  full)
+    28	    SCHEMAS=(BANK_CUST BANK_ACCT)
+    29	    SIZES=(5 10 20)
+    30	    CONCURRENCIES="1,5,10"
+    31	    ITERATIONS=10
+    32	    WARMUP=2
+    33	    REPEATS=3
+    34	    EVIDENCE_FILE="evidence/step-15b-limited-benchmark-matrix.txt"
+    35	    ;;
+    36	  *)
+    37	    echo "Usage: $0 smoke|transfer-smoke|full" >&2
+    38	    exit 64
+    39	    ;;
+    40	esac
+    41	
+    42	NAMESPACE="comp418-gdd"
+    43	DATABASE="comp418-sharding"
+    44	POD="catalog-0"
+    45	ORACLE_HOME="/opt/oracle/product/26ai/dbhomeFree"
+    46	PYTHON_BIN="$ORACLE_HOME/python/bin/python3.13"
+    47	REMOTE_ROOT="/tmp/comp418-limited-benchmark"
+    48	REMOTE_SCRIPT="$REMOTE_ROOT/benchmark_runner.py"
+    49	WORKLOADS="${WORKLOADS:-customer_account_lookup,individual_account_lookup,same_customer_transfer,cross_customer_transfer}"
+    50	
+    51	RUN_ID="$(date -u '+%Y%m%dT%H%M%SZ')"
+    52	LOCAL_ROOT="results/limited-benchmark/${RUN_ID}-${MODE}"
+    53	mkdir -p "$LOCAL_ROOT" evidence
+    54	: > "$EVIDENCE_FILE"
+    55	
+    56	read -rsp "Enter BANK_CUST password: " BANK_CUST_PASSWORD
+    57	echo
+    58	if [[ " ${SCHEMAS[*]} " == *" BANK_ACCT "* ]]; then
+    59	  read -rsp "Enter BANK_ACCT password: " BANK_ACCT_PASSWORD
+    60	  echo
+    61	else
+    62	  BANK_ACCT_PASSWORD=""
+    63	fi
+    64	
+    65	cleanup() {
+    66	  unset BANK_CUST_PASSWORD BANK_ACCT_PASSWORD
+    67	}
+    68	trap cleanup EXIT
+    69	
+    70	exec > >(tee -a "$EVIDENCE_FILE") 2>&1
+    71	
+    72	stable_health_gate() {
+    73	  echo "=== STABLE SHARD HEALTH GATE ==="
+    74	  local consecutive_healthy=0
+    75	  local state=""
+    76	
+    77	  for attempt in $(seq 1 30); do
+    78	    state="$(
+    79	      kubectl get shardingdatabase "$DATABASE" \
+    80	        -n "$NAMESPACE" \
+    81	        -o wide \
+    82	        --no-headers
+    83	    )"
+    84	
+    85	    echo "ATTEMPT=$attempt CONSECUTIVE_HEALTHY=$consecutive_healthy"
+    86	    echo "$state"
+    87	
+    88	    if [[ "$state" == *"AVAILABLE"* &&
+    89	          "$state" == *'"shard1":"ONLINE_SHARD"'* &&
+    90	          "$state" == *'"shard2":"ONLINE_SHARD"'* ]]; then
+    91	      consecutive_healthy=$((consecutive_healthy + 1))
+    92	    else
+    93	      consecutive_healthy=0
+    94	    fi
+    95	
+    96	    if (( consecutive_healthy >= 3 )); then
+    97	      echo "STABLE_SHARD_HEALTH=PASS"
+    98	      return 0
+    99	    fi
+   100	
+   101	    sleep 10
+   102	  done
+   103	
+   104	  echo "STABLE_SHARD_HEALTH=FAIL" >&2
+   105	  return 2
+   106	}
+   107	
+   108	schema_password() {
+   109	  case "$1" in
+   110	    BANK_CUST) printf '%s' "$BANK_CUST_PASSWORD" ;;
+   111	    BANK_ACCT) printf '%s' "$BANK_ACCT_PASSWORD" ;;
+   112	    *) return 64 ;;
+   113	  esac
+   114	}
+   115	
+   116	load_dataset() {
+   117	  local schema="$1"
+   118	  local size="$2"
+   119	  local password="$3"
+   120	  local scenario_dir="$4"
+   121	  local schema_lower="${schema,,}"
+   122	  local load_evidence="evidence/step-14b-load-${schema_lower}-${size}-customers.txt"
+   123	
+   124	  echo
+   125	  echo "=== RELOAD DATASET ==="
+   126	  echo "SCHEMA=$schema"
+   127	  echo "SIZE=$size"
+   128	
+   129	  set +e
+   130	  ./workload/limited/load_limited_dataset.sh "$schema" "$size" \
+   131	    <<< "$password" 2>&1 |
+   132	    tee "$scenario_dir/load.log"
+   133	  local load_rc="${PIPESTATUS[0]}"
+   134	  set -e
+   135	
+   136	  # Preserve the committed Step 14 evidence; this benchmark has its own logs.
+   137	  git restore -- "$load_evidence" 2>/dev/null || true
+   138	
+   139	  echo "DATASET_RELOAD_RC=$load_rc"
+   140	  if (( load_rc != 0 )); then
+   141	    return "$load_rc"
+   142	  fi
+   143	}
+   144	
+   145	copy_remote_results() {
+   146	  local remote_dir="$1"
+   147	  local local_dir="$2"
+   148	
+   149	  mkdir -p "$local_dir"
+   150	  kubectl exec -n "$NAMESPACE" "$POD" -- \
+   151	    tar -C "$remote_dir" -cf - . |
+   152	    tar -C "$local_dir" -xf -
+   153	}
+   154	
+   155	echo "=== LIMITED BENCHMARK ${MODE^^} ==="
+   156	echo "UTC_TIME=$(date -u '+%Y-%m-%dT%H:%M:%SZ')"
+   157	echo "RUN_ID=$RUN_ID"
+   158	echo "RESULT_ROOT=$LOCAL_ROOT"
+   159	echo "SCHEMAS=${SCHEMAS[*]}"
+   160	echo "SIZES=${SIZES[*]}"
+   161	echo "CONCURRENCIES=$CONCURRENCIES"
+   162	echo "ITERATIONS_PER_CLIENT=$ITERATIONS"
+   163	echo "WARMUP_PER_CLIENT=$WARMUP"
+   164	echo "REPEATS=$REPEATS"
+   165	
+   166	echo
+   167	echo "=== LOCAL VALIDATION ==="
+   168	bash -n workload/benchmark/run_limited_benchmark.sh
+   169	python3 -m py_compile \
+   170	  workload/benchmark/benchmark_runner.py \
+   171	  workload/benchmark/combine_results.py
+   172	rm -rf workload/benchmark/__pycache__
+   173	echo "LOCAL_VALIDATION=PASS"
+   174	
+   175	echo
+   176	echo "=== STAGE BENCHMARK RUNNER ==="
+   177	kubectl exec -n "$NAMESPACE" "$POD" -- \
+   178	  mkdir -p "$REMOTE_ROOT"
+   179	kubectl cp \
+   180	  workload/benchmark/benchmark_runner.py \
+   181	  "$NAMESPACE/$POD:$REMOTE_SCRIPT"
+   182	
+   183	local_sha="$(sha256sum workload/benchmark/benchmark_runner.py | awk '{print $1}')"
+   184	remote_sha="$(
+   185	  kubectl exec -n "$NAMESPACE" "$POD" -- \
+
+------------------------------------------------------------
+SOURCE_WINDOW=29-189
+------------------------------------------------------------
+    29	    SIZES=(5 10 20)
+    30	    CONCURRENCIES="1,5,10"
+    31	    ITERATIONS=10
+    32	    WARMUP=2
+    33	    REPEATS=3
+    34	    EVIDENCE_FILE="evidence/step-15b-limited-benchmark-matrix.txt"
+    35	    ;;
+    36	  *)
+    37	    echo "Usage: $0 smoke|transfer-smoke|full" >&2
+    38	    exit 64
+    39	    ;;
+    40	esac
+    41	
+    42	NAMESPACE="comp418-gdd"
+    43	DATABASE="comp418-sharding"
+    44	POD="catalog-0"
+    45	ORACLE_HOME="/opt/oracle/product/26ai/dbhomeFree"
+    46	PYTHON_BIN="$ORACLE_HOME/python/bin/python3.13"
+    47	REMOTE_ROOT="/tmp/comp418-limited-benchmark"
+    48	REMOTE_SCRIPT="$REMOTE_ROOT/benchmark_runner.py"
+    49	WORKLOADS="${WORKLOADS:-customer_account_lookup,individual_account_lookup,same_customer_transfer,cross_customer_transfer}"
+    50	
+    51	RUN_ID="$(date -u '+%Y%m%dT%H%M%SZ')"
+    52	LOCAL_ROOT="results/limited-benchmark/${RUN_ID}-${MODE}"
+    53	mkdir -p "$LOCAL_ROOT" evidence
+    54	: > "$EVIDENCE_FILE"
+    55	
+    56	read -rsp "Enter BANK_CUST password: " BANK_CUST_PASSWORD
+    57	echo
+    58	if [[ " ${SCHEMAS[*]} " == *" BANK_ACCT "* ]]; then
+    59	  read -rsp "Enter BANK_ACCT password: " BANK_ACCT_PASSWORD
+    60	  echo
+    61	else
+    62	  BANK_ACCT_PASSWORD=""
+    63	fi
+    64	
+    65	cleanup() {
+    66	  unset BANK_CUST_PASSWORD BANK_ACCT_PASSWORD
+    67	}
+    68	trap cleanup EXIT
+    69	
+    70	exec > >(tee -a "$EVIDENCE_FILE") 2>&1
+    71	
+    72	stable_health_gate() {
+    73	  echo "=== STABLE SHARD HEALTH GATE ==="
+    74	  local consecutive_healthy=0
+    75	  local state=""
+    76	
+    77	  for attempt in $(seq 1 30); do
+    78	    state="$(
+    79	      kubectl get shardingdatabase "$DATABASE" \
+    80	        -n "$NAMESPACE" \
+    81	        -o wide \
+    82	        --no-headers
+    83	    )"
+    84	
+    85	    echo "ATTEMPT=$attempt CONSECUTIVE_HEALTHY=$consecutive_healthy"
+    86	    echo "$state"
+    87	
+    88	    if [[ "$state" == *"AVAILABLE"* &&
+    89	          "$state" == *'"shard1":"ONLINE_SHARD"'* &&
+    90	          "$state" == *'"shard2":"ONLINE_SHARD"'* ]]; then
+    91	      consecutive_healthy=$((consecutive_healthy + 1))
+    92	    else
+    93	      consecutive_healthy=0
+    94	    fi
+    95	
+    96	    if (( consecutive_healthy >= 3 )); then
+    97	      echo "STABLE_SHARD_HEALTH=PASS"
+    98	      return 0
+    99	    fi
+   100	
+   101	    sleep 10
+   102	  done
+   103	
+   104	  echo "STABLE_SHARD_HEALTH=FAIL" >&2
+   105	  return 2
+   106	}
+   107	
+   108	schema_password() {
+   109	  case "$1" in
+   110	    BANK_CUST) printf '%s' "$BANK_CUST_PASSWORD" ;;
+   111	    BANK_ACCT) printf '%s' "$BANK_ACCT_PASSWORD" ;;
+   112	    *) return 64 ;;
+   113	  esac
+   114	}
+   115	
+   116	load_dataset() {
+   117	  local schema="$1"
+   118	  local size="$2"
+   119	  local password="$3"
+   120	  local scenario_dir="$4"
+   121	  local schema_lower="${schema,,}"
+   122	  local load_evidence="evidence/step-14b-load-${schema_lower}-${size}-customers.txt"
+   123	
+   124	  echo
+   125	  echo "=== RELOAD DATASET ==="
+   126	  echo "SCHEMA=$schema"
+   127	  echo "SIZE=$size"
+   128	
+   129	  set +e
+   130	  ./workload/limited/load_limited_dataset.sh "$schema" "$size" \
+   131	    <<< "$password" 2>&1 |
+   132	    tee "$scenario_dir/load.log"
+   133	  local load_rc="${PIPESTATUS[0]}"
+   134	  set -e
+   135	
+   136	  # Preserve the committed Step 14 evidence; this benchmark has its own logs.
+   137	  git restore -- "$load_evidence" 2>/dev/null || true
+   138	
+   139	  echo "DATASET_RELOAD_RC=$load_rc"
+   140	  if (( load_rc != 0 )); then
+   141	    return "$load_rc"
+   142	  fi
+   143	}
+   144	
+   145	copy_remote_results() {
+   146	  local remote_dir="$1"
+   147	  local local_dir="$2"
+   148	
+   149	  mkdir -p "$local_dir"
+   150	  kubectl exec -n "$NAMESPACE" "$POD" -- \
+   151	    tar -C "$remote_dir" -cf - . |
+   152	    tar -C "$local_dir" -xf -
+   153	}
+   154	
+   155	echo "=== LIMITED BENCHMARK ${MODE^^} ==="
+   156	echo "UTC_TIME=$(date -u '+%Y-%m-%dT%H:%M:%SZ')"
+   157	echo "RUN_ID=$RUN_ID"
+   158	echo "RESULT_ROOT=$LOCAL_ROOT"
+   159	echo "SCHEMAS=${SCHEMAS[*]}"
+   160	echo "SIZES=${SIZES[*]}"
+   161	echo "CONCURRENCIES=$CONCURRENCIES"
+   162	echo "ITERATIONS_PER_CLIENT=$ITERATIONS"
+   163	echo "WARMUP_PER_CLIENT=$WARMUP"
+   164	echo "REPEATS=$REPEATS"
+   165	
+   166	echo
+   167	echo "=== LOCAL VALIDATION ==="
+   168	bash -n workload/benchmark/run_limited_benchmark.sh
+   169	python3 -m py_compile \
+   170	  workload/benchmark/benchmark_runner.py \
+   171	  workload/benchmark/combine_results.py
+   172	rm -rf workload/benchmark/__pycache__
+   173	echo "LOCAL_VALIDATION=PASS"
+   174	
+   175	echo
+   176	echo "=== STAGE BENCHMARK RUNNER ==="
+   177	kubectl exec -n "$NAMESPACE" "$POD" -- \
+   178	  mkdir -p "$REMOTE_ROOT"
+   179	kubectl cp \
+   180	  workload/benchmark/benchmark_runner.py \
+   181	  "$NAMESPACE/$POD:$REMOTE_SCRIPT"
+   182	
+   183	local_sha="$(sha256sum workload/benchmark/benchmark_runner.py | awk '{print $1}')"
+   184	remote_sha="$(
+   185	  kubectl exec -n "$NAMESPACE" "$POD" -- \
+   186	    sha256sum "$REMOTE_SCRIPT" |
+   187	    awk '{print $1}'
+   188	)"
+   189	echo "LOCAL_RUNNER_SHA256=$local_sha"
+
+------------------------------------------------------------
+SOURCE_WINDOW=30-190
+------------------------------------------------------------
+    30	    CONCURRENCIES="1,5,10"
+    31	    ITERATIONS=10
+    32	    WARMUP=2
+    33	    REPEATS=3
+    34	    EVIDENCE_FILE="evidence/step-15b-limited-benchmark-matrix.txt"
+    35	    ;;
+    36	  *)
+    37	    echo "Usage: $0 smoke|transfer-smoke|full" >&2
+    38	    exit 64
+    39	    ;;
+    40	esac
+    41	
+    42	NAMESPACE="comp418-gdd"
+    43	DATABASE="comp418-sharding"
+    44	POD="catalog-0"
+    45	ORACLE_HOME="/opt/oracle/product/26ai/dbhomeFree"
+    46	PYTHON_BIN="$ORACLE_HOME/python/bin/python3.13"
+    47	REMOTE_ROOT="/tmp/comp418-limited-benchmark"
+    48	REMOTE_SCRIPT="$REMOTE_ROOT/benchmark_runner.py"
+    49	WORKLOADS="${WORKLOADS:-customer_account_lookup,individual_account_lookup,same_customer_transfer,cross_customer_transfer}"
+    50	
+    51	RUN_ID="$(date -u '+%Y%m%dT%H%M%SZ')"
+    52	LOCAL_ROOT="results/limited-benchmark/${RUN_ID}-${MODE}"
+    53	mkdir -p "$LOCAL_ROOT" evidence
+    54	: > "$EVIDENCE_FILE"
+    55	
+    56	read -rsp "Enter BANK_CUST password: " BANK_CUST_PASSWORD
+    57	echo
+    58	if [[ " ${SCHEMAS[*]} " == *" BANK_ACCT "* ]]; then
+    59	  read -rsp "Enter BANK_ACCT password: " BANK_ACCT_PASSWORD
+    60	  echo
+    61	else
+    62	  BANK_ACCT_PASSWORD=""
+    63	fi
+    64	
+    65	cleanup() {
+    66	  unset BANK_CUST_PASSWORD BANK_ACCT_PASSWORD
+    67	}
+    68	trap cleanup EXIT
+    69	
+    70	exec > >(tee -a "$EVIDENCE_FILE") 2>&1
+    71	
+    72	stable_health_gate() {
+    73	  echo "=== STABLE SHARD HEALTH GATE ==="
+    74	  local consecutive_healthy=0
+    75	  local state=""
+    76	
+    77	  for attempt in $(seq 1 30); do
+    78	    state="$(
+    79	      kubectl get shardingdatabase "$DATABASE" \
+    80	        -n "$NAMESPACE" \
+    81	        -o wide \
+    82	        --no-headers
+    83	    )"
+    84	
+    85	    echo "ATTEMPT=$attempt CONSECUTIVE_HEALTHY=$consecutive_healthy"
+    86	    echo "$state"
+    87	
+    88	    if [[ "$state" == *"AVAILABLE"* &&
+    89	          "$state" == *'"shard1":"ONLINE_SHARD"'* &&
+    90	          "$state" == *'"shard2":"ONLINE_SHARD"'* ]]; then
+    91	      consecutive_healthy=$((consecutive_healthy + 1))
+    92	    else
+    93	      consecutive_healthy=0
+    94	    fi
+    95	
+    96	    if (( consecutive_healthy >= 3 )); then
+    97	      echo "STABLE_SHARD_HEALTH=PASS"
+    98	      return 0
+    99	    fi
+   100	
+   101	    sleep 10
+   102	  done
+   103	
+   104	  echo "STABLE_SHARD_HEALTH=FAIL" >&2
+   105	  return 2
+   106	}
+   107	
+   108	schema_password() {
+   109	  case "$1" in
+   110	    BANK_CUST) printf '%s' "$BANK_CUST_PASSWORD" ;;
+   111	    BANK_ACCT) printf '%s' "$BANK_ACCT_PASSWORD" ;;
+   112	    *) return 64 ;;
+   113	  esac
+   114	}
+   115	
+   116	load_dataset() {
+   117	  local schema="$1"
+   118	  local size="$2"
+   119	  local password="$3"
+   120	  local scenario_dir="$4"
+   121	  local schema_lower="${schema,,}"
+   122	  local load_evidence="evidence/step-14b-load-${schema_lower}-${size}-customers.txt"
+   123	
+   124	  echo
+   125	  echo "=== RELOAD DATASET ==="
+   126	  echo "SCHEMA=$schema"
+   127	  echo "SIZE=$size"
+   128	
+   129	  set +e
+   130	  ./workload/limited/load_limited_dataset.sh "$schema" "$size" \
+   131	    <<< "$password" 2>&1 |
+   132	    tee "$scenario_dir/load.log"
+   133	  local load_rc="${PIPESTATUS[0]}"
+   134	  set -e
+   135	
+   136	  # Preserve the committed Step 14 evidence; this benchmark has its own logs.
+   137	  git restore -- "$load_evidence" 2>/dev/null || true
+   138	
+   139	  echo "DATASET_RELOAD_RC=$load_rc"
+   140	  if (( load_rc != 0 )); then
+   141	    return "$load_rc"
+   142	  fi
+   143	}
+   144	
+   145	copy_remote_results() {
+   146	  local remote_dir="$1"
+   147	  local local_dir="$2"
+   148	
+   149	  mkdir -p "$local_dir"
+   150	  kubectl exec -n "$NAMESPACE" "$POD" -- \
+   151	    tar -C "$remote_dir" -cf - . |
+   152	    tar -C "$local_dir" -xf -
+   153	}
+   154	
+   155	echo "=== LIMITED BENCHMARK ${MODE^^} ==="
+   156	echo "UTC_TIME=$(date -u '+%Y-%m-%dT%H:%M:%SZ')"
+   157	echo "RUN_ID=$RUN_ID"
+   158	echo "RESULT_ROOT=$LOCAL_ROOT"
+   159	echo "SCHEMAS=${SCHEMAS[*]}"
+   160	echo "SIZES=${SIZES[*]}"
+   161	echo "CONCURRENCIES=$CONCURRENCIES"
+   162	echo "ITERATIONS_PER_CLIENT=$ITERATIONS"
+   163	echo "WARMUP_PER_CLIENT=$WARMUP"
+   164	echo "REPEATS=$REPEATS"
+   165	
+   166	echo
+   167	echo "=== LOCAL VALIDATION ==="
+   168	bash -n workload/benchmark/run_limited_benchmark.sh
+   169	python3 -m py_compile \
+   170	  workload/benchmark/benchmark_runner.py \
+   171	  workload/benchmark/combine_results.py
+   172	rm -rf workload/benchmark/__pycache__
+   173	echo "LOCAL_VALIDATION=PASS"
+   174	
+   175	echo
+   176	echo "=== STAGE BENCHMARK RUNNER ==="
+   177	kubectl exec -n "$NAMESPACE" "$POD" -- \
+   178	  mkdir -p "$REMOTE_ROOT"
+   179	kubectl cp \
+   180	  workload/benchmark/benchmark_runner.py \
+   181	  "$NAMESPACE/$POD:$REMOTE_SCRIPT"
+   182	
+   183	local_sha="$(sha256sum workload/benchmark/benchmark_runner.py | awk '{print $1}')"
+   184	remote_sha="$(
+   185	  kubectl exec -n "$NAMESPACE" "$POD" -- \
+   186	    sha256sum "$REMOTE_SCRIPT" |
+   187	    awk '{print $1}'
+   188	)"
+   189	echo "LOCAL_RUNNER_SHA256=$local_sha"
+   190	echo "REMOTE_RUNNER_SHA256=$remote_sha"
+
+------------------------------------------------------------
+SOURCE_WINDOW=31-191
+------------------------------------------------------------
+    31	    ITERATIONS=10
+    32	    WARMUP=2
+    33	    REPEATS=3
+    34	    EVIDENCE_FILE="evidence/step-15b-limited-benchmark-matrix.txt"
+    35	    ;;
+    36	  *)
+    37	    echo "Usage: $0 smoke|transfer-smoke|full" >&2
+    38	    exit 64
+    39	    ;;
+    40	esac
+    41	
+    42	NAMESPACE="comp418-gdd"
+    43	DATABASE="comp418-sharding"
+    44	POD="catalog-0"
+    45	ORACLE_HOME="/opt/oracle/product/26ai/dbhomeFree"
+    46	PYTHON_BIN="$ORACLE_HOME/python/bin/python3.13"
+    47	REMOTE_ROOT="/tmp/comp418-limited-benchmark"
+    48	REMOTE_SCRIPT="$REMOTE_ROOT/benchmark_runner.py"
+    49	WORKLOADS="${WORKLOADS:-customer_account_lookup,individual_account_lookup,same_customer_transfer,cross_customer_transfer}"
+    50	
+    51	RUN_ID="$(date -u '+%Y%m%dT%H%M%SZ')"
+    52	LOCAL_ROOT="results/limited-benchmark/${RUN_ID}-${MODE}"
+    53	mkdir -p "$LOCAL_ROOT" evidence
+    54	: > "$EVIDENCE_FILE"
+    55	
+    56	read -rsp "Enter BANK_CUST password: " BANK_CUST_PASSWORD
+    57	echo
+    58	if [[ " ${SCHEMAS[*]} " == *" BANK_ACCT "* ]]; then
+    59	  read -rsp "Enter BANK_ACCT password: " BANK_ACCT_PASSWORD
+    60	  echo
+    61	else
+    62	  BANK_ACCT_PASSWORD=""
+    63	fi
+    64	
+    65	cleanup() {
+    66	  unset BANK_CUST_PASSWORD BANK_ACCT_PASSWORD
+    67	}
+    68	trap cleanup EXIT
+    69	
+    70	exec > >(tee -a "$EVIDENCE_FILE") 2>&1
+    71	
+    72	stable_health_gate() {
+    73	  echo "=== STABLE SHARD HEALTH GATE ==="
+    74	  local consecutive_healthy=0
+    75	  local state=""
+    76	
+    77	  for attempt in $(seq 1 30); do
+    78	    state="$(
+    79	      kubectl get shardingdatabase "$DATABASE" \
+    80	        -n "$NAMESPACE" \
+    81	        -o wide \
+    82	        --no-headers
+    83	    )"
+    84	
+    85	    echo "ATTEMPT=$attempt CONSECUTIVE_HEALTHY=$consecutive_healthy"
+    86	    echo "$state"
+    87	
+    88	    if [[ "$state" == *"AVAILABLE"* &&
+    89	          "$state" == *'"shard1":"ONLINE_SHARD"'* &&
+    90	          "$state" == *'"shard2":"ONLINE_SHARD"'* ]]; then
+    91	      consecutive_healthy=$((consecutive_healthy + 1))
+    92	    else
+    93	      consecutive_healthy=0
+    94	    fi
+    95	
+    96	    if (( consecutive_healthy >= 3 )); then
+    97	      echo "STABLE_SHARD_HEALTH=PASS"
+    98	      return 0
+    99	    fi
+   100	
+   101	    sleep 10
+   102	  done
+   103	
+   104	  echo "STABLE_SHARD_HEALTH=FAIL" >&2
+   105	  return 2
+   106	}
+   107	
+   108	schema_password() {
+   109	  case "$1" in
+   110	    BANK_CUST) printf '%s' "$BANK_CUST_PASSWORD" ;;
+   111	    BANK_ACCT) printf '%s' "$BANK_ACCT_PASSWORD" ;;
+   112	    *) return 64 ;;
+   113	  esac
+   114	}
+   115	
+   116	load_dataset() {
+   117	  local schema="$1"
+   118	  local size="$2"
+   119	  local password="$3"
+   120	  local scenario_dir="$4"
+   121	  local schema_lower="${schema,,}"
+   122	  local load_evidence="evidence/step-14b-load-${schema_lower}-${size}-customers.txt"
+   123	
+   124	  echo
+   125	  echo "=== RELOAD DATASET ==="
+   126	  echo "SCHEMA=$schema"
+   127	  echo "SIZE=$size"
+   128	
+   129	  set +e
+   130	  ./workload/limited/load_limited_dataset.sh "$schema" "$size" \
+   131	    <<< "$password" 2>&1 |
+   132	    tee "$scenario_dir/load.log"
+   133	  local load_rc="${PIPESTATUS[0]}"
+   134	  set -e
+   135	
+   136	  # Preserve the committed Step 14 evidence; this benchmark has its own logs.
+   137	  git restore -- "$load_evidence" 2>/dev/null || true
+   138	
+   139	  echo "DATASET_RELOAD_RC=$load_rc"
+   140	  if (( load_rc != 0 )); then
+   141	    return "$load_rc"
+   142	  fi
+   143	}
+   144	
+   145	copy_remote_results() {
+   146	  local remote_dir="$1"
+   147	  local local_dir="$2"
+   148	
+   149	  mkdir -p "$local_dir"
+   150	  kubectl exec -n "$NAMESPACE" "$POD" -- \
+   151	    tar -C "$remote_dir" -cf - . |
+   152	    tar -C "$local_dir" -xf -
+   153	}
+   154	
+   155	echo "=== LIMITED BENCHMARK ${MODE^^} ==="
+   156	echo "UTC_TIME=$(date -u '+%Y-%m-%dT%H:%M:%SZ')"
+   157	echo "RUN_ID=$RUN_ID"
+   158	echo "RESULT_ROOT=$LOCAL_ROOT"
+   159	echo "SCHEMAS=${SCHEMAS[*]}"
+   160	echo "SIZES=${SIZES[*]}"
+   161	echo "CONCURRENCIES=$CONCURRENCIES"
+   162	echo "ITERATIONS_PER_CLIENT=$ITERATIONS"
+   163	echo "WARMUP_PER_CLIENT=$WARMUP"
+   164	echo "REPEATS=$REPEATS"
+   165	
+   166	echo
+   167	echo "=== LOCAL VALIDATION ==="
+   168	bash -n workload/benchmark/run_limited_benchmark.sh
+   169	python3 -m py_compile \
+   170	  workload/benchmark/benchmark_runner.py \
+   171	  workload/benchmark/combine_results.py
+   172	rm -rf workload/benchmark/__pycache__
+   173	echo "LOCAL_VALIDATION=PASS"
+   174	
+   175	echo
+   176	echo "=== STAGE BENCHMARK RUNNER ==="
+   177	kubectl exec -n "$NAMESPACE" "$POD" -- \
+   178	  mkdir -p "$REMOTE_ROOT"
+   179	kubectl cp \
+   180	  workload/benchmark/benchmark_runner.py \
+   181	  "$NAMESPACE/$POD:$REMOTE_SCRIPT"
+   182	
+   183	local_sha="$(sha256sum workload/benchmark/benchmark_runner.py | awk '{print $1}')"
+   184	remote_sha="$(
+   185	  kubectl exec -n "$NAMESPACE" "$POD" -- \
+   186	    sha256sum "$REMOTE_SCRIPT" |
+   187	    awk '{print $1}'
+   188	)"
+   189	echo "LOCAL_RUNNER_SHA256=$local_sha"
+   190	echo "REMOTE_RUNNER_SHA256=$remote_sha"
+   191	[[ "$local_sha" == "$remote_sha" ]]
+
+------------------------------------------------------------
+SOURCE_WINDOW=33-193
+------------------------------------------------------------
+    33	    REPEATS=3
+    34	    EVIDENCE_FILE="evidence/step-15b-limited-benchmark-matrix.txt"
+    35	    ;;
+    36	  *)
+    37	    echo "Usage: $0 smoke|transfer-smoke|full" >&2
+    38	    exit 64
+    39	    ;;
+    40	esac
+    41	
+    42	NAMESPACE="comp418-gdd"
+    43	DATABASE="comp418-sharding"
+    44	POD="catalog-0"
+    45	ORACLE_HOME="/opt/oracle/product/26ai/dbhomeFree"
+    46	PYTHON_BIN="$ORACLE_HOME/python/bin/python3.13"
+    47	REMOTE_ROOT="/tmp/comp418-limited-benchmark"
+    48	REMOTE_SCRIPT="$REMOTE_ROOT/benchmark_runner.py"
+    49	WORKLOADS="${WORKLOADS:-customer_account_lookup,individual_account_lookup,same_customer_transfer,cross_customer_transfer}"
+    50	
+    51	RUN_ID="$(date -u '+%Y%m%dT%H%M%SZ')"
+    52	LOCAL_ROOT="results/limited-benchmark/${RUN_ID}-${MODE}"
+    53	mkdir -p "$LOCAL_ROOT" evidence
+    54	: > "$EVIDENCE_FILE"
+    55	
+    56	read -rsp "Enter BANK_CUST password: " BANK_CUST_PASSWORD
+    57	echo
+    58	if [[ " ${SCHEMAS[*]} " == *" BANK_ACCT "* ]]; then
+    59	  read -rsp "Enter BANK_ACCT password: " BANK_ACCT_PASSWORD
+    60	  echo
+    61	else
+    62	  BANK_ACCT_PASSWORD=""
+    63	fi
+    64	
+    65	cleanup() {
+    66	  unset BANK_CUST_PASSWORD BANK_ACCT_PASSWORD
+    67	}
+    68	trap cleanup EXIT
+    69	
+    70	exec > >(tee -a "$EVIDENCE_FILE") 2>&1
+    71	
+    72	stable_health_gate() {
+    73	  echo "=== STABLE SHARD HEALTH GATE ==="
+    74	  local consecutive_healthy=0
+    75	  local state=""
+    76	
+    77	  for attempt in $(seq 1 30); do
+    78	    state="$(
+    79	      kubectl get shardingdatabase "$DATABASE" \
+    80	        -n "$NAMESPACE" \
+    81	        -o wide \
+    82	        --no-headers
+    83	    )"
+    84	
+    85	    echo "ATTEMPT=$attempt CONSECUTIVE_HEALTHY=$consecutive_healthy"
+    86	    echo "$state"
+    87	
+    88	    if [[ "$state" == *"AVAILABLE"* &&
+    89	          "$state" == *'"shard1":"ONLINE_SHARD"'* &&
+    90	          "$state" == *'"shard2":"ONLINE_SHARD"'* ]]; then
+    91	      consecutive_healthy=$((consecutive_healthy + 1))
+    92	    else
+    93	      consecutive_healthy=0
+    94	    fi
+    95	
+    96	    if (( consecutive_healthy >= 3 )); then
+    97	      echo "STABLE_SHARD_HEALTH=PASS"
+    98	      return 0
+    99	    fi
+   100	
+   101	    sleep 10
+   102	  done
+   103	
+   104	  echo "STABLE_SHARD_HEALTH=FAIL" >&2
+   105	  return 2
+   106	}
+   107	
+   108	schema_password() {
+   109	  case "$1" in
+   110	    BANK_CUST) printf '%s' "$BANK_CUST_PASSWORD" ;;
+   111	    BANK_ACCT) printf '%s' "$BANK_ACCT_PASSWORD" ;;
+   112	    *) return 64 ;;
+   113	  esac
+   114	}
+   115	
+   116	load_dataset() {
+   117	  local schema="$1"
+   118	  local size="$2"
+   119	  local password="$3"
+   120	  local scenario_dir="$4"
+   121	  local schema_lower="${schema,,}"
+   122	  local load_evidence="evidence/step-14b-load-${schema_lower}-${size}-customers.txt"
+   123	
+   124	  echo
+   125	  echo "=== RELOAD DATASET ==="
+   126	  echo "SCHEMA=$schema"
+   127	  echo "SIZE=$size"
+   128	
+   129	  set +e
+   130	  ./workload/limited/load_limited_dataset.sh "$schema" "$size" \
+   131	    <<< "$password" 2>&1 |
+   132	    tee "$scenario_dir/load.log"
+   133	  local load_rc="${PIPESTATUS[0]}"
+   134	  set -e
+   135	
+   136	  # Preserve the committed Step 14 evidence; this benchmark has its own logs.
+   137	  git restore -- "$load_evidence" 2>/dev/null || true
+   138	
+   139	  echo "DATASET_RELOAD_RC=$load_rc"
+   140	  if (( load_rc != 0 )); then
+   141	    return "$load_rc"
+   142	  fi
+   143	}
+   144	
+   145	copy_remote_results() {
+   146	  local remote_dir="$1"
+   147	  local local_dir="$2"
+   148	
+   149	  mkdir -p "$local_dir"
+   150	  kubectl exec -n "$NAMESPACE" "$POD" -- \
+   151	    tar -C "$remote_dir" -cf - . |
+   152	    tar -C "$local_dir" -xf -
+   153	}
+   154	
+   155	echo "=== LIMITED BENCHMARK ${MODE^^} ==="
+   156	echo "UTC_TIME=$(date -u '+%Y-%m-%dT%H:%M:%SZ')"
+   157	echo "RUN_ID=$RUN_ID"
+   158	echo "RESULT_ROOT=$LOCAL_ROOT"
+   159	echo "SCHEMAS=${SCHEMAS[*]}"
+   160	echo "SIZES=${SIZES[*]}"
+   161	echo "CONCURRENCIES=$CONCURRENCIES"
+   162	echo "ITERATIONS_PER_CLIENT=$ITERATIONS"
+   163	echo "WARMUP_PER_CLIENT=$WARMUP"
+   164	echo "REPEATS=$REPEATS"
+   165	
+   166	echo
+   167	echo "=== LOCAL VALIDATION ==="
+   168	bash -n workload/benchmark/run_limited_benchmark.sh
+   169	python3 -m py_compile \
+   170	  workload/benchmark/benchmark_runner.py \
+   171	  workload/benchmark/combine_results.py
+   172	rm -rf workload/benchmark/__pycache__
+   173	echo "LOCAL_VALIDATION=PASS"
+   174	
+   175	echo
+   176	echo "=== STAGE BENCHMARK RUNNER ==="
+   177	kubectl exec -n "$NAMESPACE" "$POD" -- \
+   178	  mkdir -p "$REMOTE_ROOT"
+   179	kubectl cp \
+   180	  workload/benchmark/benchmark_runner.py \
+   181	  "$NAMESPACE/$POD:$REMOTE_SCRIPT"
+   182	
+   183	local_sha="$(sha256sum workload/benchmark/benchmark_runner.py | awk '{print $1}')"
+   184	remote_sha="$(
+   185	  kubectl exec -n "$NAMESPACE" "$POD" -- \
+   186	    sha256sum "$REMOTE_SCRIPT" |
+   187	    awk '{print $1}'
+   188	)"
+   189	echo "LOCAL_RUNNER_SHA256=$local_sha"
+   190	echo "REMOTE_RUNNER_SHA256=$remote_sha"
+   191	[[ "$local_sha" == "$remote_sha" ]]
+   192	echo "RUNNER_STAGING=PASS"
+   193	
+
+------------------------------------------------------------
+SOURCE_WINDOW=36-196
+------------------------------------------------------------
+    36	  *)
+    37	    echo "Usage: $0 smoke|transfer-smoke|full" >&2
+    38	    exit 64
+    39	    ;;
+    40	esac
+    41	
+    42	NAMESPACE="comp418-gdd"
+    43	DATABASE="comp418-sharding"
+    44	POD="catalog-0"
+    45	ORACLE_HOME="/opt/oracle/product/26ai/dbhomeFree"
+    46	PYTHON_BIN="$ORACLE_HOME/python/bin/python3.13"
+    47	REMOTE_ROOT="/tmp/comp418-limited-benchmark"
+    48	REMOTE_SCRIPT="$REMOTE_ROOT/benchmark_runner.py"
+    49	WORKLOADS="${WORKLOADS:-customer_account_lookup,individual_account_lookup,same_customer_transfer,cross_customer_transfer}"
+    50	
+    51	RUN_ID="$(date -u '+%Y%m%dT%H%M%SZ')"
+    52	LOCAL_ROOT="results/limited-benchmark/${RUN_ID}-${MODE}"
+    53	mkdir -p "$LOCAL_ROOT" evidence
+    54	: > "$EVIDENCE_FILE"
+    55	
+    56	read -rsp "Enter BANK_CUST password: " BANK_CUST_PASSWORD
+    57	echo
+    58	if [[ " ${SCHEMAS[*]} " == *" BANK_ACCT "* ]]; then
+    59	  read -rsp "Enter BANK_ACCT password: " BANK_ACCT_PASSWORD
+    60	  echo
+    61	else
+    62	  BANK_ACCT_PASSWORD=""
+    63	fi
+    64	
+    65	cleanup() {
+    66	  unset BANK_CUST_PASSWORD BANK_ACCT_PASSWORD
+    67	}
+    68	trap cleanup EXIT
+    69	
+    70	exec > >(tee -a "$EVIDENCE_FILE") 2>&1
+    71	
+    72	stable_health_gate() {
+    73	  echo "=== STABLE SHARD HEALTH GATE ==="
+    74	  local consecutive_healthy=0
+    75	  local state=""
+    76	
+    77	  for attempt in $(seq 1 30); do
+    78	    state="$(
+    79	      kubectl get shardingdatabase "$DATABASE" \
+    80	        -n "$NAMESPACE" \
+    81	        -o wide \
+    82	        --no-headers
+    83	    )"
+    84	
+    85	    echo "ATTEMPT=$attempt CONSECUTIVE_HEALTHY=$consecutive_healthy"
+    86	    echo "$state"
+    87	
+    88	    if [[ "$state" == *"AVAILABLE"* &&
+    89	          "$state" == *'"shard1":"ONLINE_SHARD"'* &&
+    90	          "$state" == *'"shard2":"ONLINE_SHARD"'* ]]; then
+    91	      consecutive_healthy=$((consecutive_healthy + 1))
+    92	    else
+    93	      consecutive_healthy=0
+    94	    fi
+    95	
+    96	    if (( consecutive_healthy >= 3 )); then
+    97	      echo "STABLE_SHARD_HEALTH=PASS"
+    98	      return 0
+    99	    fi
+   100	
+   101	    sleep 10
+   102	  done
+   103	
+   104	  echo "STABLE_SHARD_HEALTH=FAIL" >&2
+   105	  return 2
+   106	}
+   107	
+   108	schema_password() {
+   109	  case "$1" in
+   110	    BANK_CUST) printf '%s' "$BANK_CUST_PASSWORD" ;;
+   111	    BANK_ACCT) printf '%s' "$BANK_ACCT_PASSWORD" ;;
+   112	    *) return 64 ;;
+   113	  esac
+   114	}
+   115	
+   116	load_dataset() {
+   117	  local schema="$1"
+   118	  local size="$2"
+   119	  local password="$3"
+   120	  local scenario_dir="$4"
+   121	  local schema_lower="${schema,,}"
+   122	  local load_evidence="evidence/step-14b-load-${schema_lower}-${size}-customers.txt"
+   123	
+   124	  echo
+   125	  echo "=== RELOAD DATASET ==="
+   126	  echo "SCHEMA=$schema"
+   127	  echo "SIZE=$size"
+   128	
+   129	  set +e
+   130	  ./workload/limited/load_limited_dataset.sh "$schema" "$size" \
+   131	    <<< "$password" 2>&1 |
+   132	    tee "$scenario_dir/load.log"
+   133	  local load_rc="${PIPESTATUS[0]}"
+   134	  set -e
+   135	
+   136	  # Preserve the committed Step 14 evidence; this benchmark has its own logs.
+   137	  git restore -- "$load_evidence" 2>/dev/null || true
+   138	
+   139	  echo "DATASET_RELOAD_RC=$load_rc"
+   140	  if (( load_rc != 0 )); then
+   141	    return "$load_rc"
+   142	  fi
+   143	}
+   144	
+   145	copy_remote_results() {
+   146	  local remote_dir="$1"
+   147	  local local_dir="$2"
+   148	
+   149	  mkdir -p "$local_dir"
+   150	  kubectl exec -n "$NAMESPACE" "$POD" -- \
+   151	    tar -C "$remote_dir" -cf - . |
+   152	    tar -C "$local_dir" -xf -
+   153	}
+   154	
+   155	echo "=== LIMITED BENCHMARK ${MODE^^} ==="
+   156	echo "UTC_TIME=$(date -u '+%Y-%m-%dT%H:%M:%SZ')"
+   157	echo "RUN_ID=$RUN_ID"
+   158	echo "RESULT_ROOT=$LOCAL_ROOT"
+   159	echo "SCHEMAS=${SCHEMAS[*]}"
+   160	echo "SIZES=${SIZES[*]}"
+   161	echo "CONCURRENCIES=$CONCURRENCIES"
+   162	echo "ITERATIONS_PER_CLIENT=$ITERATIONS"
+   163	echo "WARMUP_PER_CLIENT=$WARMUP"
+   164	echo "REPEATS=$REPEATS"
+   165	
+   166	echo
+   167	echo "=== LOCAL VALIDATION ==="
+   168	bash -n workload/benchmark/run_limited_benchmark.sh
+   169	python3 -m py_compile \
+   170	  workload/benchmark/benchmark_runner.py \
+   171	  workload/benchmark/combine_results.py
+   172	rm -rf workload/benchmark/__pycache__
+   173	echo "LOCAL_VALIDATION=PASS"
+   174	
+   175	echo
+   176	echo "=== STAGE BENCHMARK RUNNER ==="
+   177	kubectl exec -n "$NAMESPACE" "$POD" -- \
+   178	  mkdir -p "$REMOTE_ROOT"
+   179	kubectl cp \
+   180	  workload/benchmark/benchmark_runner.py \
+   181	  "$NAMESPACE/$POD:$REMOTE_SCRIPT"
+   182	
+   183	local_sha="$(sha256sum workload/benchmark/benchmark_runner.py | awk '{print $1}')"
+   184	remote_sha="$(
+   185	  kubectl exec -n "$NAMESPACE" "$POD" -- \
+   186	    sha256sum "$REMOTE_SCRIPT" |
+   187	    awk '{print $1}'
+   188	)"
+   189	echo "LOCAL_RUNNER_SHA256=$local_sha"
+   190	echo "REMOTE_RUNNER_SHA256=$remote_sha"
+   191	[[ "$local_sha" == "$remote_sha" ]]
+   192	echo "RUNNER_STAGING=PASS"
+   193	
+   194	for schema in "${SCHEMAS[@]}"; do
+   195	  password="$(schema_password "$schema")"
+   196	
+
+------------------------------------------------------------
+SOURCE_WINDOW=37-197
+------------------------------------------------------------
+    37	    echo "Usage: $0 smoke|transfer-smoke|full" >&2
+    38	    exit 64
+    39	    ;;
+    40	esac
+    41	
+    42	NAMESPACE="comp418-gdd"
+    43	DATABASE="comp418-sharding"
+    44	POD="catalog-0"
+    45	ORACLE_HOME="/opt/oracle/product/26ai/dbhomeFree"
+    46	PYTHON_BIN="$ORACLE_HOME/python/bin/python3.13"
+    47	REMOTE_ROOT="/tmp/comp418-limited-benchmark"
+    48	REMOTE_SCRIPT="$REMOTE_ROOT/benchmark_runner.py"
+    49	WORKLOADS="${WORKLOADS:-customer_account_lookup,individual_account_lookup,same_customer_transfer,cross_customer_transfer}"
+    50	
+    51	RUN_ID="$(date -u '+%Y%m%dT%H%M%SZ')"
+    52	LOCAL_ROOT="results/limited-benchmark/${RUN_ID}-${MODE}"
+    53	mkdir -p "$LOCAL_ROOT" evidence
+    54	: > "$EVIDENCE_FILE"
+    55	
+    56	read -rsp "Enter BANK_CUST password: " BANK_CUST_PASSWORD
+    57	echo
+    58	if [[ " ${SCHEMAS[*]} " == *" BANK_ACCT "* ]]; then
+    59	  read -rsp "Enter BANK_ACCT password: " BANK_ACCT_PASSWORD
+    60	  echo
+    61	else
+    62	  BANK_ACCT_PASSWORD=""
+    63	fi
+    64	
+    65	cleanup() {
+    66	  unset BANK_CUST_PASSWORD BANK_ACCT_PASSWORD
+    67	}
+    68	trap cleanup EXIT
+    69	
+    70	exec > >(tee -a "$EVIDENCE_FILE") 2>&1
+    71	
+    72	stable_health_gate() {
+    73	  echo "=== STABLE SHARD HEALTH GATE ==="
+    74	  local consecutive_healthy=0
+    75	  local state=""
+    76	
+    77	  for attempt in $(seq 1 30); do
+    78	    state="$(
+    79	      kubectl get shardingdatabase "$DATABASE" \
+    80	        -n "$NAMESPACE" \
+    81	        -o wide \
+    82	        --no-headers
+    83	    )"
+    84	
+    85	    echo "ATTEMPT=$attempt CONSECUTIVE_HEALTHY=$consecutive_healthy"
+    86	    echo "$state"
+    87	
+    88	    if [[ "$state" == *"AVAILABLE"* &&
+    89	          "$state" == *'"shard1":"ONLINE_SHARD"'* &&
+    90	          "$state" == *'"shard2":"ONLINE_SHARD"'* ]]; then
+    91	      consecutive_healthy=$((consecutive_healthy + 1))
+    92	    else
+    93	      consecutive_healthy=0
+    94	    fi
+    95	
+    96	    if (( consecutive_healthy >= 3 )); then
+    97	      echo "STABLE_SHARD_HEALTH=PASS"
+    98	      return 0
+    99	    fi
+   100	
+   101	    sleep 10
+   102	  done
+   103	
+   104	  echo "STABLE_SHARD_HEALTH=FAIL" >&2
+   105	  return 2
+   106	}
+   107	
+   108	schema_password() {
+   109	  case "$1" in
+   110	    BANK_CUST) printf '%s' "$BANK_CUST_PASSWORD" ;;
+   111	    BANK_ACCT) printf '%s' "$BANK_ACCT_PASSWORD" ;;
+   112	    *) return 64 ;;
+   113	  esac
+   114	}
+   115	
+   116	load_dataset() {
+   117	  local schema="$1"
+   118	  local size="$2"
+   119	  local password="$3"
+   120	  local scenario_dir="$4"
+   121	  local schema_lower="${schema,,}"
+   122	  local load_evidence="evidence/step-14b-load-${schema_lower}-${size}-customers.txt"
+   123	
+   124	  echo
+   125	  echo "=== RELOAD DATASET ==="
+   126	  echo "SCHEMA=$schema"
+   127	  echo "SIZE=$size"
+   128	
+   129	  set +e
+   130	  ./workload/limited/load_limited_dataset.sh "$schema" "$size" \
+   131	    <<< "$password" 2>&1 |
+   132	    tee "$scenario_dir/load.log"
+   133	  local load_rc="${PIPESTATUS[0]}"
+   134	  set -e
+   135	
+   136	  # Preserve the committed Step 14 evidence; this benchmark has its own logs.
+   137	  git restore -- "$load_evidence" 2>/dev/null || true
+   138	
+   139	  echo "DATASET_RELOAD_RC=$load_rc"
+   140	  if (( load_rc != 0 )); then
+   141	    return "$load_rc"
+   142	  fi
+   143	}
+   144	
+   145	copy_remote_results() {
+   146	  local remote_dir="$1"
+   147	  local local_dir="$2"
+   148	
+   149	  mkdir -p "$local_dir"
+   150	  kubectl exec -n "$NAMESPACE" "$POD" -- \
+   151	    tar -C "$remote_dir" -cf - . |
+   152	    tar -C "$local_dir" -xf -
+   153	}
+   154	
+   155	echo "=== LIMITED BENCHMARK ${MODE^^} ==="
+   156	echo "UTC_TIME=$(date -u '+%Y-%m-%dT%H:%M:%SZ')"
+   157	echo "RUN_ID=$RUN_ID"
+   158	echo "RESULT_ROOT=$LOCAL_ROOT"
+   159	echo "SCHEMAS=${SCHEMAS[*]}"
+   160	echo "SIZES=${SIZES[*]}"
+   161	echo "CONCURRENCIES=$CONCURRENCIES"
+   162	echo "ITERATIONS_PER_CLIENT=$ITERATIONS"
+   163	echo "WARMUP_PER_CLIENT=$WARMUP"
+   164	echo "REPEATS=$REPEATS"
+   165	
+   166	echo
+   167	echo "=== LOCAL VALIDATION ==="
+   168	bash -n workload/benchmark/run_limited_benchmark.sh
+   169	python3 -m py_compile \
+   170	  workload/benchmark/benchmark_runner.py \
+   171	  workload/benchmark/combine_results.py
+   172	rm -rf workload/benchmark/__pycache__
+   173	echo "LOCAL_VALIDATION=PASS"
+   174	
+   175	echo
+   176	echo "=== STAGE BENCHMARK RUNNER ==="
+   177	kubectl exec -n "$NAMESPACE" "$POD" -- \
+   178	  mkdir -p "$REMOTE_ROOT"
+   179	kubectl cp \
+   180	  workload/benchmark/benchmark_runner.py \
+   181	  "$NAMESPACE/$POD:$REMOTE_SCRIPT"
+   182	
+   183	local_sha="$(sha256sum workload/benchmark/benchmark_runner.py | awk '{print $1}')"
+   184	remote_sha="$(
+   185	  kubectl exec -n "$NAMESPACE" "$POD" -- \
+   186	    sha256sum "$REMOTE_SCRIPT" |
+   187	    awk '{print $1}'
+   188	)"
+   189	echo "LOCAL_RUNNER_SHA256=$local_sha"
+   190	echo "REMOTE_RUNNER_SHA256=$remote_sha"
+   191	[[ "$local_sha" == "$remote_sha" ]]
+   192	echo "RUNNER_STAGING=PASS"
+   193	
+   194	for schema in "${SCHEMAS[@]}"; do
+   195	  password="$(schema_password "$schema")"
+   196	
+   197	  for size in "${SIZES[@]}"; do
+
+------------------------------------------------------------
+SOURCE_WINDOW=44-204
+------------------------------------------------------------
+    44	POD="catalog-0"
+    45	ORACLE_HOME="/opt/oracle/product/26ai/dbhomeFree"
+    46	PYTHON_BIN="$ORACLE_HOME/python/bin/python3.13"
+    47	REMOTE_ROOT="/tmp/comp418-limited-benchmark"
+    48	REMOTE_SCRIPT="$REMOTE_ROOT/benchmark_runner.py"
+    49	WORKLOADS="${WORKLOADS:-customer_account_lookup,individual_account_lookup,same_customer_transfer,cross_customer_transfer}"
+    50	
+    51	RUN_ID="$(date -u '+%Y%m%dT%H%M%SZ')"
+    52	LOCAL_ROOT="results/limited-benchmark/${RUN_ID}-${MODE}"
+    53	mkdir -p "$LOCAL_ROOT" evidence
+    54	: > "$EVIDENCE_FILE"
+    55	
+    56	read -rsp "Enter BANK_CUST password: " BANK_CUST_PASSWORD
+    57	echo
+    58	if [[ " ${SCHEMAS[*]} " == *" BANK_ACCT "* ]]; then
+    59	  read -rsp "Enter BANK_ACCT password: " BANK_ACCT_PASSWORD
+    60	  echo
+    61	else
+    62	  BANK_ACCT_PASSWORD=""
+    63	fi
+    64	
+    65	cleanup() {
+    66	  unset BANK_CUST_PASSWORD BANK_ACCT_PASSWORD
+    67	}
+    68	trap cleanup EXIT
+    69	
+    70	exec > >(tee -a "$EVIDENCE_FILE") 2>&1
+    71	
+    72	stable_health_gate() {
+    73	  echo "=== STABLE SHARD HEALTH GATE ==="
+    74	  local consecutive_healthy=0
+    75	  local state=""
+    76	
+    77	  for attempt in $(seq 1 30); do
+    78	    state="$(
+    79	      kubectl get shardingdatabase "$DATABASE" \
+    80	        -n "$NAMESPACE" \
+    81	        -o wide \
+    82	        --no-headers
+    83	    )"
+    84	
+    85	    echo "ATTEMPT=$attempt CONSECUTIVE_HEALTHY=$consecutive_healthy"
+    86	    echo "$state"
+    87	
+    88	    if [[ "$state" == *"AVAILABLE"* &&
+    89	          "$state" == *'"shard1":"ONLINE_SHARD"'* &&
+    90	          "$state" == *'"shard2":"ONLINE_SHARD"'* ]]; then
+    91	      consecutive_healthy=$((consecutive_healthy + 1))
+    92	    else
+    93	      consecutive_healthy=0
+    94	    fi
+    95	
+    96	    if (( consecutive_healthy >= 3 )); then
+    97	      echo "STABLE_SHARD_HEALTH=PASS"
+    98	      return 0
+    99	    fi
+   100	
+   101	    sleep 10
+   102	  done
+   103	
+   104	  echo "STABLE_SHARD_HEALTH=FAIL" >&2
+   105	  return 2
+   106	}
+   107	
+   108	schema_password() {
+   109	  case "$1" in
+   110	    BANK_CUST) printf '%s' "$BANK_CUST_PASSWORD" ;;
+   111	    BANK_ACCT) printf '%s' "$BANK_ACCT_PASSWORD" ;;
+   112	    *) return 64 ;;
+   113	  esac
+   114	}
+   115	
+   116	load_dataset() {
+   117	  local schema="$1"
+   118	  local size="$2"
+   119	  local password="$3"
+   120	  local scenario_dir="$4"
+   121	  local schema_lower="${schema,,}"
+   122	  local load_evidence="evidence/step-14b-load-${schema_lower}-${size}-customers.txt"
+   123	
+   124	  echo
+   125	  echo "=== RELOAD DATASET ==="
+   126	  echo "SCHEMA=$schema"
+   127	  echo "SIZE=$size"
+   128	
+   129	  set +e
+   130	  ./workload/limited/load_limited_dataset.sh "$schema" "$size" \
+   131	    <<< "$password" 2>&1 |
+   132	    tee "$scenario_dir/load.log"
+   133	  local load_rc="${PIPESTATUS[0]}"
+   134	  set -e
+   135	
+   136	  # Preserve the committed Step 14 evidence; this benchmark has its own logs.
+   137	  git restore -- "$load_evidence" 2>/dev/null || true
+   138	
+   139	  echo "DATASET_RELOAD_RC=$load_rc"
+   140	  if (( load_rc != 0 )); then
+   141	    return "$load_rc"
+   142	  fi
+   143	}
+   144	
+   145	copy_remote_results() {
+   146	  local remote_dir="$1"
+   147	  local local_dir="$2"
+   148	
+   149	  mkdir -p "$local_dir"
+   150	  kubectl exec -n "$NAMESPACE" "$POD" -- \
+   151	    tar -C "$remote_dir" -cf - . |
+   152	    tar -C "$local_dir" -xf -
+   153	}
+   154	
+   155	echo "=== LIMITED BENCHMARK ${MODE^^} ==="
+   156	echo "UTC_TIME=$(date -u '+%Y-%m-%dT%H:%M:%SZ')"
+   157	echo "RUN_ID=$RUN_ID"
+   158	echo "RESULT_ROOT=$LOCAL_ROOT"
+   159	echo "SCHEMAS=${SCHEMAS[*]}"
+   160	echo "SIZES=${SIZES[*]}"
+   161	echo "CONCURRENCIES=$CONCURRENCIES"
+   162	echo "ITERATIONS_PER_CLIENT=$ITERATIONS"
+   163	echo "WARMUP_PER_CLIENT=$WARMUP"
+   164	echo "REPEATS=$REPEATS"
+   165	
+   166	echo
+   167	echo "=== LOCAL VALIDATION ==="
+   168	bash -n workload/benchmark/run_limited_benchmark.sh
+   169	python3 -m py_compile \
+   170	  workload/benchmark/benchmark_runner.py \
+   171	  workload/benchmark/combine_results.py
+   172	rm -rf workload/benchmark/__pycache__
+   173	echo "LOCAL_VALIDATION=PASS"
+   174	
+   175	echo
+   176	echo "=== STAGE BENCHMARK RUNNER ==="
+   177	kubectl exec -n "$NAMESPACE" "$POD" -- \
+   178	  mkdir -p "$REMOTE_ROOT"
+   179	kubectl cp \
+   180	  workload/benchmark/benchmark_runner.py \
+   181	  "$NAMESPACE/$POD:$REMOTE_SCRIPT"
+   182	
+   183	local_sha="$(sha256sum workload/benchmark/benchmark_runner.py | awk '{print $1}')"
+   184	remote_sha="$(
+   185	  kubectl exec -n "$NAMESPACE" "$POD" -- \
+   186	    sha256sum "$REMOTE_SCRIPT" |
+   187	    awk '{print $1}'
+   188	)"
+   189	echo "LOCAL_RUNNER_SHA256=$local_sha"
+   190	echo "REMOTE_RUNNER_SHA256=$remote_sha"
+   191	[[ "$local_sha" == "$remote_sha" ]]
+   192	echo "RUNNER_STAGING=PASS"
+   193	
+   194	for schema in "${SCHEMAS[@]}"; do
+   195	  password="$(schema_password "$schema")"
+   196	
+   197	  for size in "${SIZES[@]}"; do
+   198	    scenario_name="${schema,,}-customers-${size}"
+   199	    local_dir="$LOCAL_ROOT/$scenario_name"
+   200	    remote_dir="$REMOTE_ROOT/results/$RUN_ID/$scenario_name"
+   201	    mkdir -p "$local_dir"
+   202	
+   203	    load_dataset "$schema" "$size" "$password" "$local_dir"
+   204	
+
+------------------------------------------------------------
+SOURCE_WINDOW=146-306
+------------------------------------------------------------
+   146	  local remote_dir="$1"
+   147	  local local_dir="$2"
+   148	
+   149	  mkdir -p "$local_dir"
+   150	  kubectl exec -n "$NAMESPACE" "$POD" -- \
+   151	    tar -C "$remote_dir" -cf - . |
+   152	    tar -C "$local_dir" -xf -
+   153	}
+   154	
+   155	echo "=== LIMITED BENCHMARK ${MODE^^} ==="
+   156	echo "UTC_TIME=$(date -u '+%Y-%m-%dT%H:%M:%SZ')"
+   157	echo "RUN_ID=$RUN_ID"
+   158	echo "RESULT_ROOT=$LOCAL_ROOT"
+   159	echo "SCHEMAS=${SCHEMAS[*]}"
+   160	echo "SIZES=${SIZES[*]}"
+   161	echo "CONCURRENCIES=$CONCURRENCIES"
+   162	echo "ITERATIONS_PER_CLIENT=$ITERATIONS"
+   163	echo "WARMUP_PER_CLIENT=$WARMUP"
+   164	echo "REPEATS=$REPEATS"
+   165	
+   166	echo
+   167	echo "=== LOCAL VALIDATION ==="
+   168	bash -n workload/benchmark/run_limited_benchmark.sh
+   169	python3 -m py_compile \
+   170	  workload/benchmark/benchmark_runner.py \
+   171	  workload/benchmark/combine_results.py
+   172	rm -rf workload/benchmark/__pycache__
+   173	echo "LOCAL_VALIDATION=PASS"
+   174	
+   175	echo
+   176	echo "=== STAGE BENCHMARK RUNNER ==="
+   177	kubectl exec -n "$NAMESPACE" "$POD" -- \
+   178	  mkdir -p "$REMOTE_ROOT"
+   179	kubectl cp \
+   180	  workload/benchmark/benchmark_runner.py \
+   181	  "$NAMESPACE/$POD:$REMOTE_SCRIPT"
+   182	
+   183	local_sha="$(sha256sum workload/benchmark/benchmark_runner.py | awk '{print $1}')"
+   184	remote_sha="$(
+   185	  kubectl exec -n "$NAMESPACE" "$POD" -- \
+   186	    sha256sum "$REMOTE_SCRIPT" |
+   187	    awk '{print $1}'
+   188	)"
+   189	echo "LOCAL_RUNNER_SHA256=$local_sha"
+   190	echo "REMOTE_RUNNER_SHA256=$remote_sha"
+   191	[[ "$local_sha" == "$remote_sha" ]]
+   192	echo "RUNNER_STAGING=PASS"
+   193	
+   194	for schema in "${SCHEMAS[@]}"; do
+   195	  password="$(schema_password "$schema")"
+   196	
+   197	  for size in "${SIZES[@]}"; do
+   198	    scenario_name="${schema,,}-customers-${size}"
+   199	    local_dir="$LOCAL_ROOT/$scenario_name"
+   200	    remote_dir="$REMOTE_ROOT/results/$RUN_ID/$scenario_name"
+   201	    mkdir -p "$local_dir"
+   202	
+   203	    load_dataset "$schema" "$size" "$password" "$local_dir"
+   204	
+   205	    echo
+   206	    stable_health_gate
+   207	
+   208	    echo
+   209	    echo "=== RUN BENCHMARK SCENARIO ==="
+   210	    echo "SCHEMA=$schema"
+   211	    echo "SIZE=$size"
+   212	    echo "REMOTE_RESULT_DIR=$remote_dir"
+   213	
+   214	    kubectl exec -n "$NAMESPACE" "$POD" -- \
+   215	      rm -rf "$remote_dir"
+   216	    kubectl exec -n "$NAMESPACE" "$POD" -- \
+   217	      mkdir -p "$remote_dir"
+   218	
+   219	    set +e
+   220	    kubectl exec -i -n "$NAMESPACE" "$POD" -- \
+   221	      env \
+   222	        DB_USER="$schema" \
+   223	        DB_PASSWORD="$password" \
+   224	        ORACLE_HOME="$ORACLE_HOME" \
+   225	      "$PYTHON_BIN" "$REMOTE_SCRIPT" \
+   226	        --schema "$schema" \
+   227	        --size "$size" \
+   228	        --workloads "$WORKLOADS" \
+   229	        --concurrencies "$CONCURRENCIES" \
+   230	        --iterations-per-client "$ITERATIONS" \
+   231	        --warmup-per-client "$WARMUP" \
+   232	        --repeats "$REPEATS" \
+   233	        --output-dir "$remote_dir" \
+   234	      2>&1 |
+   235	      tee "$local_dir/runner.log"
+   236	    runner_rc="${PIPESTATUS[0]}"
+   237	    set -e
+   238	
+   239	    copy_remote_results "$remote_dir" "$local_dir"
+   240	
+   241	    echo "BENCHMARK_SCENARIO_RC=$runner_rc"
+   242	    if (( runner_rc != 0 )); then
+   243	      echo "LIMITED_BENCHMARK_${MODE^^}=FAIL" >&2
+   244	      exit "$runner_rc"
+   245	    fi
+   246	  done
+   247	done
+   248	
+   249	echo
+   250	echo "=== COMBINE RESULTS ==="
+   251	python3 workload/benchmark/combine_results.py "$LOCAL_ROOT"
+   252	
+   253	echo
+   254	echo "=== RESULT FILES ==="
+   255	find "$LOCAL_ROOT" -type f -printf '%P\n' | sort
+   256	
+   257	echo
+   258	echo "LIMITED_BENCHMARK_${MODE^^}=PASS"
+   259	echo "RESULT_ROOT=$LOCAL_ROOT"
+   260	echo "EVIDENCE_FILE=$EVIDENCE_FILE"
+
+=== CURRENT SCRIPT DIFF ===
+
+HEALTH_GATE_SOURCE_INSPECTION=COMPLETE

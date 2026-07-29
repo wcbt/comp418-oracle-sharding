@@ -1,0 +1,96 @@
+=== LIMITED BENCHMARK TRANSFER-SMOKE ===
+UTC_TIME=2026-07-29T22:33:05Z
+RUN_ID=20260729T223233Z
+RESULT_ROOT=results/limited-benchmark/20260729T223233Z-transfer-smoke
+SCHEMAS=BANK_CUST BANK_ACCT
+SIZES=5
+CONCURRENCIES=1,5,10
+ITERATIONS_PER_CLIENT=3
+WARMUP_PER_CLIENT=1
+REPEATS=1
+
+=== LOCAL VALIDATION ===
+LOCAL_VALIDATION=PASS
+
+=== STAGE BENCHMARK RUNNER ===
+LOCAL_RUNNER_SHA256=b55fe4d93f9d061424f47c087c2e974f6515cb1f8722ea8dccd23c03a8d40f76
+REMOTE_RUNNER_SHA256=b55fe4d93f9d061424f47c087c2e974f6515cb1f8722ea8dccd23c03a8d40f76
+RUNNER_STAGING=PASS
+
+=== RELOAD DATASET ===
+SCHEMA=BANK_CUST
+SIZE=5
+
+=== LIMITED DATASET LOAD ===
+UTC_TIME=2026-07-29T22:33:06Z
+DB_USER=BANK_CUST
+SCENARIO_SIZE=5
+
+FOUND=workload/generated/limited/customers-5/customers.csv
+FOUND=workload/generated/limited/customers-5/accounts.csv
+FOUND=workload/generated/limited/customers-5/ledger_entries.csv
+FOUND=workload/generated/limited/customers-5/manifest.json
+
+=== STABLE SHARD HEALTH GATE ===
+ATTEMPT=1 CONSECUTIVE_HEALTHY=0
+comp418-sharding   PROVISIONING         {"shard1":"SHARD_ONLINE_ERROR_IN_GSM","shard2":"SHARD_ONLINE_ERROR_IN_GSM"}
+ATTEMPT=2 CONSECUTIVE_HEALTHY=0
+comp418-sharding   PROVISIONING         {"shard1":"SHARD_ONLINE_ERROR_IN_GSM","shard2":"SHARD_ONLINE_ERROR_IN_GSM"}
+ATTEMPT=3 CONSECUTIVE_HEALTHY=0
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"SHARD_ADDITION","shard2":"SHARD_ONLINE_ERROR_IN_GSM"}
+ATTEMPT=4 CONSECUTIVE_HEALTHY=0
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"SHARD_ADDITION","shard2":"SHARD_ONLINE_ERROR_IN_GSM"}
+ATTEMPT=5 CONSECUTIVE_HEALTHY=0
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"SHARD_ADDITION","shard2":"SHARD_ONLINE_ERROR_IN_GSM"}
+ATTEMPT=6 CONSECUTIVE_HEALTHY=0
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"SHARD_ADDITION","shard2":"SHARD_ONLINE_ERROR_IN_GSM"}
+ATTEMPT=7 CONSECUTIVE_HEALTHY=0
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"SHARD_ADDITION","shard2":"SHARD_ONLINE_ERROR_IN_GSM"}
+ATTEMPT=8 CONSECUTIVE_HEALTHY=0
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"SHARD_ADDITION","shard2":"SHARD_ONLINE_ERROR_IN_GSM"}
+ATTEMPT=9 CONSECUTIVE_HEALTHY=0
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"SHARD_ADDITION","shard2":"SHARD_ONLINE_ERROR_IN_GSM"}
+ATTEMPT=10 CONSECUTIVE_HEALTHY=0
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"SHARD_ADDITION","shard2":"SHARD_ONLINE_ERROR_IN_GSM"}
+ATTEMPT=11 CONSECUTIVE_HEALTHY=0
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"SHARD_ADDITION","shard2":"SHARD_ONLINE_ERROR_IN_GSM"}
+ATTEMPT=12 CONSECUTIVE_HEALTHY=0
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"SHARD_ADDITION","shard2":"SHARD_ONLINE_ERROR_IN_GSM"}
+ATTEMPT=13 CONSECUTIVE_HEALTHY=0
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"SHARD_ADDITION","shard2":"SHARD_ONLINE_ERROR_IN_GSM"}
+ATTEMPT=14 CONSECUTIVE_HEALTHY=0
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"SHARD_ADDITION","shard2":"SHARD_ONLINE_ERROR_IN_GSM"}
+ATTEMPT=15 CONSECUTIVE_HEALTHY=0
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"SHARD_ADDITION","shard2":"SHARD_ONLINE_ERROR_IN_GSM"}
+ATTEMPT=16 CONSECUTIVE_HEALTHY=0
+comp418-sharding   PROVISIONING         {"shard1":"SHARD_ADDITION","shard2":"SHARD_ONLINE_ERROR_IN_GSM"}
+ATTEMPT=17 CONSECUTIVE_HEALTHY=0
+comp418-sharding   PROVISIONING         {"shard1":"ONLINE_SHARD","shard2":"ONLINE_SHARD"}
+ATTEMPT=18 CONSECUTIVE_HEALTHY=0
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"ONLINE_SHARD","shard2":"ONLINE_SHARD"}
+ATTEMPT=19 CONSECUTIVE_HEALTHY=1
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"ONLINE_SHARD","shard2":"SHARD_ADDITION"}
+ATTEMPT=20 CONSECUTIVE_HEALTHY=0
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"ONLINE_SHARD","shard2":"SHARD_ADDITION"}
+ATTEMPT=21 CONSECUTIVE_HEALTHY=0
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"ONLINE_SHARD","shard2":"SHARD_ADDITION"}
+ATTEMPT=22 CONSECUTIVE_HEALTHY=0
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"ONLINE_SHARD","shard2":"SHARD_ADDITION"}
+ATTEMPT=23 CONSECUTIVE_HEALTHY=0
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"ONLINE_SHARD","shard2":"SHARD_ADDITION"}
+ATTEMPT=24 CONSECUTIVE_HEALTHY=0
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"ONLINE_SHARD","shard2":"SHARD_ADDITION"}
+ATTEMPT=25 CONSECUTIVE_HEALTHY=0
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"ONLINE_SHARD","shard2":"SHARD_ADDITION"}
+ATTEMPT=26 CONSECUTIVE_HEALTHY=0
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"ONLINE_SHARD","shard2":"SHARD_ADDITION"}
+ATTEMPT=27 CONSECUTIVE_HEALTHY=0
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"ONLINE_SHARD","shard2":"SHARD_ADDITION"}
+ATTEMPT=28 CONSECUTIVE_HEALTHY=0
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"ONLINE_SHARD","shard2":"SHARD_ADDITION"}
+ATTEMPT=29 CONSECUTIVE_HEALTHY=0
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"ONLINE_SHARD","shard2":"SHARD_ADDITION"}
+ATTEMPT=30 CONSECUTIVE_HEALTHY=0
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"ONLINE_SHARD","shard2":"SHARD_ADDITION"}
+STABLE_SHARD_HEALTH=FAIL
+DATASET_RELOAD_RC=3

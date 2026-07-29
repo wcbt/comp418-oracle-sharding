@@ -1,0 +1,286 @@
+=== RERUN TRANSFER-SMOKE WITH GDS HEALTH GATE ===
+TEST_START_UTC=2026-07-29T22:32:33Z
+
+=== PATCH VALIDATION ===
+BASH_SYNTAX_RC=0
+GDS_GATE_MARKER_RC=0
+
+=== ARCHIVE FAILED ATTEMPT ===
+ARCHIVED=evidence/step-15a2-transfer-concurrency-smoke-failed-20260729T223233Z.txt
+ARCHIVED=evidence/step-15a2-post-recovery-transfer-smoke-wrapper-failed-20260729T223233Z.txt
+
+=== PRE-TEST GDS STATUS ===
+GDSCTL: Version 23.26.1.0.0 - Production on Wed Jul 29 22:32:33 UTC 2026
+
+Copyright (c) 2011, 2026, Oracle.  All rights reserved.
+
+Welcome to GDSCTL, type "help" for information.
+
+Current GSM is set to SHARDDIRECTORGSM1
+GDSCTL> 
+Database: "shard1_shard1pdb" Registered: Y State: Ok ONS: N. Role: PRIMARY Instances: 1 Region: primary
+   Service: "oltp_ro_svc" Globally started: Y Started: Y
+            Scan: N Enabled: Y Preferred: Y
+   Service: "oltp_rw_svc" Globally started: Y Started: Y
+            Scan: N Enabled: Y Preferred: Y
+   Registered instances:
+     catalog%1
+Database: "shard2_shard2pdb" Registered: Y State: Ok ONS: N. Role: PRIMARY Instances: 1 Region: primary
+   Service: "oltp_ro_svc" Globally started: Y Started: Y
+            Scan: N Enabled: Y Preferred: Y
+   Service: "oltp_rw_svc" Globally started: Y Started: Y
+            Scan: N Enabled: Y Preferred: Y
+   Registered instances:
+     catalog%11
+
+GDSCTL> 
+Service "oltp_ro_svc.catalog.oradbcloud" has 2 instance(s). Affinity: ANYWHERE
+   Instance "catalog%1", name: "FREE", db: "shard1_shard1pdb", region: "primary", status: ready.
+   Instance "catalog%11", name: "FREE", db: "shard2_shard2pdb", region: "primary", status: ready.
+Service "oltp_rw_svc.catalog.oradbcloud" has 2 instance(s). Affinity: ANYWHERE
+   Instance "catalog%1", name: "FREE", db: "shard1_shard1pdb", region: "primary", status: ready.
+   Instance "catalog%11", name: "FREE", db: "shard2_shard2pdb", region: "primary", status: ready.
+
+GDSCTL> 
+
+=== RUN TRANSFER-SMOKE ===
+Enter BANK_CUST password: 
+Enter BANK_ACCT password: 
+=== LIMITED BENCHMARK TRANSFER-SMOKE ===
+UTC_TIME=2026-07-29T22:33:05Z
+RUN_ID=20260729T223233Z
+RESULT_ROOT=results/limited-benchmark/20260729T223233Z-transfer-smoke
+SCHEMAS=BANK_CUST BANK_ACCT
+SIZES=5
+CONCURRENCIES=1,5,10
+ITERATIONS_PER_CLIENT=3
+WARMUP_PER_CLIENT=1
+REPEATS=1
+
+=== LOCAL VALIDATION ===
+LOCAL_VALIDATION=PASS
+
+=== STAGE BENCHMARK RUNNER ===
+LOCAL_RUNNER_SHA256=b55fe4d93f9d061424f47c087c2e974f6515cb1f8722ea8dccd23c03a8d40f76
+REMOTE_RUNNER_SHA256=b55fe4d93f9d061424f47c087c2e974f6515cb1f8722ea8dccd23c03a8d40f76
+RUNNER_STAGING=PASS
+
+=== RELOAD DATASET ===
+SCHEMA=BANK_CUST
+SIZE=5
+
+=== LIMITED DATASET LOAD ===
+UTC_TIME=2026-07-29T22:33:06Z
+DB_USER=BANK_CUST
+SCENARIO_SIZE=5
+
+FOUND=workload/generated/limited/customers-5/customers.csv
+FOUND=workload/generated/limited/customers-5/accounts.csv
+FOUND=workload/generated/limited/customers-5/ledger_entries.csv
+FOUND=workload/generated/limited/customers-5/manifest.json
+
+=== STABLE SHARD HEALTH GATE ===
+ATTEMPT=1 CONSECUTIVE_HEALTHY=0
+comp418-sharding   PROVISIONING         {"shard1":"SHARD_ONLINE_ERROR_IN_GSM","shard2":"SHARD_ONLINE_ERROR_IN_GSM"}
+ATTEMPT=2 CONSECUTIVE_HEALTHY=0
+comp418-sharding   PROVISIONING         {"shard1":"SHARD_ONLINE_ERROR_IN_GSM","shard2":"SHARD_ONLINE_ERROR_IN_GSM"}
+ATTEMPT=3 CONSECUTIVE_HEALTHY=0
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"SHARD_ADDITION","shard2":"SHARD_ONLINE_ERROR_IN_GSM"}
+ATTEMPT=4 CONSECUTIVE_HEALTHY=0
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"SHARD_ADDITION","shard2":"SHARD_ONLINE_ERROR_IN_GSM"}
+ATTEMPT=5 CONSECUTIVE_HEALTHY=0
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"SHARD_ADDITION","shard2":"SHARD_ONLINE_ERROR_IN_GSM"}
+ATTEMPT=6 CONSECUTIVE_HEALTHY=0
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"SHARD_ADDITION","shard2":"SHARD_ONLINE_ERROR_IN_GSM"}
+ATTEMPT=7 CONSECUTIVE_HEALTHY=0
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"SHARD_ADDITION","shard2":"SHARD_ONLINE_ERROR_IN_GSM"}
+ATTEMPT=8 CONSECUTIVE_HEALTHY=0
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"SHARD_ADDITION","shard2":"SHARD_ONLINE_ERROR_IN_GSM"}
+ATTEMPT=9 CONSECUTIVE_HEALTHY=0
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"SHARD_ADDITION","shard2":"SHARD_ONLINE_ERROR_IN_GSM"}
+ATTEMPT=10 CONSECUTIVE_HEALTHY=0
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"SHARD_ADDITION","shard2":"SHARD_ONLINE_ERROR_IN_GSM"}
+ATTEMPT=11 CONSECUTIVE_HEALTHY=0
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"SHARD_ADDITION","shard2":"SHARD_ONLINE_ERROR_IN_GSM"}
+ATTEMPT=12 CONSECUTIVE_HEALTHY=0
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"SHARD_ADDITION","shard2":"SHARD_ONLINE_ERROR_IN_GSM"}
+ATTEMPT=13 CONSECUTIVE_HEALTHY=0
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"SHARD_ADDITION","shard2":"SHARD_ONLINE_ERROR_IN_GSM"}
+ATTEMPT=14 CONSECUTIVE_HEALTHY=0
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"SHARD_ADDITION","shard2":"SHARD_ONLINE_ERROR_IN_GSM"}
+ATTEMPT=15 CONSECUTIVE_HEALTHY=0
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"SHARD_ADDITION","shard2":"SHARD_ONLINE_ERROR_IN_GSM"}
+ATTEMPT=16 CONSECUTIVE_HEALTHY=0
+comp418-sharding   PROVISIONING         {"shard1":"SHARD_ADDITION","shard2":"SHARD_ONLINE_ERROR_IN_GSM"}
+ATTEMPT=17 CONSECUTIVE_HEALTHY=0
+comp418-sharding   PROVISIONING         {"shard1":"ONLINE_SHARD","shard2":"ONLINE_SHARD"}
+ATTEMPT=18 CONSECUTIVE_HEALTHY=0
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"ONLINE_SHARD","shard2":"ONLINE_SHARD"}
+ATTEMPT=19 CONSECUTIVE_HEALTHY=1
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"ONLINE_SHARD","shard2":"SHARD_ADDITION"}
+ATTEMPT=20 CONSECUTIVE_HEALTHY=0
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"ONLINE_SHARD","shard2":"SHARD_ADDITION"}
+ATTEMPT=21 CONSECUTIVE_HEALTHY=0
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"ONLINE_SHARD","shard2":"SHARD_ADDITION"}
+ATTEMPT=22 CONSECUTIVE_HEALTHY=0
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"ONLINE_SHARD","shard2":"SHARD_ADDITION"}
+ATTEMPT=23 CONSECUTIVE_HEALTHY=0
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"ONLINE_SHARD","shard2":"SHARD_ADDITION"}
+ATTEMPT=24 CONSECUTIVE_HEALTHY=0
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"ONLINE_SHARD","shard2":"SHARD_ADDITION"}
+ATTEMPT=25 CONSECUTIVE_HEALTHY=0
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"ONLINE_SHARD","shard2":"SHARD_ADDITION"}
+ATTEMPT=26 CONSECUTIVE_HEALTHY=0
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"ONLINE_SHARD","shard2":"SHARD_ADDITION"}
+ATTEMPT=27 CONSECUTIVE_HEALTHY=0
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"ONLINE_SHARD","shard2":"SHARD_ADDITION"}
+ATTEMPT=28 CONSECUTIVE_HEALTHY=0
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"ONLINE_SHARD","shard2":"SHARD_ADDITION"}
+ATTEMPT=29 CONSECUTIVE_HEALTHY=0
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"ONLINE_SHARD","shard2":"SHARD_ADDITION"}
+ATTEMPT=30 CONSECUTIVE_HEALTHY=0
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"ONLINE_SHARD","shard2":"SHARD_ADDITION"}
+STABLE_SHARD_HEALTH=FAIL
+DATASET_RELOAD_RC=3
+
+TRANSFER_SMOKE_EXIT_CODE=3
+
+=== POST-TEST SETTLEMENT ===
+
+=== POST-TEST GDS STATUS ===
+GDSCTL: Version 23.26.1.0.0 - Production on Wed Jul 29 22:38:40 UTC 2026
+
+Copyright (c) 2011, 2026, Oracle.  All rights reserved.
+
+Welcome to GDSCTL, type "help" for information.
+
+Current GSM is set to SHARDDIRECTORGSM1
+GDSCTL> 
+Database: "shard1_shard1pdb" Registered: Y State: Ok ONS: N. Role: PRIMARY Instances: 1 Region: primary
+   Service: "oltp_ro_svc" Globally started: Y Started: Y
+            Scan: N Enabled: Y Preferred: Y
+   Service: "oltp_rw_svc" Globally started: Y Started: Y
+            Scan: N Enabled: Y Preferred: Y
+   Registered instances:
+     catalog%1
+Database: "shard2_shard2pdb" Registered: Y State: Ok ONS: N. Role: PRIMARY Instances: 1 Region: primary
+   Service: "oltp_ro_svc" Globally started: Y Started: Y
+            Scan: N Enabled: Y Preferred: Y
+   Service: "oltp_rw_svc" Globally started: Y Started: Y
+            Scan: N Enabled: Y Preferred: Y
+   Registered instances:
+     catalog%11
+
+GDSCTL> 
+Service "oltp_ro_svc.catalog.oradbcloud" has 2 instance(s). Affinity: ANYWHERE
+   Instance "catalog%1", name: "FREE", db: "shard1_shard1pdb", region: "primary", status: ready.
+   Instance "catalog%11", name: "FREE", db: "shard2_shard2pdb", region: "primary", status: ready.
+Service "oltp_rw_svc.catalog.oradbcloud" has 2 instance(s). Affinity: ANYWHERE
+   Instance "catalog%1", name: "FREE", db: "shard1_shard1pdb", region: "primary", status: ready.
+   Instance "catalog%11", name: "FREE", db: "shard2_shard2pdb", region: "primary", status: ready.
+
+GDSCTL> 
+Catalog connection is established
+
+Name: shard1_shard1pdb
+Shard Group: shardgroup1
+Status: Ok
+State: Deployed
+Region: primary
+Connection string: (description=(address=(protocol=tcp)(host=shard1-0.shard1)(port=1521))(connect_data=(service_name=shard1pdb)(server=DEDICATED)))
+SCAN address: 
+ONS remote port: 0
+Disk Threshold, ms: 20
+CPU Threshold, %: 75
+Version: 23.26
+Failed DDL: 
+DDL Error: ---
+Management error: 
+Failed DDL id: 
+Availability: ONLINE
+Rack: 
+
+
+Supported services
+------------------------
+Name                                                            Preferred Status    
+----                                                            --------- ------    
+oltp_ro_svc                                                     Yes       Enabled   
+oltp_rw_svc                                                     Yes       Enabled   
+
+GDSCTL> 
+
+Name: shard2_shard2pdb
+Shard Group: shardgroup1
+Status: Ok
+State: Deployed
+Region: primary
+Connection string: (description=(address=(protocol=tcp)(host=shard2-0.shard2)(port=1521))(connect_data=(service_name=shard2pdb)(server=DEDICATED)))
+SCAN address: 
+ONS remote port: 0
+Disk Threshold, ms: 20
+CPU Threshold, %: 75
+Version: 23.26
+Failed DDL: 
+DDL Error: ---
+Management error: 
+Failed DDL id: 
+Availability: ONLINE
+Rack: 
+
+
+Supported services
+------------------------
+Name                                                            Preferred Status    
+----                                                            --------- ------    
+oltp_ro_svc                                                     Yes       Enabled   
+oltp_rw_svc                                                     Yes       Enabled   
+
+GDSCTL> 
+
+GDSCTL_RC=0
+
+=== POD AND OPERATOR STATUS ===
+NAME        READY   STATUS    RESTARTS      AGE   IP            NODE      NOMINATED NODE   READINESS GATES
+catalog-0   1/1     Running   2 (88m ago)   44h   10.244.0.8    comp418   <none>           <none>
+gsm1-0      1/1     Running   4 (84m ago)   44h   10.244.0.9    comp418   <none>           <none>
+gsm2-0      1/1     Running   4 (83m ago)   44h   10.244.0.7    comp418   <none>           <none>
+shard1-0    1/1     Running   1 (88m ago)   26h   10.244.0.10   comp418   <none>           <none>
+shard2-0    1/1     Running   1 (88m ago)   26h   10.244.0.12   comp418   <none>           <none>
+
+NAME               GSM STATE   SERVICES                                                             SHARDS
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"ONLINE_SHARD","shard2":"ONLINE_SHARD"}
+
+OPERATOR_STATE_DIAGNOSTIC=AVAILABLE|ONLINE_SHARD|ONLINE_SHARD
+PODS_READY=1
+
+=== CRITICAL ERRORS DURING TEST ===
+
+--- catalog-0 ---
+NO_NEW_CRITICAL_ERRORS
+
+--- gsm1-0 ---
+NO_NEW_CRITICAL_ERRORS
+
+--- gsm2-0 ---
+NO_NEW_CRITICAL_ERRORS
+
+--- shard1-0 ---
+NO_NEW_CRITICAL_ERRORS
+
+--- shard2-0 ---
+NO_NEW_CRITICAL_ERRORS
+
+CRITICAL_ERROR_POD_COUNT=0
+
+=== BENCHMARK EVIDENCE SUMMARY ===
+RESULT_ROOT=results/limited-benchmark/20260729T223233Z-transfer-smoke
+LOCAL_VALIDATION=PASS
+RUNNER_STAGING=PASS
+STABLE_SHARD_HEALTH=FAIL
+
+SHARD1_REGISTERED=1
+SHARD2_REGISTERED=1
+ONLINE_SHARD_COUNT=2
+READY_SERVICE_INSTANCE_LINES=4
+PATCHED_TRANSFER_SMOKE=BENCHMARK_FAILURE

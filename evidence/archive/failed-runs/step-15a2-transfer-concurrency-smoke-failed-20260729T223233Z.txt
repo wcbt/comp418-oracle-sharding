@@ -1,0 +1,182 @@
+=== LIMITED BENCHMARK TRANSFER-SMOKE ===
+UTC_TIME=2026-07-29T22:20:28Z
+RUN_ID=20260729T221943Z
+RESULT_ROOT=results/limited-benchmark/20260729T221943Z-transfer-smoke
+SCHEMAS=BANK_CUST BANK_ACCT
+SIZES=5
+CONCURRENCIES=1,5,10
+ITERATIONS_PER_CLIENT=3
+WARMUP_PER_CLIENT=1
+REPEATS=1
+
+=== LOCAL VALIDATION ===
+LOCAL_VALIDATION=PASS
+
+=== STAGE BENCHMARK RUNNER ===
+LOCAL_RUNNER_SHA256=b55fe4d93f9d061424f47c087c2e974f6515cb1f8722ea8dccd23c03a8d40f76
+REMOTE_RUNNER_SHA256=b55fe4d93f9d061424f47c087c2e974f6515cb1f8722ea8dccd23c03a8d40f76
+RUNNER_STAGING=PASS
+
+=== RELOAD DATASET ===
+SCHEMA=BANK_CUST
+SIZE=5
+
+=== LIMITED DATASET LOAD ===
+UTC_TIME=2026-07-29T22:20:28Z
+DB_USER=BANK_CUST
+SCENARIO_SIZE=5
+
+FOUND=workload/generated/limited/customers-5/customers.csv
+FOUND=workload/generated/limited/customers-5/accounts.csv
+FOUND=workload/generated/limited/customers-5/ledger_entries.csv
+FOUND=workload/generated/limited/customers-5/manifest.json
+
+=== STABLE SHARD HEALTH GATE ===
+ATTEMPT=1 CONSECUTIVE_HEALTHY=0
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"SHARD_ADDITION","shard2":"ONLINE_SHARD"}
+ATTEMPT=2 CONSECUTIVE_HEALTHY=0
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"SHARD_ADDITION","shard2":"ONLINE_SHARD"}
+ATTEMPT=3 CONSECUTIVE_HEALTHY=0
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"SHARD_ADDITION","shard2":"ONLINE_SHARD"}
+ATTEMPT=4 CONSECUTIVE_HEALTHY=0
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"SHARD_ADDITION","shard2":"ONLINE_SHARD"}
+ATTEMPT=5 CONSECUTIVE_HEALTHY=0
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"SHARD_ADDITION","shard2":"ONLINE_SHARD"}
+ATTEMPT=6 CONSECUTIVE_HEALTHY=0
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"SHARD_ADDITION","shard2":"ONLINE_SHARD"}
+ATTEMPT=7 CONSECUTIVE_HEALTHY=0
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"SHARD_ADDITION","shard2":"ONLINE_SHARD"}
+ATTEMPT=8 CONSECUTIVE_HEALTHY=0
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"SHARD_ADDITION","shard2":"ONLINE_SHARD"}
+ATTEMPT=9 CONSECUTIVE_HEALTHY=0
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"SHARD_ADDITION","shard2":"ONLINE_SHARD"}
+ATTEMPT=10 CONSECUTIVE_HEALTHY=0
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"SHARD_ADDITION","shard2":"ONLINE_SHARD"}
+ATTEMPT=11 CONSECUTIVE_HEALTHY=0
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"SHARD_ADDITION","shard2":"ONLINE_SHARD"}
+ATTEMPT=12 CONSECUTIVE_HEALTHY=0
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"SHARD_ADDITION","shard2":"ONLINE_SHARD"}
+ATTEMPT=13 CONSECUTIVE_HEALTHY=0
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"ONLINE_SHARD","shard2":"ONLINE_SHARD"}
+ATTEMPT=14 CONSECUTIVE_HEALTHY=1
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"ONLINE_SHARD","shard2":"ONLINE_SHARD"}
+ATTEMPT=15 CONSECUTIVE_HEALTHY=2
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"ONLINE_SHARD","shard2":"ONLINE_SHARD"}
+STABLE_SHARD_HEALTH=PASS
+
+=== STAGE LOADER AND DATA ===
+REMOTE_STAGING=PASS
+
+=== CLEAN, LOAD, AND VERIFY TARGET SCHEMA ===
+DB_USER=BANK_CUST SCENARIO_SIZE=5
+=== CLEANING LIMITED BENCHMARK RANGE ===
+shard1|customers_deleted=3|accounts_deleted=6|ledger_deleted=30
+shard2|customers_deleted=2|accounts_deleted=4|ledger_deleted=20
+=== INSERTING LIMITED DATASET ===
+loaded_customer_id=700000001
+loaded_customer_id=700000002
+loaded_customer_id=700000003
+loaded_customer_id=700000005
+loaded_customer_id=700000007
+=== VERIFYING DIRECT SHARD COUNTS ===
+shard1|customers=3|accounts=6|ledger_entries=30|invalid_ledger_groups=0
+shard2|customers=2|accounts=4|ledger_entries=20|invalid_ledger_groups=0
+TOTALS|customers=5|accounts=10|ledger_entries=50
+{
+  "database_user": "BANK_CUST",
+  "scenario_size": 5,
+  "expected_counts": {
+    "customers": 5,
+    "accounts": 10,
+    "ledger_entries": 50
+  },
+  "shard_counts": {
+    "shard1": {
+      "customers": 3,
+      "accounts": 6,
+      "ledger_entries": 30,
+      "invalid_ledger_groups": 0
+    },
+    "shard2": {
+      "customers": 2,
+      "accounts": 4,
+      "ledger_entries": 20,
+      "invalid_ledger_groups": 0
+    }
+  },
+  "totals": {
+    "customers": 5,
+    "accounts": 10,
+    "ledger_entries": 50
+  },
+  "status": "PASS"
+}
+LIMITED_DATASET_LOAD=PASS
+
+LIMITED_SCHEMA_LOAD=PASS
+
+LIMITED_SCHEMA_LOAD_RC=0
+DATASET_RELOAD_RC=0
+
+=== STABLE SHARD HEALTH GATE ===
+ATTEMPT=1 CONSECUTIVE_HEALTHY=0
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"ONLINE_SHARD","shard2":"ONLINE_SHARD"}
+ATTEMPT=2 CONSECUTIVE_HEALTHY=1
+comp418-sharding   PROVISIONING         {"shard1":"SHARD_ADDITION_ERROR_IN_GSM","shard2":"ONLINE_SHARD"}
+ATTEMPT=3 CONSECUTIVE_HEALTHY=0
+comp418-sharding   PROVISIONING         {"shard1":"SHARD_ADDITION_ERROR_IN_GSM","shard2":"ONLINE_SHARD"}
+ATTEMPT=4 CONSECUTIVE_HEALTHY=0
+comp418-sharding   PROVISIONING         {"shard1":"SHARD_ADDITION_ERROR_IN_GSM","shard2":"SHARD_ADDITION"}
+ATTEMPT=5 CONSECUTIVE_HEALTHY=0
+comp418-sharding   PROVISIONING         {"shard1":"SHARD_ADDITION_ERROR_IN_GSM","shard2":"SHARD_ADDITION"}
+ATTEMPT=6 CONSECUTIVE_HEALTHY=0
+comp418-sharding   PROVISIONING         {"shard1":"SHARD_ADDITION_ERROR_IN_GSM","shard2":"SHARD_ADDITION"}
+ATTEMPT=7 CONSECUTIVE_HEALTHY=0
+comp418-sharding   PROVISIONING         {"shard1":"SHARD_ADDITION_ERROR_IN_GSM","shard2":"SHARD_ADDITION"}
+ATTEMPT=8 CONSECUTIVE_HEALTHY=0
+comp418-sharding   PROVISIONING         {"shard1":"SHARD_ADDITION_ERROR_IN_GSM","shard2":"SHARD_ADDITION"}
+ATTEMPT=9 CONSECUTIVE_HEALTHY=0
+comp418-sharding   PROVISIONING         {"shard1":"SHARD_ADDITION_ERROR_IN_GSM","shard2":"SHARD_ADDITION"}
+ATTEMPT=10 CONSECUTIVE_HEALTHY=0
+comp418-sharding   PROVISIONING         {"shard1":"SHARD_ADDITION_ERROR_IN_GSM","shard2":"SHARD_ADDITION"}
+ATTEMPT=11 CONSECUTIVE_HEALTHY=0
+comp418-sharding   PROVISIONING         {"shard1":"SHARD_ADDITION_ERROR_IN_GSM","shard2":"SHARD_ADDITION"}
+ATTEMPT=12 CONSECUTIVE_HEALTHY=0
+comp418-sharding   PROVISIONING         {"shard1":"SHARD_ADDITION_ERROR_IN_GSM","shard2":"SHARD_ADDITION"}
+ATTEMPT=13 CONSECUTIVE_HEALTHY=0
+comp418-sharding   PROVISIONING         {"shard1":"SHARD_ADDITION_ERROR_IN_GSM","shard2":"SHARD_ADDITION"}
+ATTEMPT=14 CONSECUTIVE_HEALTHY=0
+comp418-sharding   PROVISIONING         {"shard1":"SHARD_ADDITION_ERROR_IN_GSM","shard2":"SHARD_ADDITION"}
+ATTEMPT=15 CONSECUTIVE_HEALTHY=0
+comp418-sharding   PROVISIONING         {"shard1":"SHARD_ADDITION_ERROR_IN_GSM","shard2":"SHARD_ADDITION"}
+ATTEMPT=16 CONSECUTIVE_HEALTHY=0
+comp418-sharding   PROVISIONING         {"shard1":"SHARD_ADDITION_ERROR_IN_GSM","shard2":"SHARD_ADDITION"}
+ATTEMPT=17 CONSECUTIVE_HEALTHY=0
+comp418-sharding   PROVISIONING         {"shard1":"SHARD_ADDITION_ERROR_IN_GSM","shard2":"SHARD_ADDITION"}
+ATTEMPT=18 CONSECUTIVE_HEALTHY=0
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"SHARD_ADDITION_ERROR_IN_GSM","shard2":"ONLINE_SHARD"}
+ATTEMPT=19 CONSECUTIVE_HEALTHY=0
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"SHARD_ADDITION_ERROR_IN_GSM","shard2":"ONLINE_SHARD"}
+ATTEMPT=20 CONSECUTIVE_HEALTHY=0
+comp418-sharding   PROVISIONING         {"shard1":"SHARD_ADDITION_ERROR_IN_GSM","shard2":"SHARD_ONLINE_ERROR_IN_GSM"}
+ATTEMPT=21 CONSECUTIVE_HEALTHY=0
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"SHARD_ADDITION_ERROR_IN_GSM","shard2":"SHARD_ONLINE_ERROR_IN_GSM"}
+ATTEMPT=22 CONSECUTIVE_HEALTHY=0
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"SHARD_ONLINE_ERROR_IN_GSM","shard2":"ONLINE_SHARD"}
+ATTEMPT=23 CONSECUTIVE_HEALTHY=0
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"ONLINE_SHARD","shard2":"ONLINE_SHARD"}
+ATTEMPT=24 CONSECUTIVE_HEALTHY=1
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"ONLINE_SHARD","shard2":"SHARD_ONLINE_ERROR_IN_GSM"}
+ATTEMPT=25 CONSECUTIVE_HEALTHY=0
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"ONLINE_SHARD","shard2":"SHARD_ONLINE_ERROR_IN_GSM"}
+ATTEMPT=26 CONSECUTIVE_HEALTHY=0
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"SHARD_ONLINE_ERROR_IN_GSM","shard2":"SHARD_ONLINE_ERROR_IN_GSM"}
+ATTEMPT=27 CONSECUTIVE_HEALTHY=0
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"SHARD_ONLINE_ERROR_IN_GSM","shard2":"ONLINE_SHARD"}
+ATTEMPT=28 CONSECUTIVE_HEALTHY=0
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"SHARD_ONLINE_ERROR_IN_GSM","shard2":"ONLINE_SHARD"}
+ATTEMPT=29 CONSECUTIVE_HEALTHY=0
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"SHARD_ONLINE_ERROR_IN_GSM","shard2":"ONLINE_SHARD"}
+ATTEMPT=30 CONSECUTIVE_HEALTHY=0
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"ONLINE_SHARD","shard2":"ONLINE_SHARD"}
+STABLE_SHARD_HEALTH=FAIL

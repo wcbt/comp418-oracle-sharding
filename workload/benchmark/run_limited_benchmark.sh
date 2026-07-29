@@ -71,36 +71,126 @@ exec > >(tee -a "$EVIDENCE_FILE") 2>&1
 
 stable_health_gate() {
   echo "=== STABLE SHARD HEALTH GATE ==="
+
   local consecutive_healthy=0
-  local state=""
+  local operator_state=""
+  local pods_ready=0
+  local gds_output=""
+  local gds_rc=0
+  local shard1_registered=0
+  local shard2_registered=0
+  local online_count=0
+  local ready_service_instances=0
 
   for attempt in $(seq 1 30); do
-    state="$(
+    operator_state="$(
       kubectl get shardingdatabase "$DATABASE" \
         -n "$NAMESPACE" \
         -o wide \
-        --no-headers
+        --no-headers 2>/dev/null ||
+        true
+    )"
+
+    pods_ready="$(
+      kubectl get pods \
+        -n "$NAMESPACE" \
+        catalog-0 gsm1-0 gsm2-0 shard1-0 shard2-0 \
+        --no-headers 2>/dev/null |
+      awk '
+        {
+          checked++
+          if ($2 != "1/1" || $3 != "Running") {
+            bad++
+          }
+        }
+        END {
+          if (checked == 5 && bad == 0) {
+            print 1
+          } else {
+            print 0
+          }
+        }
+      '
+    )"
+
+    if gds_output="$(
+      kubectl exec -i -n "$NAMESPACE" gsm1-0 -- bash -lc '
+        GSM_HOME="${GSM_HOME:-/u01/app/oracle/product/23ai/gsmhome_1}"
+        exec "$GSM_HOME/bin/gdsctl"
+      ' <<'GDS'
+databases
+status service
+config shard -shard SHARD1_SHARD1PDB
+config shard -shard SHARD2_SHARD2PDB
+exit
+GDS
+    )"; then
+      gds_rc=0
+    else
+      gds_rc=$?
+    fi
+
+    shard1_registered=0
+    shard2_registered=0
+
+    grep -Fq \
+      'Database: "shard1_shard1pdb" Registered: Y' \
+      <<< "$gds_output" &&
+      shard1_registered=1
+
+    grep -Fq \
+      'Database: "shard2_shard2pdb" Registered: Y' \
+      <<< "$gds_output" &&
+      shard2_registered=1
+
+    online_count="$(
+      grep -Fc 'Availability: ONLINE' <<< "$gds_output" ||
+      true
+    )"
+
+    ready_service_instances="$(
+      grep -Ec \
+        'db: "shard(1|2)_shard(1|2)pdb".*status: ready' \
+        <<< "$gds_output" ||
+      true
     )"
 
     echo "ATTEMPT=$attempt CONSECUTIVE_HEALTHY=$consecutive_healthy"
-    echo "$state"
+    echo "OPERATOR_STATE=$operator_state"
+    echo "PODS_READY=$pods_ready"
+    echo "GDSCTL_RC=$gds_rc"
+    echo "SHARD1_REGISTERED=$shard1_registered"
+    echo "SHARD2_REGISTERED=$shard2_registered"
+    echo "ONLINE_SHARD_COUNT=$online_count"
+    echo "READY_SERVICE_INSTANCE_LINES=$ready_service_instances"
 
-    if [[ "$state" == *"AVAILABLE"* &&
-          "$state" == *'"shard1":"ONLINE_SHARD"'* &&
-          "$state" == *'"shard2":"ONLINE_SHARD"'* ]]; then
+    if (( pods_ready == 1 )) &&
+       (( gds_rc == 0 )) &&
+       (( shard1_registered == 1 )) &&
+       (( shard2_registered == 1 )) &&
+       (( online_count >= 2 )) &&
+       (( ready_service_instances >= 4 )); then
       consecutive_healthy=$((consecutive_healthy + 1))
+      echo "GDS_HEALTH_RESULT=PASS"
     else
       consecutive_healthy=0
+      echo "GDS_HEALTH_RESULT=FAIL"
     fi
 
     if (( consecutive_healthy >= 3 )); then
+      echo "STABLE_SHARD_HEALTH_SOURCE=GDSCTL_AND_PODS"
       echo "STABLE_SHARD_HEALTH=PASS"
       return 0
     fi
 
+    echo
     sleep 10
   done
 
+  echo "=== FINAL FAILED GDSCTL OUTPUT ===" >&2
+  printf '%s
+' "$gds_output" >&2
+  echo "STABLE_SHARD_HEALTH_SOURCE=GDSCTL_AND_PODS" >&2
   echo "STABLE_SHARD_HEALTH=FAIL" >&2
   return 2
 }

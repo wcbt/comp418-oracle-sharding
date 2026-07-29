@@ -1,0 +1,616 @@
+=== POST-SMOKE STABILITY AND ORA-07445 BASELINE ===
+BASELINE_UTC=2026-07-29T22:08:32Z
+
+=== CURRENT OPERATOR STATUS ===
+NAME               GSM STATE      SERVICES   SHARDS
+comp418-sharding   PROVISIONING              {"shard1":"SHARD_ADDITION","shard2":"ONLINE_SHARD"}
+
+=== CURRENT POD STATUS ===
+NAME        READY   STATUS    RESTARTS      AGE   IP            NODE      NOMINATED NODE   READINESS GATES
+catalog-0   1/1     Running   2 (58m ago)   44h   10.244.0.8    comp418   <none>           <none>
+gsm1-0      1/1     Running   4 (53m ago)   44h   10.244.0.9    comp418   <none>           <none>
+gsm2-0      1/1     Running   4 (53m ago)   44h   10.244.0.7    comp418   <none>           <none>
+shard1-0    1/1     Running   1 (58m ago)   26h   10.244.0.10   comp418   <none>           <none>
+shard2-0    1/1     Running   1 (58m ago)   26h   10.244.0.12   comp418   <none>           <none>
+
+=== CURRENT GDS REGISTRATION ===
+GDSCTL: Version 23.26.1.0.0 - Production on Wed Jul 29 22:08:33 UTC 2026
+
+Copyright (c) 2011, 2026, Oracle.  All rights reserved.
+
+Welcome to GDSCTL, type "help" for information.
+
+Current GSM is set to SHARDDIRECTORGSM1
+GDSCTL> 
+Database: "shard1_shard1pdb" Registered: Y State: Ok ONS: N. Role: PRIMARY Instances: 1 Region: primary
+   Service: "oltp_ro_svc" Globally started: Y Started: Y
+            Scan: N Enabled: Y Preferred: Y
+   Service: "oltp_rw_svc" Globally started: Y Started: Y
+            Scan: N Enabled: Y Preferred: Y
+   Registered instances:
+     catalog%1
+Database: "shard2_shard2pdb" Registered: Y State: Ok ONS: N. Role: PRIMARY Instances: 1 Region: primary
+   Service: "oltp_ro_svc" Globally started: Y Started: Y
+            Scan: N Enabled: Y Preferred: Y
+   Service: "oltp_rw_svc" Globally started: Y Started: Y
+            Scan: N Enabled: Y Preferred: Y
+   Registered instances:
+     catalog%11
+
+GDSCTL> 
+Service "oltp_ro_svc.catalog.oradbcloud" has 2 instance(s). Affinity: ANYWHERE
+   Instance "catalog%1", name: "FREE", db: "shard1_shard1pdb", region: "primary", status: ready.
+   Instance "catalog%11", name: "FREE", db: "shard2_shard2pdb", region: "primary", status: ready.
+Service "oltp_rw_svc.catalog.oradbcloud" has 2 instance(s). Affinity: ANYWHERE
+   Instance "catalog%1", name: "FREE", db: "shard1_shard1pdb", region: "primary", status: ready.
+   Instance "catalog%11", name: "FREE", db: "shard2_shard2pdb", region: "primary", status: ready.
+
+GDSCTL> 
+
+=== SHARD1 ADR INCIDENT INFORMATION ===
+HOSTNAME=shard1-0
+UTC_TIME=2026-07-29T22:08:33Z
+
+--- ADR homes ---
+ADR Homes: 
+diag/rdbms/shard1/FREE
+diag/rdbms/free/FREE
+diag/orapwd/aa62c3a629dd/kuzr
+diag/tnslsnr/shard1-0/listener
+diag/tnslsnr/aa62c3a629dd/listener
+diag/clients/user_oracle/RMAN_1294913407_116
+
+--- Recent incidents ---
+   ERROR_ARG2                    VKTM
+   ERROR_ARG3                    Check traces and OS configuration
+   ERROR_ARG4                    Check Oracle document and MOS notes
+   ERROR_ARG5                    <NULL>
+   ERROR_ARG6                    <NULL>
+   ERROR_ARG7                    <NULL>
+   ERROR_ARG8                    <NULL>
+   ERROR_ARG9                    <NULL>
+   ERROR_ARG10                   <NULL>
+   ERROR_ARG11                   <NULL>
+   ERROR_ARG12                   <NULL>
+   SIGNALLING_COMPONENT          background_proc
+   SIGNALLING_SUBCOMPONENT       <NULL>
+   SUSPECT_COMPONENT             <NULL>
+   SUSPECT_SUBCOMPONENT          <NULL>
+   ECID                          <NULL>
+   IMPACTS                       0
+
+**********************************************************
+INCIDENT INFO RECORD 7
+**********************************************************
+   INCIDENT_ID                   4967
+   STATUS                        ready
+   CREATE_TIME                   2026-04-29 01:35:30.836000 +00:00
+   PROBLEM_ID                    1
+   CLOSE_TIME                    <NULL>
+   FLOOD_CONTROLLED              none
+   ERROR_FACILITY                ORA
+   ERROR_NUMBER                  800
+   ERROR_ARG1                    Set Priority Failed
+   ERROR_ARG2                    LGWR
+   ERROR_ARG3                    Check traces and OS configuration
+   ERROR_ARG4                    Check Oracle document and MOS notes
+   ERROR_ARG5                    <NULL>
+   ERROR_ARG6                    <NULL>
+   ERROR_ARG7                    <NULL>
+   ERROR_ARG8                    <NULL>
+   ERROR_ARG9                    <NULL>
+   ERROR_ARG10                   <NULL>
+   ERROR_ARG11                   <NULL>
+   ERROR_ARG12                   <NULL>
+   SIGNALLING_COMPONENT          background_proc
+   SIGNALLING_SUBCOMPONENT       <NULL>
+   SUSPECT_COMPONENT             <NULL>
+   SUSPECT_SUBCOMPONENT          <NULL>
+   ECID                          <NULL>
+   IMPACTS                       0
+
+**********************************************************
+INCIDENT INFO RECORD 8
+**********************************************************
+   INCIDENT_ID                   4847
+   STATUS                        ready
+   CREATE_TIME                   2026-04-29 01:35:29.335000 +00:00
+   PROBLEM_ID                    1
+   CLOSE_TIME                    <NULL>
+   FLOOD_CONTROLLED              none
+   ERROR_FACILITY                ORA
+   ERROR_NUMBER                  800
+   ERROR_ARG1                    Set Priority Failed
+   ERROR_ARG2                    VKTM
+   ERROR_ARG3                    Check traces and OS configuration
+   ERROR_ARG4                    Check Oracle document and MOS notes
+   ERROR_ARG5                    <NULL>
+   ERROR_ARG6                    <NULL>
+   ERROR_ARG7                    <NULL>
+   ERROR_ARG8                    <NULL>
+   ERROR_ARG9                    <NULL>
+   ERROR_ARG10                   <NULL>
+   ERROR_ARG11                   <NULL>
+   ERROR_ARG12                   <NULL>
+   SIGNALLING_COMPONENT          background_proc
+   SIGNALLING_SUBCOMPONENT       <NULL>
+   SUSPECT_COMPONENT             <NULL>
+   SUSPECT_SUBCOMPONENT          <NULL>
+   ECID                          <NULL>
+   IMPACTS                       0
+
+**********************************************************
+INCIDENT INFO RECORD 9
+**********************************************************
+   INCIDENT_ID                   6569
+   STATUS                        ready
+   CREATE_TIME                   2026-04-29 01:36:17.661000 +00:00
+   PROBLEM_ID                    1
+   CLOSE_TIME                    <NULL>
+   FLOOD_CONTROLLED              none
+   ERROR_FACILITY                ORA
+   ERROR_NUMBER                  800
+   ERROR_ARG1                    Set Priority Failed
+   ERROR_ARG2                    LGWR
+   ERROR_ARG3                    Check traces and OS configuration
+   ERROR_ARG4                    Check Oracle document and MOS notes
+   ERROR_ARG5                    <NULL>
+   ERROR_ARG6                    <NULL>
+   ERROR_ARG7                    <NULL>
+   ERROR_ARG8                    <NULL>
+   ERROR_ARG9                    <NULL>
+   ERROR_ARG10                   <NULL>
+   ERROR_ARG11                   <NULL>
+   ERROR_ARG12                   <NULL>
+   SIGNALLING_COMPONENT          background_proc
+   SIGNALLING_SUBCOMPONENT       <NULL>
+   SUSPECT_COMPONENT             <NULL>
+   SUSPECT_SUBCOMPONENT          <NULL>
+   ECID                          <NULL>
+   IMPACTS                       0
+
+**********************************************************
+INCIDENT INFO RECORD 10
+**********************************************************
+   INCIDENT_ID                   6449
+   STATUS                        ready
+   CREATE_TIME                   2026-04-29 01:36:15.759000 +00:00
+   PROBLEM_ID                    1
+   CLOSE_TIME                    <NULL>
+   FLOOD_CONTROLLED              none
+   ERROR_FACILITY                ORA
+   ERROR_NUMBER                  800
+   ERROR_ARG1                    Set Priority Failed
+   ERROR_ARG2                    VKTM
+   ERROR_ARG3                    Check traces and OS configuration
+   ERROR_ARG4                    Check Oracle document and MOS notes
+   ERROR_ARG5                    <NULL>
+   ERROR_ARG6                    <NULL>
+   ERROR_ARG7                    <NULL>
+   ERROR_ARG8                    <NULL>
+   ERROR_ARG9                    <NULL>
+   ERROR_ARG10                   <NULL>
+   ERROR_ARG11                   <NULL>
+   ERROR_ARG12                   <NULL>
+   SIGNALLING_COMPONENT          background_proc
+   SIGNALLING_SUBCOMPONENT       <NULL>
+   SUSPECT_COMPONENT             <NULL>
+   SUSPECT_SUBCOMPONENT          <NULL>
+   ECID                          <NULL>
+   IMPACTS                       0
+
+ADR Home = /opt/oracle/diag/orapwd/aa62c3a629dd/kuzr:
+*************************************************************************
+0 rows fetched
+</ADR_HOME>
+<ADR_HOME name="/opt/oracle/diag/orapwd/aa62c3a629dd/kuzr">
+
+ADR Home = /opt/oracle/diag/tnslsnr/shard1-0/listener:
+*************************************************************************
+0 rows fetched
+</ADR_HOME>
+<ADR_HOME name="/opt/oracle/diag/tnslsnr/shard1-0/listener">
+
+ADR Home = /opt/oracle/diag/tnslsnr/aa62c3a629dd/listener:
+*************************************************************************
+0 rows fetched
+</ADR_HOME>
+<ADR_HOME name="/opt/oracle/diag/tnslsnr/aa62c3a629dd/listener">
+
+ADR Home = /opt/oracle/diag/clients/user_oracle/RMAN_1294913407_116:
+*************************************************************************
+0 rows fetched
+
+
+--- Recent ORA-07445 alert context ---
+/opt/oracle/diag/rdbms/shard1/FREE/alert/log.xml-1375- <action>None.
+/opt/oracle/diag/rdbms/shard1/FREE/alert/log.xml-1376- </action>
+/opt/oracle/diag/rdbms/shard1/FREE/alert/log.xml-1377- <suppl_detail><![CDATA[Additional Information Not Available]]></suppl_detail>
+/opt/oracle/diag/rdbms/shard1/FREE/alert/log.xml-1378-</msg>
+/opt/oracle/diag/rdbms/shard1/FREE/alert/log.xml-1379-<msg time='2026-07-29T22:00:04.953+00:00' org_id='oracle' comp_id='rdbms'
+/opt/oracle/diag/rdbms/shard1/FREE/alert/log.xml-1380- msg_id='qespcCreatePartition:1345:3414079233' type='NOTIFICATION' group='schema_ddl'
+/opt/oracle/diag/rdbms/shard1/FREE/alert/log.xml-1381- level='16' host_id='shard1-0' host_addr='10.244.0.10'
+/opt/oracle/diag/rdbms/shard1/FREE/alert/log.xml-1382- module='dbms_stats: gather table stats' pid='13577' con_uid='1'
+--
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-26-
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-27-
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-28-*** 2026-07-29T21:51:09.619998+00:00
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-29-*** SESSION ID:(179.18563) 2026-07-29T21:51:09.620001+00:00
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-30-*** CLIENT ID:() 2026-07-29T21:51:09.620005+00:00
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-31-*** SERVICE NAME:(SYS$BACKGROUND) 2026-07-29T21:51:09.620008+00:00
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-32-*** MODULE NAME:(sys$bsg_timeout) 2026-07-29T21:51:09.620011+00:00
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-33-*** ACTION NAME:(Vector Index timeout action8) 2026-07-29T21:51:09.620013+00:00
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-34-*** CLIENT DRIVER:(SERVER) 2026-07-29T21:51:09.620016+00:00
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-35-*** CONTAINER ID:(3) 2026-07-29T21:51:09.620019+00:00
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-36- 
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-37-[TOC00000]
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-38-Jump to table of contents
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-39-Dump continued from file: /opt/oracle/diag/rdbms/shard1/FREE/trace/FREE_bg00_123_129.trc
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-40-[TOC00001]
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc:41:ORA-07445: exception encountered: core dump [PC:0x733ECF080B38] [SIGFPE] [ADDR:0x733ECF080B38] [PC:0x733ECF080B38] [Invalid floating point operation] []
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-42-
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-43-[TOC00001-END]
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-44-[TOC00002]
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-45-========= Dump for incident 265 (ORA 7445 [PC:0x733ECF080B38]) ========
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-46-[TOC00003]
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-47------ Beginning of Customized Incident Dump(s) -----
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-48-Dumping swap information
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-49-Memory (Avail / Total) = 616.57M / 15798.12M
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-50-Swap (Avail / Total) = 4094.49M /  4096.00M
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-51-Commit (AS / Limit) = 17779.31M / 11995.06M
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-52-
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-53-Stack (Used / Configured) = 0.08M / 32.00M
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-54-
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-55-Exception [type: SIGFPE, Invalid floating point operation] [ADDR:0x733ECF080B38] [PC:0x733ECF080B38, {empty}] [flags: 0x0, count: 1]
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-56-
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-57-Registers:
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-58-%rax: 0x00000000409901b3 %rbx: 0x000000003fe4190b %rcx: 0x00000000000008ca
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-59-%rdx: 0xffffffffc09901b3 %rdi: 0x0000733ebff8ebd0 %rsi: 0x00000000040901b3
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-60-%rsp: 0x0000733ebff8eac0 %rbp: 0x000000000000903f  %r8: 0x0000000000000004
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-61- %r9: 0x0000000040aae1b6 %r10: 0x0000000040aae1b6 %r11: 0x0000733ec4909fe0
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-62-%r12: 0x00000000000003fe %r13: 0x0000000000000000 %r14: 0x0000733ebffa3e38
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-63-%r15: 0x0000000000000000 %rip: 0x0000733ecf080b38 %efl: 0x0000000000010203
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-64-> (0x733ecf080b38) vmulsd %xmm1,%xmm1,%xmm1
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-65-  (0x733ecf080b3c) jmp 0x733ecf080828
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-66-  (0x733ecf080b41) call 0x733ecf015360
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-67-  (0x733ecf080b46) cs: nopw 0x0(%rax,%rax)
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-68-  (0x733ecf080b50) (repe) reserved-nop %edx
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-69-
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-70-*** 2026-07-29T21:51:09.623276+00:00
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-71-dbkedDefDump(): Starting a non-incident diagnostic dump (flags=0x3, level=3, mask=0x0)
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-72-[TOC00004]
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-73------ Current SQL Statement for this session (sql_id=d76pwzsz5w3v8) -----
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-74-SELECT vi.idx_objn, nvl(vi.idx_objd, 0), nvl(vi.idx_spare1, 0),nvl(JSON_VALUE(vi.idx_spare2, '$.build_scn'), 0) build_scn, ui.name, vi.idx_name, vi.idx_base_table_objn FROM vecsys.vector$index vi, sys.user$ ui WHERE ui.user# = vi.idx_owner# and JSON_VALUE(vi.idx_params, '$.type') = 'IVF_FLAT' and vi.idx_name not in (select index_name from dba_indexes where visibility = 'INVISIBLE' or status = 'UNUSABLE') ORDER BY build_scn
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-75-[TOC00005]
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-76------ Parser State -----
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-77-Parser state1: len1=0 len2=0 pos1=0 pos2=0
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-78-Parser state2: flg=0x0 xflg=0x0 xxflg=0x0 3xflg=0x800
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-79-Parser state3: ptty=0 tty=0 tlen=0
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-80-Parser state4: vdepth=0 pdepth=0
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-81-Parser errs: err1=0 err2=0 err3=0
+--
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-152222-    LOCATION: qcpi3.c@3213:qcpiabex
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-152223--------------------------------------------------------------------------------
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-152224-SNAP #67: 
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-152225-    ACTION: CLEARERROR
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-152226-      2026-07-29 21:51:09.526802 +00:00
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-152227-    ERROR STACK BEFORE: TOPERR = 1
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-152228-      ORA-00936: missing expression
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-152229-    ERROR STACK AFTER:  TOPERR = 0
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-152230-    LOCATION: qcpi3.c@6397:qcpieli
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-152231--------------------------------------------------------------------------------
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-152232-SNAP #68: 
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-152233-    ACTION: kgeade
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-152234-      2026-07-29 21:51:09.596784 +00:00
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-152235-    ERROR STACK BEFORE: TOPERR = 0
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-152236-    ERROR STACK AFTER:  TOPERR = 1
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc:152237:      ORA-07445: exception encountered: core dump [PC:0x733ECF080B38] [SIGFPE] [ADDR:0x733ECF080B38] [PC:0x733ECF080B38] [Invalid floating point operation] []
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-152238-    LOCATION: ssexhd.c@1369:ssexhd
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-152239--------------------------------------------------------------------------------
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-152240-SNAP #69: 
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-152241-    ACTION: CLEARERROR
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-152242-      2026-07-29 21:51:09.620046 +00:00
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-152243-    ERROR STACK BEFORE: TOPERR = 1
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-152244-      <error barrier>
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc:152245:      ORA-07445: exception encountered: core dump [PC:0x733ECF080B38] [SIGFPE] [ADDR:0x733ECF080B38] [PC:0x733ECF080B38] [Invalid floating point operation] []
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-152246-    ERROR STACK AFTER:  TOPERR = 1
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-152247-      No change
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-152248-    LOCATION: dbge.c@1124:dbgePostErrorKGE
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-152249--------------------------------------------------------------------------------
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-152250-SNAP #70: 
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-152251-    ACTION: CLEARERROR
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-152252-      2026-07-29 21:51:10.414535 +00:00
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-152253-    ERROR STACK BEFORE: TOPERR = 1
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-152254-      <error barrier>
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc:152255:      ORA-07445: exception encountered: core dump [PC:0x733ECF080B38] [SIGFPE] [ADDR:0x733ECF080B38] [PC:0x733ECF080B38] [Invalid floating point operation] []
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-152256-    ERROR STACK AFTER:  TOPERR = 1
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-152257-      No change
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-152258-    LOCATION: dbge.c@1857:dbgeEndDDECustomDumpImpl
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-152259------ END DDE Action: 'dumpKGERing' (SUCCESS, 0 csec) -----
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-152260-[TOC00562-END]
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-152261-[TOC00563]
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-152262------ START DDE Action: 'dumpKGEIEParms' (Sync) -----
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-152263--------------------------------------------------------------------------------
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-152264-Dump memory pointed to by internal error parameters.
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-152265--------------------------------------------------------------------------------
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-152266------ END DDE Action: 'dumpKGEIEParms' (SUCCESS, 0 csec) -----
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-152267-[TOC00563-END]
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-152268-[TOC00564]
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-152269------ START DDE Action: 'dumpKGEState' (Sync) -----
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-152270-kgepgtfr      0x733ec5112620
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-152271-kgepgtba      0x733ec51159d0
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-152272-kgepgdet      0x733ebffb0140
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-152273-kgepgter      1
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-152274-kgepgexp      1
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-152275-kgepgpar      kgepgbpa      0x733ebffa521c
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-152276-kgepgepa      0x733ebffa5da8
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-152277-kgepgtfd      27
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-152278-kgepgdmc      0
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-152279-kgepgflg      0x1
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-152280-kgepg_stkgfr  0x0
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-152281-kgepgkgsmp    0x733ebffa4840
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-152282-kgepgspm      5
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-152283-kgepg_ba_set_in_eh          0x0
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-152284-kgepg_kgecatch_set_in_eh_ba 0x0
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-152285-kge_ba_set_in_eh_funcloc    0x0
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-152286-kge_ba_set_in_eh_fileloc    0x0
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-152287-bytes/snap:   88, 17687 bytes free out of 24000
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-152288-------------------- start error stack dump with barriers
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-152289-   <error barrier> at 0x733ec51159d0 placed dbge.c@1572
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc:152290:   ORA-07445: exception encountered: core dump [PC:0x733ECF080B38] [SIGFPE] [ADDR:0x733ECF080B38] [PC:0x733ECF080B38] [Invalid floating point operation] []
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-152291-    at ssexhd.c@1369:ssexhd, call stack: ksedsts<-kgesetloc<-kgeade<-kgerelv<-kgereclv<-ssexhd<-sslssSynchHdlr<-sslsshandler<-__sighandler<-0x733ecf080b38<-0x733ecf08159c
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-152292-------------------- end   error stack dump with barriers
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-152293------ END DDE Action: 'dumpKGEState' (SUCCESS, 1 csec) -----
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-152294-[TOC00564-END]
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-152295-[TOC00565]
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-152296------ START DDE Action: 'dumpOSDiag' (Sync) -----
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-152297-OS - DIAGNOSTICS
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-152298-----------------
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-152299-loadavg : 0.65 1.37 1.68 1/1709
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-152300-Memory (Avail / Total) = 534.64M / 15798.12M
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-152301-Swap (Avail / Total) = 4094.49M /  4096.00M
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-152302-Commit (AS / Limit) = 17788.19M / 11995.06M
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-152303-Max user processes limits(s / h) =  18446744073709551615 / 18446744073709551615
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-152304-----------------
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-152305------ END DDE Action: 'dumpOSDiag' (SUCCESS, 0 csec) -----
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-152306-[TOC00565-END]
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-152307-[TOC00566]
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-152308------ START DDE Action: 'dumpOSegTab' (Sync) -----
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-152309-
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-152310-[TOC00567]
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-152311------ Segment Table -----
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-152312-Segment table for main executable:
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-152313-H4sIAAAAAAACA1TdB7xP5ePA8WuL5NozLonsqzIzrp1sZUdXJSurRERGy54pDdwQDbufROgqMlJE
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-152314-pERWpFJ2VOp/nc/zufx/r1e9ev+ec551nnWec77n9n9yUKWk7VliBjWMiYmLiYkpWD4mJrF9+phd
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-152315-1dLG7JqWOSZryv+XK+Wfw2kTYq7975oLpfyzoOvZVN+R8s+s3y5HvjnlnybRf8Wk8V/XnDc4bXCh
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-152316-4GzBccFrUv6PzCn/ldwWX4s/b8p/Dejw/53U4Xr81/x2cGaP74hzlsdTH8a5guO+wXmDRx3AeYIP
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-152317-l00T+ZbgMz3w1BI4dgh+PThhMX4zeNcveI7h5/CC4MSymSIvDo6vgVcEj2qXOfJ2z4/NEvkL078z
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-152318-Z+QvTS9b3shfBcfE4p2ePzZ/5K9Nr1aByHtMb0iRyN+YvxMlIu8LPny6dORvjf/jMpG/9/gsZSPv
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-152319-D05qiQ8GJ3fHBzy/UbnIPxj+QfnIh8zfR/jH4KnFKkQ+HHymQcXIJ4KXvx8f+efgVocqRT6rT+Er
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-152320-luezuyKfN/5N+ILH78V/GX4S/239Z60e+ar1G/xvcFwxnPH2kL/gTMGtptWkvQbHT8dZDL+vFu09
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-152321-+MyO+pFzB0+t3JD2GpzQGxfW7RtHjjP9JFw6OGY3LmP4Hlw2eNTu+yJX8PjnmkeuHBx7CFcyPGfr
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-152322-yHeZ/1/xnXp8u8jxnv9hx8h3Bw84gssH78rZKfIpr28e/IvtJR++NRyfVBQXMb0yuHrw4cq4pukV
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-152323-7xK5nuFl8L3W35OPRJ5nexiOm4bw5OBmXp/iPSLHGt/NPSOPtT/cgu+xfMH/M/4ReL7tZyeea/++
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-152324-p1fkgfoKfsL4O/eOXMz4u+LmXp8NuIbXe2CfyMdM/ymc3fK0fjzyEtN7AC/TTfpGXqpb4eX2lwfw
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-152325-OftHO3zR8WYovmT+K/aLfIf1dyde7/W/G292vBnzROSk4AHP47c8PniK48mMJ5lv7D9JeKX5+w3P
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-152326-tv6LD4o8wPhvw6PN/zxcyPrcjjc4PrV8KvJJ8zsBv2H7XYh3Wf5VONnwjXij9XsKf+r48zfO6/WN
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-152327-GRz9+znzH/yC9ZEZP+/4mxv/rvPiP4y/IG5oe4/DDay/4riW7aU9Pm39dMJV7G/v4XIevxX/afn3
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-152328-4sv60JDIw8zPYfyM7TXLsMg3h/ji/sT/mf7Nz6R6T4aU47Nf9+kUj7rBWTOm1M8NLpHiM8Exjgex
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-152329-OJ/lv8GtU46PzY/zh/DE4CNez8L4qNfnfnw8tX/gn3QHnNP6C/7V6zUL/6ZXPBv5jOf/Dxe3fj7E
+/opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc-152330-tzu+txsZ+Tavbxf8me11Hy7p+PodLuV8dRSXcDw/jr8zPydwXcP/wGk8//J158uU0r4fHpXq0imO
+--
+/opt/oracle/diag/rdbms/shard1/FREE/trace/FREE_bg00_123_129.trc-26-
+/opt/oracle/diag/rdbms/shard1/FREE/trace/FREE_bg00_123_129.trc-27-
+/opt/oracle/diag/rdbms/shard1/FREE/trace/FREE_bg00_123_129.trc-28-*** 2026-07-29T21:51:09.596889+00:00 (FREEPDB1(3))
+/opt/oracle/diag/rdbms/shard1/FREE/trace/FREE_bg00_123_129.trc-29-*** SESSION ID:(179.18563) 2026-07-29T21:51:09.596893+00:00
+/opt/oracle/diag/rdbms/shard1/FREE/trace/FREE_bg00_123_129.trc-30-*** CLIENT ID:() 2026-07-29T21:51:09.596897+00:00
+/opt/oracle/diag/rdbms/shard1/FREE/trace/FREE_bg00_123_129.trc-31-*** SERVICE NAME:(SYS$BACKGROUND) 2026-07-29T21:51:09.596900+00:00
+/opt/oracle/diag/rdbms/shard1/FREE/trace/FREE_bg00_123_129.trc-32-*** MODULE NAME:(sys$bsg_timeout) 2026-07-29T21:51:09.596903+00:00
+/opt/oracle/diag/rdbms/shard1/FREE/trace/FREE_bg00_123_129.trc-33-*** ACTION NAME:(Vector Index timeout action8) 2026-07-29T21:51:09.596906+00:00
+/opt/oracle/diag/rdbms/shard1/FREE/trace/FREE_bg00_123_129.trc-34-*** CLIENT DRIVER:(SERVER) 2026-07-29T21:51:09.596909+00:00
+/opt/oracle/diag/rdbms/shard1/FREE/trace/FREE_bg00_123_129.trc-35-*** CONTAINER ID:(3) 2026-07-29T21:51:09.596911+00:00
+/opt/oracle/diag/rdbms/shard1/FREE/trace/FREE_bg00_123_129.trc-36- 
+/opt/oracle/diag/rdbms/shard1/FREE/trace/FREE_bg00_123_129.trc-37-
+/opt/oracle/diag/rdbms/shard1/FREE/trace/FREE_bg00_123_129.trc-38-Exception [type: SIGFPE, Invalid floating point operation] [ADDR:0x733ECF080B38] [PC:0x733ECF080B38, {empty}] [flags: 0x0, count: 1]
+/opt/oracle/diag/rdbms/shard1/FREE/trace/FREE_bg00_123_129.trc-39-2026-07-29T21:51:09.619767+00:00
+/opt/oracle/diag/rdbms/shard1/FREE/trace/FREE_bg00_123_129.trc-40-Incident 265 created, dump file: /opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc
+/opt/oracle/diag/rdbms/shard1/FREE/trace/FREE_bg00_123_129.trc:41:ORA-07445: exception encountered: core dump [PC:0x733ECF080B38] [SIGFPE] [ADDR:0x733ECF080B38] [PC:0x733ECF080B38] [Invalid floating point operation] []
+/opt/oracle/diag/rdbms/shard1/FREE/trace/FREE_bg00_123_129.trc-42-
+/opt/oracle/diag/rdbms/shard1/FREE/trace/FREE_bg00_123_129.trc-43-ssexhd: crashing the process...
+/opt/oracle/diag/rdbms/shard1/FREE/trace/FREE_bg00_123_129.trc-44-Shadow_Core_Dump = partial
+/opt/oracle/diag/rdbms/shard1/FREE/trace/FREE_bg00_123_129.trc-45-The maximum size of core files created(s / h) =  18446744073709551615 / 18446744073709551615
+/opt/oracle/diag/rdbms/shard1/FREE/trace/FREE_bg00_123_129.trc-46-ksdbgcra: writing core file to directory '/opt/oracle/diag/rdbms/shard1/FREE/cdump'
+/opt/oracle/diag/rdbms/shard1/FREE/trace/FREE_bg00_123_129.trc-47-Trace file /opt/oracle/diag/rdbms/shard1/FREE/trace/FREE_bg00_123_129.trc
+/opt/oracle/diag/rdbms/shard1/FREE/trace/FREE_bg00_123_129.trc-48-****INIT JSIMT AUTODUMP**** buffer_addr:0x7a0582a8
+/opt/oracle/diag/rdbms/shard1/FREE/trace/FREE_bg00_123_129.trc-49-SCHED 07-29 21:51:09.579 1 00 123_129 BG00 3(jskmFixedTabCB):Enter, msg: 3
+/opt/oracle/diag/rdbms/shard1/FREE/trace/FREE_bg00_123_129.trc-50-SCHED 07-29 21:51:09.579 1 00 123_129 BG00 3(jskmFixedTabCB):Open row source
+/opt/oracle/diag/rdbms/shard1/FREE/trace/FREE_bg00_123_129.trc-51-SCHED 07-29 21:51:09.579 1 00 123_129 BG00 3(jskmFixedTabCB):Exit, return (nil)
+/opt/oracle/diag/rdbms/shard1/FREE/trace/FREE_bg00_123_129.trc-52-SCHED 07-29 21:51:09.579 1 00 123_129 BG00 3(jskmFixedTabCB):Enter, msg: 1
+/opt/oracle/diag/rdbms/shard1/FREE/trace/FREE_bg00_123_129.trc-53-SCHED 07-29 21:51:09.579 1 00 123_129 BG00 3(jskmFixedTabCBFetch):Enter
+/opt/oracle/diag/rdbms/shard1/FREE/trace/FREE_bg00_123_129.trc-54-SCHED 07-29 21:51:09.579 1 00 123_129 BG00 3(jskmFixedTabCBGetQueryData):Enter
+/opt/oracle/diag/rdbms/shard1/FREE/trace/FREE_bg00_123_129.trc-55-SCHED 07-29 21:51:09.579 1 00 123_129 BG00 3(jskmFixedTabCBGetQueryData):Creating list of jobs
+/opt/oracle/diag/rdbms/shard1/FREE/trace/FREE_bg00_123_129.trc-56-SCHED 07-29 21:51:09.579 1 00 123_129 BG00 3(jskmFixedTabCBGetQueryData):List created
+/opt/oracle/diag/rdbms/shard1/FREE/trace/FREE_bg00_123_129.trc-57-SCHED 07-29 21:51:09.579 1 00 123_129 BG00 3(jskmFixedTabCBGetQueryData):Exit
+/opt/oracle/diag/rdbms/shard1/FREE/trace/FREE_bg00_123_129.trc-58-SCHED 07-29 21:51:09.579 1 00 123_129 BG00 3(jskmFixedTabCBFetch):Finished list
+/opt/oracle/diag/rdbms/shard1/FREE/trace/FREE_bg00_123_129.trc-59-SCHED 07-29 21:51:09.579 1 00 123_129 BG00 3(jskmFixedTabCBFetch):Exit, return (nil)
+/opt/oracle/diag/rdbms/shard1/FREE/trace/FREE_bg00_123_129.trc-60-SCHED 07-29 21:51:09.579 1 00 123_129 BG00 3(jskmFixedTabCB):Exit, return (nil)
+/opt/oracle/diag/rdbms/shard1/FREE/trace/FREE_bg00_123_129.trc-61-SCHED 07-29 21:51:09.579 1 00 123_129 BG00 3(jskmFixedTabCB):Enter, msg: 4
+/opt/oracle/diag/rdbms/shard1/FREE/trace/FREE_bg00_123_129.trc-62-SCHED 07-29 21:51:09.579 1 00 123_129 BG00 3(jskmFixedTabCB):Exit, return (nil)
+/opt/oracle/diag/rdbms/shard1/FREE/trace/FREE_bg00_123_129.trc-63-****END JSIMT AUTODUMP****
+--
+/opt/oracle/diag/rdbms/shard1/FREE/trace/alert_FREE.log-204-FREEPDB1(3):Autotune of undo retention is turned on. 
+/opt/oracle/diag/rdbms/shard1/FREE/trace/alert_FREE.log-205-FREEPDB1(3):Opening pdb with Resource Manager plan: DEFAULT_PLAN
+/opt/oracle/diag/rdbms/shard1/FREE/trace/alert_FREE.log-206-Completed: Pluggable database FREEPDB1 opened read write 
+/opt/oracle/diag/rdbms/shard1/FREE/trace/alert_FREE.log-207-Completed: ALTER DATABASE OPEN
+/opt/oracle/diag/rdbms/shard1/FREE/trace/alert_FREE.log-208-2026-07-29T21:20:11.603887+00:00
+/opt/oracle/diag/rdbms/shard1/FREE/trace/alert_FREE.log-209-Resize operation completed for file# 3, fname /opt/oracle/oradata/FREE/sysaux01.dbf, old size 675840K, new size 686080K
+/opt/oracle/diag/rdbms/shard1/FREE/trace/alert_FREE.log-210-2026-07-29T21:40:59.354589+00:00
+/opt/oracle/diag/rdbms/shard1/FREE/trace/alert_FREE.log-211-ALTER SYSTEM SET remote_listener='gsm1-0.gsm1.comp418-gdd.svc.cluster.local:1522' SCOPE=BOTH;
+/opt/oracle/diag/rdbms/shard1/FREE/trace/alert_FREE.log-212-2026-07-29T21:40:59.482581+00:00
+/opt/oracle/diag/rdbms/shard1/FREE/trace/alert_FREE.log-213-SHARD1PDB(4):Started service oltp_rw_svc/oltp_rw_svc.catalog.oradbcloud/oltp_rw_svc.catalog.oradbcloud
+/opt/oracle/diag/rdbms/shard1/FREE/trace/alert_FREE.log-214-2026-07-29T21:40:59.494734+00:00
+/opt/oracle/diag/rdbms/shard1/FREE/trace/alert_FREE.log-215-SHARD1PDB(4):Started service oltp_ro_svc/oltp_ro_svc.catalog.oradbcloud/oltp_ro_svc.catalog.oradbcloud
+/opt/oracle/diag/rdbms/shard1/FREE/trace/alert_FREE.log-216-2026-07-29T21:51:09.597242+00:00
+/opt/oracle/diag/rdbms/shard1/FREE/trace/alert_FREE.log-217-FREEPDB1(3):Exception [type: SIGFPE, Invalid floating point operation] [ADDR:0x733ECF080B38] [PC:0x733ECF080B38, {empty}] [flags: 0x0, count: 1]
+/opt/oracle/diag/rdbms/shard1/FREE/trace/alert_FREE.log-218-Errors in file /opt/oracle/diag/rdbms/shard1/FREE/trace/FREE_bg00_123_129.trc  (incident=265) (PDBNAME=FREEPDB1):
+/opt/oracle/diag/rdbms/shard1/FREE/trace/alert_FREE.log:219:ORA-07445: exception encountered: core dump [PC:0x733ECF080B38] [SIGFPE] [ADDR:0x733ECF080B38] [PC:0x733ECF080B38] [Invalid floating point operation] []
+/opt/oracle/diag/rdbms/shard1/FREE/trace/alert_FREE.log-220-FREEPDB1(3):Incident details in: /opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc
+/opt/oracle/diag/rdbms/shard1/FREE/trace/alert_FREE.log-221-FREEPDB1(3):Use ADRCI or Support Workbench to package the incident.
+/opt/oracle/diag/rdbms/shard1/FREE/trace/alert_FREE.log-222-See Note 411.1 at My Oracle Support for error and packaging details.
+/opt/oracle/diag/rdbms/shard1/FREE/trace/alert_FREE.log-223-2026-07-29T22:00:04.000356+00:00
+/opt/oracle/diag/rdbms/shard1/FREE/trace/alert_FREE.log-224-Begin automatic SQL Tuning Advisor run for special tuning task "SYS_AUTO_SQL_TUNING_TASK".
+/opt/oracle/diag/rdbms/shard1/FREE/trace/alert_FREE.log-225-2026-07-29T22:00:04.953267+00:00
+/opt/oracle/diag/rdbms/shard1/FREE/trace/alert_FREE.log-226-TABLE SYS.WRI$_OPTSTAT_HISTHEAD_HISTORY: ADDED INTERVAL PARTITION SYS_P525 (46231) VALUES LESS THAN (TO_DATE(' 2026-07-30 00:00:00', 'SYYYY-MM-DD HH24:MI:SS', 'NLS_CALENDAR=GREGORIAN'))
+/opt/oracle/diag/rdbms/shard1/FREE/trace/alert_FREE.log-227-TABLE SYS.WRI$_OPTSTAT_HISTGRM_HISTORY: ADDED INTERVAL PARTITION SYS_P528 (46231) VALUES LESS THAN (TO_DATE(' 2026-07-30 00:00:00', 'SYYYY-MM-DD HH24:MI:SS', 'NLS_CALENDAR=GREGORIAN'))
+/opt/oracle/diag/rdbms/shard1/FREE/trace/alert_FREE.log-228-End automatic SQL Tuning Advisor run for special tuning task "SYS_AUTO_SQL_TUNING_TASK".
+
+--- Recently modified diagnostic files ---
+2026-07-29T21:40:07.2238991240Z /opt/oracle/diag/rdbms/shard1/FREE/trace/FREE_ora_9187.trc
+2026-07-29T21:40:07.2238991240Z /opt/oracle/diag/rdbms/shard1/FREE/trace/FREE_ora_9187.trm
+2026-07-29T21:40:07.2959021880Z /opt/oracle/diag/rdbms/shard1/FREE/trace/FREE_ora_9189.trc
+2026-07-29T21:40:07.2959021880Z /opt/oracle/diag/rdbms/shard1/FREE/trace/FREE_ora_9189.trm
+2026-07-29T21:40:59.3571376570Z /opt/oracle/diag/rdbms/shard1/FREE/trace/FREE_lreg_101.trc
+2026-07-29T21:40:59.3571376570Z /opt/oracle/diag/rdbms/shard1/FREE/trace/FREE_lreg_101.trm
+2026-07-29T21:41:12.2049839860Z /opt/oracle/diag/rdbms/shard1/FREE/trace/FREE_ora_9266.trc
+2026-07-29T21:41:12.2049839860Z /opt/oracle/diag/rdbms/shard1/FREE/trace/FREE_ora_9266.trm
+2026-07-29T21:41:12.2689866670Z /opt/oracle/diag/rdbms/shard1/FREE/trace/FREE_ora_9268.trc
+2026-07-29T21:41:12.2689866670Z /opt/oracle/diag/rdbms/shard1/FREE/trace/FREE_ora_9268.trm
+2026-07-29T21:46:47.2727801500Z /opt/oracle/diag/rdbms/shard1/FREE/trace/FREE_ora_11225.trc
+2026-07-29T21:46:47.2727801500Z /opt/oracle/diag/rdbms/shard1/FREE/trace/FREE_ora_11225.trm
+2026-07-29T21:46:47.3367828830Z /opt/oracle/diag/rdbms/shard1/FREE/trace/FREE_ora_11227.trc
+2026-07-29T21:46:47.3367828830Z /opt/oracle/diag/rdbms/shard1/FREE/trace/FREE_ora_11227.trm
+2026-07-29T21:47:52.4473172770Z /opt/oracle/diag/rdbms/shard1/FREE/trace/FREE_ora_11278.trc
+2026-07-29T21:47:52.4473172770Z /opt/oracle/diag/rdbms/shard1/FREE/trace/FREE_ora_11278.trm
+2026-07-29T21:47:52.5153202120Z /opt/oracle/diag/rdbms/shard1/FREE/trace/FREE_ora_11280.trc
+2026-07-29T21:47:52.5153202120Z /opt/oracle/diag/rdbms/shard1/FREE/trace/FREE_ora_11280.trm
+2026-07-29T21:49:27.1536326340Z /opt/oracle/diag/rdbms/shard1/FREE/trace/FREE_ora_11519.trc
+2026-07-29T21:49:27.1536326340Z /opt/oracle/diag/rdbms/shard1/FREE/trace/FREE_ora_11519.trm
+2026-07-29T21:49:27.2136351900Z /opt/oracle/diag/rdbms/shard1/FREE/trace/FREE_ora_11521.trc
+2026-07-29T21:49:27.2136351900Z /opt/oracle/diag/rdbms/shard1/FREE/trace/FREE_ora_11521.trm
+2026-07-29T21:50:32.3278412210Z /opt/oracle/diag/rdbms/shard1/FREE/trace/FREE_ora_11574.trc
+2026-07-29T21:50:32.3278412210Z /opt/oracle/diag/rdbms/shard1/FREE/trace/FREE_ora_11574.trm
+2026-07-29T21:50:32.3958442560Z /opt/oracle/diag/rdbms/shard1/FREE/trace/FREE_ora_11576.trc
+2026-07-29T21:50:32.3958442560Z /opt/oracle/diag/rdbms/shard1/FREE/trace/FREE_ora_11576.trm
+2026-07-29T21:51:10.4685115640Z /opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trc
+2026-07-29T21:51:10.4685115640Z /opt/oracle/diag/rdbms/shard1/FREE/incident/incdir_265/FREE_bg00_123_129_i265.trm
+2026-07-29T21:51:10.9086879600Z /opt/oracle/diag/rdbms/shard1/FREE/trace/FREE_diag_65.trc
+2026-07-29T21:51:10.9086879600Z /opt/oracle/diag/rdbms/shard1/FREE/trace/FREE_diag_65.trm
+2026-07-29T21:51:10.9086879600Z /opt/oracle/diag/rdbms/shard1/FREE/trace/cdmp_20260729215110/FREE_diag_65_bucket.trc
+2026-07-29T21:51:10.9086879600Z /opt/oracle/diag/rdbms/shard1/FREE/trace/cdmp_20260729215110/FREE_diag_65_bucket.trm
+2026-07-29T21:52:11.6357252950Z /opt/oracle/diag/rdbms/shard1/FREE/trace/FREE_ora_11809.trc
+2026-07-29T21:52:11.6357252950Z /opt/oracle/diag/rdbms/shard1/FREE/trace/FREE_ora_11809.trm
+2026-07-29T21:52:11.7037280650Z /opt/oracle/diag/rdbms/shard1/FREE/trace/FREE_ora_11811.trc
+2026-07-29T21:52:11.7037280650Z /opt/oracle/diag/rdbms/shard1/FREE/trace/FREE_ora_11811.trm
+2026-07-29T21:52:13.8278153470Z /opt/oracle/diag/rdbms/shard1/FREE/trace/FREE_pmon_35.trc
+2026-07-29T21:52:13.8278153470Z /opt/oracle/diag/rdbms/shard1/FREE/trace/FREE_pmon_35.trm
+2026-07-29T21:52:13.8318155140Z /opt/oracle/diag/rdbms/shard1/FREE/trace/FREE_bg00_123_129.trc
+2026-07-29T21:52:13.8318155140Z /opt/oracle/diag/rdbms/shard1/FREE/trace/FREE_bg00_123_129.trm
+2026-07-29T21:52:13.8318155140Z /opt/oracle/diag/rdbms/shard1/FREE/trace/FREE_clmn_39.trc
+2026-07-29T21:52:13.8318155140Z /opt/oracle/diag/rdbms/shard1/FREE/trace/FREE_clmn_39.trm
+2026-07-29T21:53:17.0428280050Z /opt/oracle/diag/rdbms/shard1/FREE/trace/FREE_ora_11895.trc
+2026-07-29T21:53:17.0428280050Z /opt/oracle/diag/rdbms/shard1/FREE/trace/FREE_ora_11895.trm
+2026-07-29T21:53:17.1708324310Z /opt/oracle/diag/rdbms/shard1/FREE/trace/FREE_ora_11897.trc
+2026-07-29T21:53:17.1708324310Z /opt/oracle/diag/rdbms/shard1/FREE/trace/FREE_ora_11897.trm
+2026-07-29T21:57:39.8140850430Z /opt/oracle/diag/rdbms/shard1/FREE/trace/FREE_dia0_81_base_1.trc
+2026-07-29T21:57:39.8140850430Z /opt/oracle/diag/rdbms/shard1/FREE/trace/FREE_dia0_81_base_1.trm
+2026-07-29T21:59:19.5098310490Z /opt/oracle/diag/rdbms/shard1/FREE/trace/FREE_ora_13329.trc
+2026-07-29T21:59:19.5098310490Z /opt/oracle/diag/rdbms/shard1/FREE/trace/FREE_ora_13329.trm
+2026-07-29T22:00:04.9794829790Z /opt/oracle/diag/rdbms/shard1/FREE/trace/FREE_j001_13579.trc
+2026-07-29T22:00:04.9794829790Z /opt/oracle/diag/rdbms/shard1/FREE/trace/FREE_j001_13579.trm
+2026-07-29T22:00:04.9914835070Z /opt/oracle/diag/rdbms/shard1/FREE/trace/alert_FREE.log
+2026-07-29T22:00:22.7833563530Z /opt/oracle/diag/rdbms/shard1/FREE/trace/FREE_m001_424.trc
+2026-07-29T22:00:22.7833563530Z /opt/oracle/diag/rdbms/shard1/FREE/trace/FREE_m001_424.trm
+2026-07-29T22:00:22.9433631410Z /opt/oracle/diag/rdbms/shard1/FREE/trace/FREE_m000_127.trc
+2026-07-29T22:00:22.9433631410Z /opt/oracle/diag/rdbms/shard1/FREE/trace/FREE_m000_127.trm
+2026-07-29T22:00:27.4115527170Z /opt/oracle/diag/rdbms/shard1/FREE/trace/FREE_j000_13577.trc
+2026-07-29T22:00:27.4115527170Z /opt/oracle/diag/rdbms/shard1/FREE/trace/FREE_j000_13577.trm
+2026-07-29T22:00:29.9516604850Z /opt/oracle/diag/rdbms/shard1/FREE/trace/FREE_vkrm_75.trc
+2026-07-29T22:00:29.9516604850Z /opt/oracle/diag/rdbms/shard1/FREE/trace/FREE_vkrm_75.trm
+2026-07-29T22:01:24.1650237210Z /opt/oracle/diag/rdbms/shard1/FREE/trace/FREE_ora_14159.trc
+2026-07-29T22:01:24.1650237210Z /opt/oracle/diag/rdbms/shard1/FREE/trace/FREE_ora_14159.trm
+2026-07-29T22:01:24.7810497910Z /opt/oracle/diag/rdbms/shard1/FREE/trace/FREE_ora_14161.trc
+2026-07-29T22:01:24.7810497910Z /opt/oracle/diag/rdbms/shard1/FREE/trace/FREE_ora_14161.trm
+2026-07-29T22:02:29.9149754100Z /opt/oracle/diag/rdbms/shard1/FREE/trace/FREE_ora_14212.trc
+2026-07-29T22:02:29.9149754100Z /opt/oracle/diag/rdbms/shard1/FREE/trace/FREE_ora_14212.trm
+2026-07-29T22:02:29.9789781000Z /opt/oracle/diag/rdbms/shard1/FREE/trace/FREE_ora_14214.trc
+2026-07-29T22:02:29.9789781000Z /opt/oracle/diag/rdbms/shard1/FREE/trace/FREE_ora_14214.trm
+2026-07-29T22:04:45.4545965140Z /opt/oracle/diag/rdbms/shard1/FREE/trace/FREE_ora_14780.trc
+2026-07-29T22:04:45.4545965140Z /opt/oracle/diag/rdbms/shard1/FREE/trace/FREE_ora_14780.trm
+2026-07-29T22:04:45.5225989800Z /opt/oracle/diag/rdbms/shard1/FREE/trace/FREE_ora_14782.trc
+2026-07-29T22:04:45.5225989800Z /opt/oracle/diag/rdbms/shard1/FREE/trace/FREE_ora_14782.trm
+2026-07-29T22:05:50.4218563440Z /opt/oracle/diag/rdbms/shard1/FREE/trace/FREE_ora_14833.trc
+2026-07-29T22:05:50.4218563440Z /opt/oracle/diag/rdbms/shard1/FREE/trace/FREE_ora_14833.trm
+2026-07-29T22:05:50.4898594890Z /opt/oracle/diag/rdbms/shard1/FREE/trace/FREE_ora_14835.trc
+2026-07-29T22:05:50.4898594890Z /opt/oracle/diag/rdbms/shard1/FREE/trace/FREE_ora_14835.trm
+2026-07-29T22:07:44.1252280240Z /opt/oracle/diag/rdbms/shard1/FREE/trace/FREE_ora_15312.trc
+2026-07-29T22:07:44.1252280240Z /opt/oracle/diag/rdbms/shard1/FREE/trace/FREE_ora_15312.trm
+2026-07-29T22:07:44.1932307740Z /opt/oracle/diag/rdbms/shard1/FREE/trace/FREE_ora_15314.trc
+2026-07-29T22:07:44.1932307740Z /opt/oracle/diag/rdbms/shard1/FREE/trace/FREE_ora_15314.trm
+
+=== OBSERVATION WINDOW ===
+Waiting 90 seconds for a clean post-smoke baseline.
+
+=== NEW CRITICAL ERRORS SINCE BASELINE ===
+
+--- catalog-0 ---
+NO_NEW_CRITICAL_ERRORS
+
+--- gsm1-0 ---
+NO_NEW_CRITICAL_ERRORS
+
+--- gsm2-0 ---
+NO_NEW_CRITICAL_ERRORS
+
+--- shard1-0 ---
+NO_NEW_CRITICAL_ERRORS
+
+--- shard2-0 ---
+NO_NEW_CRITICAL_ERRORS
+
+CRITICAL_ERROR_POD_COUNT=0
+
+=== FINAL GDS REGISTRATION ===
+GDSCTL: Version 23.26.1.0.0 - Production on Wed Jul 29 22:10:08 UTC 2026
+
+Copyright (c) 2011, 2026, Oracle.  All rights reserved.
+
+Welcome to GDSCTL, type "help" for information.
+
+Current GSM is set to SHARDDIRECTORGSM1
+GDSCTL> 
+Database: "shard1_shard1pdb" Registered: Y State: Ok ONS: N. Role: PRIMARY Instances: 1 Region: primary
+   Service: "oltp_ro_svc" Globally started: Y Started: Y
+            Scan: N Enabled: Y Preferred: Y
+   Service: "oltp_rw_svc" Globally started: Y Started: Y
+            Scan: N Enabled: Y Preferred: Y
+   Registered instances:
+     catalog%1
+Database: "shard2_shard2pdb" Registered: Y State: Ok ONS: N. Role: PRIMARY Instances: 1 Region: primary
+   Service: "oltp_ro_svc" Globally started: Y Started: Y
+            Scan: N Enabled: Y Preferred: Y
+   Service: "oltp_rw_svc" Globally started: Y Started: Y
+            Scan: N Enabled: Y Preferred: Y
+   Registered instances:
+     catalog%11
+
+GDSCTL> 
+Service "oltp_ro_svc.catalog.oradbcloud" has 2 instance(s). Affinity: ANYWHERE
+   Instance "catalog%1", name: "FREE", db: "shard1_shard1pdb", region: "primary", status: ready.
+   Instance "catalog%11", name: "FREE", db: "shard2_shard2pdb", region: "primary", status: ready.
+Service "oltp_rw_svc.catalog.oradbcloud" has 2 instance(s). Affinity: ANYWHERE
+   Instance "catalog%1", name: "FREE", db: "shard1_shard1pdb", region: "primary", status: ready.
+   Instance "catalog%11", name: "FREE", db: "shard2_shard2pdb", region: "primary", status: ready.
+
+GDSCTL> 
+
+GDSCTL_RC=0
+
+=== FINAL OPERATOR STATUS ===
+NAME               GSM STATE   SERVICES                                                             SHARDS
+comp418-sharding   AVAILABLE   "oltp_ro_svc.catalog.oradbcloud" "oltp_rw_svc.catalog.oradbcloud"    {"shard1":"ONLINE_SHARD","shard2":"ONLINE_SHARD"}
+
+FINAL_STATE=AVAILABLE|ONLINE_SHARD|ONLINE_SHARD
+SHARD1_REGISTERED=1
+SHARD2_REGISTERED=1
+READY_SERVICE_INSTANCE_LINES=4
+POST_SMOKE_STABILITY_BASELINE=PASS

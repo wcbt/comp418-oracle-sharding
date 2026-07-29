@@ -1,0 +1,280 @@
+=== PATCH BENCHMARK HEALTH GATE ===
+UTC_TIME=2026-07-29T22:31:21Z
+
+BACKUP=workload/benchmark/run_limited_benchmark.sh.pre-gds-health-gate-20260729T223121Z.bak
+HEALTH_GATE_PATCH_APPLIED=PASS
+PATCH_RC=0
+
+=== SHELL VALIDATION ===
+BASH_SYNTAX_RC=0
+
+=== PATCHED FUNCTION ===
+    72	stable_health_gate() {
+    73	  echo "=== STABLE SHARD HEALTH GATE ==="
+    74	
+    75	  local consecutive_healthy=0
+    76	  local operator_state=""
+    77	  local pods_ready=0
+    78	  local gds_output=""
+    79	  local gds_rc=0
+    80	  local shard1_registered=0
+    81	  local shard2_registered=0
+    82	  local online_count=0
+    83	  local ready_service_instances=0
+    84	
+    85	  for attempt in $(seq 1 30); do
+    86	    operator_state="$(
+    87	      kubectl get shardingdatabase "$DATABASE" \
+    88	        -n "$NAMESPACE" \
+    89	        -o wide \
+    90	        --no-headers 2>/dev/null ||
+    91	        true
+    92	    )"
+    93	
+    94	    pods_ready="$(
+    95	      kubectl get pods \
+    96	        -n "$NAMESPACE" \
+    97	        catalog-0 gsm1-0 gsm2-0 shard1-0 shard2-0 \
+    98	        --no-headers 2>/dev/null |
+    99	      awk '
+   100	        {
+   101	          checked++
+   102	          if ($2 != "1/1" || $3 != "Running") {
+   103	            bad++
+   104	          }
+   105	        }
+   106	        END {
+   107	          if (checked == 5 && bad == 0) {
+   108	            print 1
+   109	          } else {
+   110	            print 0
+   111	          }
+   112	        }
+   113	      '
+   114	    )"
+   115	
+   116	    if gds_output="$(
+   117	      kubectl exec -i -n "$NAMESPACE" gsm1-0 -- bash -lc '
+   118	        GSM_HOME="${GSM_HOME:-/u01/app/oracle/product/23ai/gsmhome_1}"
+   119	        exec "$GSM_HOME/bin/gdsctl"
+   120	      ' <<'GDS'
+   121	databases
+   122	status service
+   123	config shard -shard SHARD1_SHARD1PDB
+   124	config shard -shard SHARD2_SHARD2PDB
+   125	exit
+   126	GDS
+   127	    )"; then
+   128	      gds_rc=0
+   129	    else
+   130	      gds_rc=$?
+   131	    fi
+   132	
+   133	    shard1_registered=0
+   134	    shard2_registered=0
+   135	
+   136	    grep -Fq \
+   137	      'Database: "shard1_shard1pdb" Registered: Y' \
+   138	      <<< "$gds_output" &&
+   139	      shard1_registered=1
+   140	
+   141	    grep -Fq \
+   142	      'Database: "shard2_shard2pdb" Registered: Y' \
+   143	      <<< "$gds_output" &&
+   144	      shard2_registered=1
+   145	
+   146	    online_count="$(
+   147	      grep -Fc 'Availability: ONLINE' <<< "$gds_output" ||
+   148	      true
+   149	    )"
+   150	
+   151	    ready_service_instances="$(
+   152	      grep -Ec \
+   153	        'db: "shard(1|2)_shard(1|2)pdb".*status: ready' \
+   154	        <<< "$gds_output" ||
+   155	      true
+   156	    )"
+   157	
+   158	    echo "ATTEMPT=$attempt CONSECUTIVE_HEALTHY=$consecutive_healthy"
+   159	    echo "OPERATOR_STATE=$operator_state"
+   160	    echo "PODS_READY=$pods_ready"
+   161	    echo "GDSCTL_RC=$gds_rc"
+   162	    echo "SHARD1_REGISTERED=$shard1_registered"
+   163	    echo "SHARD2_REGISTERED=$shard2_registered"
+   164	    echo "ONLINE_SHARD_COUNT=$online_count"
+   165	    echo "READY_SERVICE_INSTANCE_LINES=$ready_service_instances"
+   166	
+   167	    if (( pods_ready == 1 )) &&
+   168	       (( gds_rc == 0 )) &&
+   169	       (( shard1_registered == 1 )) &&
+   170	       (( shard2_registered == 1 )) &&
+   171	       (( online_count >= 2 )) &&
+   172	       (( ready_service_instances >= 4 )); then
+   173	      consecutive_healthy=$((consecutive_healthy + 1))
+   174	      echo "GDS_HEALTH_RESULT=PASS"
+   175	    else
+   176	      consecutive_healthy=0
+   177	      echo "GDS_HEALTH_RESULT=FAIL"
+   178	    fi
+   179	
+   180	    if (( consecutive_healthy >= 3 )); then
+   181	      echo "STABLE_SHARD_HEALTH_SOURCE=GDSCTL_AND_PODS"
+   182	      echo "STABLE_SHARD_HEALTH=PASS"
+   183	      return 0
+   184	    fi
+   185	
+   186	    echo
+   187	    sleep 10
+   188	  done
+   189	
+   190	  echo "=== FINAL FAILED GDSCTL OUTPUT ===" >&2
+   191	  printf '%s
+   192	' "$gds_output" >&2
+   193	  echo "STABLE_SHARD_HEALTH_SOURCE=GDSCTL_AND_PODS" >&2
+   194	  echo "STABLE_SHARD_HEALTH=FAIL" >&2
+   195	  return 2
+   196	}
+   197	
+
+=== GIT DIFF ===
+diff --git a/workload/benchmark/run_limited_benchmark.sh b/workload/benchmark/run_limited_benchmark.sh
+index 4eab33e..363ca5d 100755
+--- a/workload/benchmark/run_limited_benchmark.sh
++++ b/workload/benchmark/run_limited_benchmark.sh
+@@ -71,36 +71,126 @@ exec > >(tee -a "$EVIDENCE_FILE") 2>&1
+ 
+ stable_health_gate() {
+   echo "=== STABLE SHARD HEALTH GATE ==="
++
+   local consecutive_healthy=0
+-  local state=""
++  local operator_state=""
++  local pods_ready=0
++  local gds_output=""
++  local gds_rc=0
++  local shard1_registered=0
++  local shard2_registered=0
++  local online_count=0
++  local ready_service_instances=0
+ 
+   for attempt in $(seq 1 30); do
+-    state="$(
++    operator_state="$(
+       kubectl get shardingdatabase "$DATABASE" \
+         -n "$NAMESPACE" \
+         -o wide \
+-        --no-headers
++        --no-headers 2>/dev/null ||
++        true
+     )"
+ 
+-    echo "ATTEMPT=$attempt CONSECUTIVE_HEALTHY=$consecutive_healthy"
+-    echo "$state"
++    pods_ready="$(
++      kubectl get pods \
++        -n "$NAMESPACE" \
++        catalog-0 gsm1-0 gsm2-0 shard1-0 shard2-0 \
++        --no-headers 2>/dev/null |
++      awk '
++        {
++          checked++
++          if ($2 != "1/1" || $3 != "Running") {
++            bad++
++          }
++        }
++        END {
++          if (checked == 5 && bad == 0) {
++            print 1
++          } else {
++            print 0
++          }
++        }
++      '
++    )"
++
++    if gds_output="$(
++      kubectl exec -i -n "$NAMESPACE" gsm1-0 -- bash -lc '
++        GSM_HOME="${GSM_HOME:-/u01/app/oracle/product/23ai/gsmhome_1}"
++        exec "$GSM_HOME/bin/gdsctl"
++      ' <<'GDS'
++databases
++status service
++config shard -shard SHARD1_SHARD1PDB
++config shard -shard SHARD2_SHARD2PDB
++exit
++GDS
++    )"; then
++      gds_rc=0
++    else
++      gds_rc=$?
++    fi
++
++    shard1_registered=0
++    shard2_registered=0
+ 
+-    if [[ "$state" == *"AVAILABLE"* &&
+-          "$state" == *'"shard1":"ONLINE_SHARD"'* &&
+-          "$state" == *'"shard2":"ONLINE_SHARD"'* ]]; then
++    grep -Fq \
++      'Database: "shard1_shard1pdb" Registered: Y' \
++      <<< "$gds_output" &&
++      shard1_registered=1
++
++    grep -Fq \
++      'Database: "shard2_shard2pdb" Registered: Y' \
++      <<< "$gds_output" &&
++      shard2_registered=1
++
++    online_count="$(
++      grep -Fc 'Availability: ONLINE' <<< "$gds_output" ||
++      true
++    )"
++
++    ready_service_instances="$(
++      grep -Ec \
++        'db: "shard(1|2)_shard(1|2)pdb".*status: ready' \
++        <<< "$gds_output" ||
++      true
++    )"
++
++    echo "ATTEMPT=$attempt CONSECUTIVE_HEALTHY=$consecutive_healthy"
++    echo "OPERATOR_STATE=$operator_state"
++    echo "PODS_READY=$pods_ready"
++    echo "GDSCTL_RC=$gds_rc"
++    echo "SHARD1_REGISTERED=$shard1_registered"
++    echo "SHARD2_REGISTERED=$shard2_registered"
++    echo "ONLINE_SHARD_COUNT=$online_count"
++    echo "READY_SERVICE_INSTANCE_LINES=$ready_service_instances"
++
++    if (( pods_ready == 1 )) &&
++       (( gds_rc == 0 )) &&
++       (( shard1_registered == 1 )) &&
++       (( shard2_registered == 1 )) &&
++       (( online_count >= 2 )) &&
++       (( ready_service_instances >= 4 )); then
+       consecutive_healthy=$((consecutive_healthy + 1))
++      echo "GDS_HEALTH_RESULT=PASS"
+     else
+       consecutive_healthy=0
++      echo "GDS_HEALTH_RESULT=FAIL"
+     fi
+ 
+     if (( consecutive_healthy >= 3 )); then
++      echo "STABLE_SHARD_HEALTH_SOURCE=GDSCTL_AND_PODS"
+       echo "STABLE_SHARD_HEALTH=PASS"
+       return 0
+     fi
+ 
++    echo
+     sleep 10
+   done
+ 
++  echo "=== FINAL FAILED GDSCTL OUTPUT ===" >&2
++  printf '%s
++' "$gds_output" >&2
++  echo "STABLE_SHARD_HEALTH_SOURCE=GDSCTL_AND_PODS" >&2
+   echo "STABLE_SHARD_HEALTH=FAIL" >&2
+   return 2
+ }
+
+HEALTH_GATE_PATCH=PASS

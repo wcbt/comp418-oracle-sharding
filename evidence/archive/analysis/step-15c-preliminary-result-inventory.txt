@@ -1,0 +1,207 @@
+=== SUCCESSFUL BENCHMARK RESULT INVENTORY ===
+UTC_TIME=2026-07-29T22:51:20Z
+
+=== ARCHIVE CONFIRMED FAILED PRIMARY TRANSFER LOGS ===
+ARCHIVED=evidence/step-15a2-transfer-concurrency-smoke.txt
+ARCHIVED=evidence/step-15a2-transfer-concurrency-smoke-pre-recovery-20260729T221943Z.txt
+
+=== RESULT DIRECTORIES ===
+20260728T234131Z-smoke
+20260729T000828Z-smoke
+20260729T001353Z-full
+20260729T002319Z-transfer-smoke
+20260729T003505Z-transfer-smoke
+20260729T215242Z-smoke
+20260729T221943Z-transfer-smoke
+20260729T223233Z-transfer-smoke
+
+=== STRUCTURED TRANSFER RESULT SEARCH ===
+SUMMARY_CSV_FILES=9
+TRANSFER_RESULT_ROWS=30
+SUCCESSFUL_TRANSFER_ROWS=0
+
+TRANSFER_ROW|index=1|schema=BANK_CUST|size=5|workload=same_customer_transfer|concurrency=1|repeat=1|status=FAIL|attempted=|failed=2|throughput=|p95_ms=2.457816|file=results/limited-benchmark/20260728T234131Z-smoke/bank_cust-customers-5/summary.csv
+TRANSFER_ROW|index=2|schema=BANK_CUST|size=5|workload=cross_customer_transfer|concurrency=1|repeat=1|status=FAIL|attempted=|failed=1|throughput=|p95_ms=|file=results/limited-benchmark/20260728T234131Z-smoke/bank_cust-customers-5/summary.csv
+TRANSFER_ROW|index=3|schema=BANK_ACCT|size=5|workload=same_customer_transfer|concurrency=1|repeat=1|status=PASS|attempted=|failed=0|throughput=|p95_ms=16.38978|file=results/limited-benchmark/20260729T000828Z-smoke/bank_acct-customers-5/summary.csv
+TRANSFER_ROW|index=4|schema=BANK_ACCT|size=5|workload=cross_customer_transfer|concurrency=1|repeat=1|status=PASS|attempted=|failed=0|throughput=|p95_ms=8.016867|file=results/limited-benchmark/20260729T000828Z-smoke/bank_acct-customers-5/summary.csv
+TRANSFER_ROW|index=5|schema=BANK_CUST|size=5|workload=same_customer_transfer|concurrency=1|repeat=1|status=PASS|attempted=|failed=0|throughput=|p95_ms=14.645014|file=results/limited-benchmark/20260729T000828Z-smoke/bank_cust-customers-5/summary.csv
+TRANSFER_ROW|index=6|schema=BANK_CUST|size=5|workload=cross_customer_transfer|concurrency=1|repeat=1|status=PASS|attempted=|failed=0|throughput=|p95_ms=9.572651|file=results/limited-benchmark/20260729T000828Z-smoke/bank_cust-customers-5/summary.csv
+TRANSFER_ROW|index=7|schema=BANK_ACCT|size=5|workload=same_customer_transfer|concurrency=1|repeat=1|status=PASS|attempted=|failed=0|throughput=|p95_ms=16.38978|file=results/limited-benchmark/20260729T000828Z-smoke/combined_summary.csv
+TRANSFER_ROW|index=8|schema=BANK_ACCT|size=5|workload=cross_customer_transfer|concurrency=1|repeat=1|status=PASS|attempted=|failed=0|throughput=|p95_ms=8.016867|file=results/limited-benchmark/20260729T000828Z-smoke/combined_summary.csv
+TRANSFER_ROW|index=9|schema=BANK_CUST|size=5|workload=same_customer_transfer|concurrency=1|repeat=1|status=PASS|attempted=|failed=0|throughput=|p95_ms=14.645014|file=results/limited-benchmark/20260729T000828Z-smoke/combined_summary.csv
+TRANSFER_ROW|index=10|schema=BANK_CUST|size=5|workload=cross_customer_transfer|concurrency=1|repeat=1|status=PASS|attempted=|failed=0|throughput=|p95_ms=9.572651|file=results/limited-benchmark/20260729T000828Z-smoke/combined_summary.csv
+TRANSFER_ROW|index=11|schema=BANK_ACCT|size=5|workload=same_customer_transfer|concurrency=1|repeat=1|status=PASS|attempted=|failed=0|throughput=|p95_ms=19.674271|file=results/limited-benchmark/20260729T002319Z-transfer-smoke/bank_acct-customers-5/summary.csv
+TRANSFER_ROW|index=12|schema=BANK_ACCT|size=5|workload=same_customer_transfer|concurrency=5|repeat=1|status=PASS|attempted=|failed=0|throughput=|p95_ms=15.323772|file=results/limited-benchmark/20260729T002319Z-transfer-smoke/bank_acct-customers-5/summary.csv
+TRANSFER_ROW|index=13|schema=BANK_ACCT|size=5|workload=same_customer_transfer|concurrency=10|repeat=1|status=PASS|attempted=|failed=0|throughput=|p95_ms=24.243031|file=results/limited-benchmark/20260729T002319Z-transfer-smoke/bank_acct-customers-5/summary.csv
+TRANSFER_ROW|index=14|schema=BANK_ACCT|size=5|workload=cross_customer_transfer|concurrency=1|repeat=1|status=PASS|attempted=|failed=0|throughput=|p95_ms=5.585722|file=results/limited-benchmark/20260729T002319Z-transfer-smoke/bank_acct-customers-5/summary.csv
+TRANSFER_ROW|index=15|schema=BANK_ACCT|size=5|workload=cross_customer_transfer|concurrency=5|repeat=1|status=FAIL|attempted=|failed=1|throughput=|p95_ms=169.739155|file=results/limited-benchmark/20260729T002319Z-transfer-smoke/bank_acct-customers-5/summary.csv
+TRANSFER_ROW|index=16|schema=BANK_ACCT|size=5|workload=cross_customer_transfer|concurrency=10|repeat=1|status=FAIL|attempted=|failed=1|throughput=|p95_ms=3210.105937|file=results/limited-benchmark/20260729T002319Z-transfer-smoke/bank_acct-customers-5/summary.csv
+TRANSFER_ROW|index=17|schema=BANK_CUST|size=5|workload=same_customer_transfer|concurrency=1|repeat=1|status=PASS|attempted=|failed=0|throughput=|p95_ms=2.616986|file=results/limited-benchmark/20260729T002319Z-transfer-smoke/bank_cust-customers-5/summary.csv
+TRANSFER_ROW|index=18|schema=BANK_CUST|size=5|workload=same_customer_transfer|concurrency=5|repeat=1|status=PASS|attempted=|failed=0|throughput=|p95_ms=4.841587|file=results/limited-benchmark/20260729T002319Z-transfer-smoke/bank_cust-customers-5/summary.csv
+TRANSFER_ROW|index=19|schema=BANK_CUST|size=5|workload=same_customer_transfer|concurrency=10|repeat=1|status=PASS|attempted=|failed=0|throughput=|p95_ms=6.414107|file=results/limited-benchmark/20260729T002319Z-transfer-smoke/bank_cust-customers-5/summary.csv
+TRANSFER_ROW|index=20|schema=BANK_CUST|size=5|workload=cross_customer_transfer|concurrency=1|repeat=1|status=PASS|attempted=|failed=0|throughput=|p95_ms=9.697279|file=results/limited-benchmark/20260729T002319Z-transfer-smoke/bank_cust-customers-5/summary.csv
+TRANSFER_ROW|index=21|schema=BANK_CUST|size=5|workload=cross_customer_transfer|concurrency=5|repeat=1|status=PASS|attempted=|failed=0|throughput=|p95_ms=30.387434|file=results/limited-benchmark/20260729T002319Z-transfer-smoke/bank_cust-customers-5/summary.csv
+TRANSFER_ROW|index=22|schema=BANK_CUST|size=5|workload=cross_customer_transfer|concurrency=10|repeat=1|status=PASS|attempted=|failed=0|throughput=|p95_ms=45.825819|file=results/limited-benchmark/20260729T002319Z-transfer-smoke/bank_cust-customers-5/summary.csv
+TRANSFER_ROW|index=23|schema=BANK_ACCT|size=5|workload=same_customer_transfer|concurrency=1|repeat=1|status=PASS|attempted=|failed=0|throughput=|p95_ms=17.076725|file=results/limited-benchmark/20260729T215242Z-smoke/bank_acct-customers-5/summary.csv
+TRANSFER_ROW|index=24|schema=BANK_ACCT|size=5|workload=cross_customer_transfer|concurrency=1|repeat=1|status=PASS|attempted=|failed=0|throughput=|p95_ms=14.748515|file=results/limited-benchmark/20260729T215242Z-smoke/bank_acct-customers-5/summary.csv
+TRANSFER_ROW|index=25|schema=BANK_CUST|size=5|workload=same_customer_transfer|concurrency=1|repeat=1|status=PASS|attempted=|failed=0|throughput=|p95_ms=6.386211|file=results/limited-benchmark/20260729T215242Z-smoke/bank_cust-customers-5/summary.csv
+TRANSFER_ROW|index=26|schema=BANK_CUST|size=5|workload=cross_customer_transfer|concurrency=1|repeat=1|status=PASS|attempted=|failed=0|throughput=|p95_ms=11.451653|file=results/limited-benchmark/20260729T215242Z-smoke/bank_cust-customers-5/summary.csv
+TRANSFER_ROW|index=27|schema=BANK_ACCT|size=5|workload=same_customer_transfer|concurrency=1|repeat=1|status=PASS|attempted=|failed=0|throughput=|p95_ms=17.076725|file=results/limited-benchmark/20260729T215242Z-smoke/combined_summary.csv
+TRANSFER_ROW|index=28|schema=BANK_ACCT|size=5|workload=cross_customer_transfer|concurrency=1|repeat=1|status=PASS|attempted=|failed=0|throughput=|p95_ms=14.748515|file=results/limited-benchmark/20260729T215242Z-smoke/combined_summary.csv
+TRANSFER_ROW|index=29|schema=BANK_CUST|size=5|workload=same_customer_transfer|concurrency=1|repeat=1|status=PASS|attempted=|failed=0|throughput=|p95_ms=6.386211|file=results/limited-benchmark/20260729T215242Z-smoke/combined_summary.csv
+TRANSFER_ROW|index=30|schema=BANK_CUST|size=5|workload=cross_customer_transfer|concurrency=1|repeat=1|status=PASS|attempted=|failed=0|throughput=|p95_ms=11.451653|file=results/limited-benchmark/20260729T215242Z-smoke/combined_summary.csv
+
+=== SUCCESSFUL TRANSFER CANDIDATES ===
+NO_SUCCESSFUL_TRANSFER_RESULT_ROWS_FOUND
+
+=== MATRIX EVIDENCE SUMMARY ===
+118:RUN|schema=BANK_CUST|size=5|workload=customer_account_lookup|concurrency=1|repeat=1
+119:RESULT|status=PASS|attempted=10|failed=0|throughput=174.335548|p95_ms=0.480826
+120:RUN|schema=BANK_CUST|size=5|workload=customer_account_lookup|concurrency=1|repeat=2
+121:RESULT|status=PASS|attempted=10|failed=0|throughput=220.884872|p95_ms=0.462738
+122:RUN|schema=BANK_CUST|size=5|workload=customer_account_lookup|concurrency=1|repeat=3
+123:RESULT|status=PASS|attempted=10|failed=0|throughput=218.278416|p95_ms=0.568973
+124:RUN|schema=BANK_CUST|size=5|workload=customer_account_lookup|concurrency=5|repeat=1
+125:RESULT|status=PASS|attempted=50|failed=0|throughput=609.760619|p95_ms=0.781195
+126:RUN|schema=BANK_CUST|size=5|workload=customer_account_lookup|concurrency=5|repeat=2
+127:RESULT|status=PASS|attempted=50|failed=0|throughput=415.438206|p95_ms=0.90694
+128:RUN|schema=BANK_CUST|size=5|workload=customer_account_lookup|concurrency=5|repeat=3
+129:RESULT|status=PASS|attempted=50|failed=0|throughput=453.351081|p95_ms=0.748163
+130:RUN|schema=BANK_CUST|size=5|workload=customer_account_lookup|concurrency=10|repeat=1
+131:RESULT|status=PASS|attempted=100|failed=0|throughput=760.715669|p95_ms=2.178224
+132:RUN|schema=BANK_CUST|size=5|workload=customer_account_lookup|concurrency=10|repeat=2
+133:RESULT|status=PASS|attempted=100|failed=0|throughput=656.029804|p95_ms=2.223726
+134:RUN|schema=BANK_CUST|size=5|workload=customer_account_lookup|concurrency=10|repeat=3
+135:RESULT|status=PASS|attempted=100|failed=0|throughput=838.969235|p95_ms=1.955476
+136:RUN|schema=BANK_CUST|size=5|workload=individual_account_lookup|concurrency=1|repeat=1
+137:RESULT|status=PASS|attempted=10|failed=0|throughput=35.82897|p95_ms=5.018149
+138:RUN|schema=BANK_CUST|size=5|workload=individual_account_lookup|concurrency=1|repeat=2
+139:RESULT|status=PASS|attempted=10|failed=0|throughput=55.801576|p95_ms=4.235109
+140:RUN|schema=BANK_CUST|size=5|workload=individual_account_lookup|concurrency=1|repeat=3
+141:RESULT|status=PASS|attempted=10|failed=0|throughput=53.592982|p95_ms=4.778017
+142:RUN|schema=BANK_CUST|size=5|workload=individual_account_lookup|concurrency=5|repeat=1
+143:RESULT|status=PASS|attempted=50|failed=0|throughput=216.14728|p95_ms=6.303951
+144:RUN|schema=BANK_CUST|size=5|workload=individual_account_lookup|concurrency=5|repeat=2
+145:RESULT|status=PASS|attempted=50|failed=0|throughput=210.150061|p95_ms=5.850841
+146:RUN|schema=BANK_CUST|size=5|workload=individual_account_lookup|concurrency=5|repeat=3
+147:RESULT|status=PASS|attempted=50|failed=0|throughput=194.595189|p95_ms=5.487067
+148:RUN|schema=BANK_CUST|size=5|workload=individual_account_lookup|concurrency=10|repeat=1
+149:RESULT|status=PASS|attempted=100|failed=0|throughput=320.167351|p95_ms=8.471463
+150:RUN|schema=BANK_CUST|size=5|workload=individual_account_lookup|concurrency=10|repeat=2
+151:RESULT|status=PASS|attempted=100|failed=0|throughput=312.132801|p95_ms=8.868279
+152:RUN|schema=BANK_CUST|size=5|workload=individual_account_lookup|concurrency=10|repeat=3
+153:RESULT|status=PASS|attempted=100|failed=0|throughput=297.253596|p95_ms=7.22097
+154:RUN|schema=BANK_CUST|size=5|workload=same_customer_transfer|concurrency=1|repeat=1
+155:RESULT|status=PASS|attempted=10|failed=0|throughput=33.564617|p95_ms=25.845071
+156:RUN|schema=BANK_CUST|size=5|workload=same_customer_transfer|concurrency=1|repeat=2
+157:RESULT|status=PASS|attempted=10|failed=0|throughput=102.575685|p95_ms=2.489435
+158:RUN|schema=BANK_CUST|size=5|workload=same_customer_transfer|concurrency=1|repeat=3
+159:RESULT|status=PASS|attempted=10|failed=0|throughput=123.434301|p95_ms=2.644086
+160:RUN|schema=BANK_CUST|size=5|workload=same_customer_transfer|concurrency=5|repeat=1
+161:RESULT|status=FAIL|attempted=5|failed=5|throughput=45.316215|p95_ms=None
+162:RUN|schema=BANK_CUST|size=5|workload=same_customer_transfer|concurrency=5|repeat=2
+163:RESULT|status=FAIL|attempted=5|failed=5|throughput=155.309837|p95_ms=None
+164:RUN|schema=BANK_CUST|size=5|workload=same_customer_transfer|concurrency=5|repeat=3
+165:RESULT|status=FAIL|attempted=5|failed=5|throughput=189.594888|p95_ms=None
+166:RUN|schema=BANK_CUST|size=5|workload=same_customer_transfer|concurrency=10|repeat=1
+167:RESULT|status=FAIL|attempted=10|failed=10|throughput=134.764538|p95_ms=None
+168:RUN|schema=BANK_CUST|size=5|workload=same_customer_transfer|concurrency=10|repeat=2
+169:RESULT|status=FAIL|attempted=10|failed=10|throughput=363.410045|p95_ms=None
+170:RUN|schema=BANK_CUST|size=5|workload=same_customer_transfer|concurrency=10|repeat=3
+171:RESULT|status=FAIL|attempted=10|failed=10|throughput=423.285386|p95_ms=None
+172:RUN|schema=BANK_CUST|size=5|workload=cross_customer_transfer|concurrency=1|repeat=1
+173:RESULT|status=FAIL|attempted=1|failed=1|throughput=8.968302|p95_ms=None
+174:RUN|schema=BANK_CUST|size=5|workload=cross_customer_transfer|concurrency=1|repeat=2
+175:RESULT|status=FAIL|attempted=1|failed=1|throughput=10.911622|p95_ms=None
+176:RUN|schema=BANK_CUST|size=5|workload=cross_customer_transfer|concurrency=1|repeat=3
+177:RESULT|status=FAIL|attempted=1|failed=1|throughput=11.880066|p95_ms=None
+178:RUN|schema=BANK_CUST|size=5|workload=cross_customer_transfer|concurrency=5|repeat=1
+179:RESULT|status=FAIL|attempted=5|failed=5|throughput=42.738917|p95_ms=None
+180:RUN|schema=BANK_CUST|size=5|workload=cross_customer_transfer|concurrency=5|repeat=2
+181:RESULT|status=FAIL|attempted=5|failed=5|throughput=50.447775|p95_ms=None
+182:RUN|schema=BANK_CUST|size=5|workload=cross_customer_transfer|concurrency=5|repeat=3
+183:RESULT|status=FAIL|attempted=5|failed=5|throughput=56.867972|p95_ms=None
+184:RUN|schema=BANK_CUST|size=5|workload=cross_customer_transfer|concurrency=10|repeat=1
+185:RESULT|status=FAIL|attempted=10|failed=10|throughput=88.885582|p95_ms=None
+186:RUN|schema=BANK_CUST|size=5|workload=cross_customer_transfer|concurrency=10|repeat=2
+187:RESULT|status=FAIL|attempted=10|failed=10|throughput=74.476679|p95_ms=None
+188:RUN|schema=BANK_CUST|size=5|workload=cross_customer_transfer|concurrency=10|repeat=3
+189:RESULT|status=FAIL|attempted=10|failed=10|throughput=52.166809|p95_ms=None
+194:ORA-12537: TNS:connection closed
+
+=== SMOKE TRANSFER RESULTS AVAILABLE FOR REPORT ===
+evidence/step-15a-benchmark-smoke.txt:179:RESULT|status=PASS|attempted=3|failed=0|throughput=54.42497|p95_ms=3.652597
+evidence/step-15a-benchmark-smoke.txt:181:RESULT|status=PASS|attempted=3|failed=0|throughput=14.075413|p95_ms=16.252814
+evidence/step-15a-benchmark-smoke.txt:182:RUN|schema=BANK_CUST|size=5|workload=same_customer_transfer|concurrency=1|repeat=1
+evidence/step-15a-benchmark-smoke.txt:183:RESULT|status=PASS|attempted=3|failed=0|throughput=46.974167|p95_ms=6.386211
+evidence/step-15a-benchmark-smoke.txt:184:RUN|schema=BANK_CUST|size=5|workload=cross_customer_transfer|concurrency=1|repeat=1
+evidence/step-15a-benchmark-smoke.txt:185:RESULT|status=PASS|attempted=3|failed=0|throughput=16.826129|p95_ms=11.451653
+evidence/step-15a-benchmark-smoke.txt:188:DATASET_STATE_UNCHANGED=PASS
+evidence/step-15a-benchmark-smoke.txt:306:RESULT|status=PASS|attempted=3|failed=0|throughput=9.542634|p95_ms=7.482075
+evidence/step-15a-benchmark-smoke.txt:308:RESULT|status=PASS|attempted=3|failed=0|throughput=32.608385|p95_ms=8.940471
+evidence/step-15a-benchmark-smoke.txt:309:RUN|schema=BANK_ACCT|size=5|workload=same_customer_transfer|concurrency=1|repeat=1
+evidence/step-15a-benchmark-smoke.txt:310:RESULT|status=PASS|attempted=3|failed=0|throughput=11.772521|p95_ms=17.076725
+evidence/step-15a-benchmark-smoke.txt:311:RUN|schema=BANK_ACCT|size=5|workload=cross_customer_transfer|concurrency=1|repeat=1
+evidence/step-15a-benchmark-smoke.txt:312:RESULT|status=PASS|attempted=3|failed=0|throughput=35.605691|p95_ms=14.748515
+evidence/step-15a-benchmark-smoke.txt:315:DATASET_STATE_UNCHANGED=PASS
+evidence/step-15a-benchmark-smoke.txt:323:FAILED_SUMMARY_ROWS=0
+evidence/step-15a-benchmark-smoke.txt:325:COMBINED_RESULTS=PASS
+evidence/step-15a1-post-recovery-routing-smoke.txt:201:RESULT|status=PASS|attempted=3|failed=0|throughput=54.42497|p95_ms=3.652597
+evidence/step-15a1-post-recovery-routing-smoke.txt:203:RESULT|status=PASS|attempted=3|failed=0|throughput=14.075413|p95_ms=16.252814
+evidence/step-15a1-post-recovery-routing-smoke.txt:204:RUN|schema=BANK_CUST|size=5|workload=same_customer_transfer|concurrency=1|repeat=1
+evidence/step-15a1-post-recovery-routing-smoke.txt:205:RESULT|status=PASS|attempted=3|failed=0|throughput=46.974167|p95_ms=6.386211
+evidence/step-15a1-post-recovery-routing-smoke.txt:206:RUN|schema=BANK_CUST|size=5|workload=cross_customer_transfer|concurrency=1|repeat=1
+evidence/step-15a1-post-recovery-routing-smoke.txt:207:RESULT|status=PASS|attempted=3|failed=0|throughput=16.826129|p95_ms=11.451653
+evidence/step-15a1-post-recovery-routing-smoke.txt:210:DATASET_STATE_UNCHANGED=PASS
+evidence/step-15a1-post-recovery-routing-smoke.txt:328:RESULT|status=PASS|attempted=3|failed=0|throughput=9.542634|p95_ms=7.482075
+evidence/step-15a1-post-recovery-routing-smoke.txt:330:RESULT|status=PASS|attempted=3|failed=0|throughput=32.608385|p95_ms=8.940471
+evidence/step-15a1-post-recovery-routing-smoke.txt:331:RUN|schema=BANK_ACCT|size=5|workload=same_customer_transfer|concurrency=1|repeat=1
+evidence/step-15a1-post-recovery-routing-smoke.txt:332:RESULT|status=PASS|attempted=3|failed=0|throughput=11.772521|p95_ms=17.076725
+evidence/step-15a1-post-recovery-routing-smoke.txt:333:RUN|schema=BANK_ACCT|size=5|workload=cross_customer_transfer|concurrency=1|repeat=1
+evidence/step-15a1-post-recovery-routing-smoke.txt:334:RESULT|status=PASS|attempted=3|failed=0|throughput=35.605691|p95_ms=14.748515
+evidence/step-15a1-post-recovery-routing-smoke.txt:337:DATASET_STATE_UNCHANGED=PASS
+evidence/step-15a1-post-recovery-routing-smoke.txt:345:FAILED_SUMMARY_ROWS=0
+evidence/step-15a1-post-recovery-routing-smoke.txt:347:COMBINED_RESULTS=PASS
+
+=== CURRENT PRIMARY EVIDENCE ===
+step-10-customer-id-summary.md
+step-10e-local-distribution.txt
+step-11c-account-id-schema-verification.txt
+step-11e-account-id-distribution.txt
+step-12-design-comparison.md
+step-12b-customer-id-comparison-locality.txt
+step-13zk-limited-benchmark-decision.md
+step-14a-limited-dataset-preparation.txt
+step-14b-load-bank_acct-10-customers.txt
+step-14b-load-bank_acct-20-customers.txt
+step-14b-load-bank_acct-5-customers.txt
+step-14b-load-bank_cust-10-customers.txt
+step-14b-load-bank_cust-20-customers.txt
+step-14b-load-bank_cust-5-customers.txt
+step-14e2-verify-remote-listener-registration.txt
+step-14f-stable-health-gate.txt
+step-15a-benchmark-smoke.txt
+step-15a1-post-recovery-routing-smoke.txt
+step-15a1b-post-smoke-stability-baseline.txt
+step-15b-limited-benchmark-matrix.txt
+step-15c-successful-result-inventory.txt
+
+=== GIT STATUS ===
+ D evidence/step-14a-cluster-recovery.txt
+ D evidence/step-14b-sharding-health-diagnostics.txt
+ D evidence/step-14b1-bank-cust-5-bind-failure.txt
+ D evidence/step-14c-vncr-dns-verification.txt
+ D evidence/step-14d-shard-gsm-registration-refresh.txt
+ D evidence/step-14e-configure-remote-listeners.txt
+ M evidence/step-15a-benchmark-smoke.txt
+ D evidence/step-15a0-benchmark-smoke-unkeyed-routing-failure.txt
+ D evidence/step-15a1-routing-mode-probe.txt
+ D evidence/step-15a2-transfer-concurrency-smoke.txt
+ D evidence/step-15b0-session-exhaustion-failure.txt
+ M workload/benchmark/run_limited_benchmark.sh
+?? evidence/archive/
+?? evidence/step-15a1-post-recovery-routing-smoke.txt
+?? evidence/step-15a1b-post-smoke-stability-baseline.txt
+?? evidence/step-15c-successful-result-inventory.txt
+
+SUCCESSFUL_RESULT_INVENTORY=COMPLETE
